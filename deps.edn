@@ -1,0 +1,90 @@
+{:paths ["src"
+         "resources" ; snippets, demo data and specs
+         "target/node_modules"] ; vega specs json
+ :deps
+ {org.clojure/clojure    {:mvn/version "1.10.3"}
+   org.clojure/core.async {:mvn/version "1.3.618"}
+  com.taoensso/timbre {:mvn/version "5.1.2"} ; clj/cljs logging
+  ;[clj-time "0.15.2"] ;time axis creation 
+  ;[com.andrewmcveigh/cljs-time "0.5.2"]
+  ; todo: replace with cljc time
+    com.lucasbradstreet/cljs-uuid-utils {:mvn/version "1.0.2"} ; uuid - clojurescript
+  fipp/fipp {:mvn/version "0.6.24"} ; edn pretty printing
+  resauce/resauce {:mvn/version  "0.2.0"} ; jar resources
+  hawk/hawk {:mvn/version "0.2.11"} ; file watcher  ;:exclusions [[net.java.dev.jna/jna]] ; this breaks tech.ml.dataset and libpythonclj
+  rewrite-clj/rewrite-clj {:mvn/version "1.0.644-alpha"}}
+
+ :aliases
+ {;https://github.com/applied-science/deps-library
+  :release
+  {:extra-deps {applied-science/deps-library {:mvn/version "0.4.0"}}
+   :main-opts ["-m" "applied-science.deps-library"]}
+
+  ; https://github.com/weavejester/cljfmt
+  :cljfmt
+  {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
+   :main-opts ["-m" "cljfmt.main" "check" "--indents" "cljfmt.edn"]}
+  :cljfmt-fix
+  {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
+   :main-opts ["-m" "cljfmt.main" "fix" "--indents" "cljfmt.edn"]}
+
+ ; https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md
+  :lint
+  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "clj-kondo.main" "--lint" "src"]}
+
+  :outdated
+  {:extra-deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
+   :main-opts ["-m" "antq.core"]}
+
+  :check
+  {:extra-deps {athos/clj-check {:git/url "https://github.com/athos/clj-check.git"
+                                 :sha "518d5a1cbfcd7c952f548e6dbfcb9a4a5faf9062"}}
+   :main-opts ["-m" "clj-check.check"]}
+
+  :garamond
+  {:main-opts ["-m" "garamond.main"]
+   :extra-deps {com.workframe/garamond {:mvn/version "0.4.0"}}}
+
+  :test
+  {:extra-paths ["test"]
+   :extra-deps {io.github.cognitect-labs/test-runner
+                {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                 :sha "4e7e1c0dfd5291fa2134df052443dc29695d8cbe"}}
+   :main-opts ["-m" "cognitect.test-runner"]
+   :exec-fn cognitect.test-runner.api/test}
+
+  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}}
+          :main-opts  ["-m" "nrepl.cmdline"]}
+  ; demo ui
+
+  :ci {:extra-paths ["test"]
+       :extra-deps  {org.pinkgorilla/goldly {:mvn/version "0.3.38"
+                                             :exclusions [org.pinkgorilla/ui-vega]}}
+       :exec-fn webly.user.app.app/webly-run
+       :exec-args {:profile "ci"
+                   :config nil}}
+
+  :perf {:extra-paths ["dev"]
+         :extra-deps {metasoarous/darkstar {:mvn/version "0.1.0"}
+                      cheshire/cheshire {:mvn/version "5.10.1"}
+                      com.taoensso/tufte {:mvn/version "2.2.0"}}
+         :main-opts ["-m" "perf.core"]}
+
+  :notebook
+  {:extra-deps {org.pinkgorilla/notebook {:mvn/version "0.5.40"
+                                          :exclusions [org.pinkgorilla/ui-vega]}
+                org.pinkgorilla/ui-input {:mvn/version "0.0.13"}}
+   :exec-fn pinkgorilla.notebook-ui.app.app/run
+   :exec-args {:config "notebook-plot.edn"}}
+
+
+  :goldly
+  {:extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.38"
+                                        :exclusions [org.pinkgorilla/ui-vega]}}
+   :exec-fn goldly-server.app/goldly-server-run!
+   :exec-args {:profile "watch"
+               :config "goldly-plot.edn"}}
+
+;
+  }}

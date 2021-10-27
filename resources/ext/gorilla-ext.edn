@@ -1,0 +1,72 @@
+{:name "ui-vega"
+ :clj-require [[pinkgorilla.vega :refer [vega]]
+               [pinkgorilla.vega.plot.core :as plot]
+               [pinkgorilla.grid :refer [grid]]]
+ :theme {:available  {}
+         :current {}}
+ :cljs-namespace [pinkgorilla.vega ;render wrapper
+                  pinkgorilla.vega.plot.core ; plot
+                  pinkgorilla.grid ; grid
+                  pinkgorilla.vega.impl.react]
+ :cljs-ns-bindings {'plot {'list-plot pinkgorilla.vega.plot.core/list-plot
+                           'bar-chart pinkgorilla.vega.plot.core/bar-chart
+                           'histogram pinkgorilla.vega.plot.core/histogram
+                           'plot pinkgorilla.vega.plot.core/plot
+                           'compose pinkgorilla.vega.plot.core/compose
+                           'timeseries-plot pinkgorilla.vega.plot.core/timeseries-plot
+                          ; 'multi-plot pinkgorilla.vega.plot.core/multi-plot
+                           }}
+ :cljs-bindings {'vega pinkgorilla.vega.impl.react/vega
+                 'vegalite pinkgorilla.vega.impl.react/vegalite
+                 'grid pinkgorilla.grid/grid}
+ :pinkie {:p/vega pinkgorilla.vega.impl.react/vega
+          :p/vegalite pinkgorilla.vega.impl.react/vegalite}
+ :lazy true
+ :snippets [;vegalite
+            {:type :pinkie
+             :category :vega
+             :id :vegalite-point
+             :filename "snippets/vegalite/point.edn"}
+            {:type :pinkie
+             :category :vega
+             :id :vegalite-arrow
+             :filename "snippets/vegalite/arrow.edn"}
+            {:type :goldly-clj
+             :category :vega
+             :id :vegalite-bar
+             :filename "snippets/vegalite/bar.clj"}
+            {:type :goldly-clj
+             :category :vega
+             :id :vegalite-bar-scroll
+             :filename "snippets/vegalite/bar_scroll.clj"}
+            {:type :pinkie
+             :category  :vega
+             :id :vegalite-zoom
+             :filename "snippets/vegalite/zoom.edn"}
+            {:type :pinkie
+             :category  :vega
+             :id :vegalite-multiline
+             :filename "snippets/vegalite/multiline.edn"}
+            ;; vega
+            {:type :pinkie
+             :category :vega
+             :id :vega-rect
+             :filename "snippets/vega/rect.edn"}
+            {:type :pinkie
+             :category :vega
+             :id :vega-zoom
+             :filename "snippets/vega/zoom.edn"}
+            {:type  :goldly-clj
+             :category  :vega
+             :id :vega-combo
+             :filename "snippets/vega/combo.clj"}
+            ;; plot
+            ; broken
+            {:type :goldly-clj
+             :category :vega-dsl
+             :id :vega-gorilla-plot
+             :filename "snippets/vega.dsl/gorilla_plot.clj"}
+            #_{:type :pinkie
+               :category :vega-plot
+               :id :swing-chart
+               :filename "snippets/vega.plot/swings.edn"}]}
