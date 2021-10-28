@@ -6,8 +6,6 @@
    [reval.helper.id :refer [guuid]]
    [reval.kernel.protocol :refer [kernel-eval]]))
 
-
-
 (defmacro with-out-str-data-map
   [& body]
   `(let [s# (new java.io.StringWriter)]
@@ -15,7 +13,6 @@
        (let [r# ~@body]
          {:result r#
           :out    (str s#)}))))
-
 
 (defn clj-eval-sync [id code]
   (let [m {:src code
@@ -30,8 +27,6 @@
   (clj-eval-sync 3 "(println 3) (+ 3 4)")
  ; 
   )
-
-
 (defmethod kernel-eval :clj [{:keys [id code]
                               :or {id (guuid)}}]
   ; no logging in here. 
@@ -46,6 +41,5 @@
 
   (clj-eval-sync "(+ 3 4)\n5\n{:a 3}888")
 
-
- ; 
+; 
   )

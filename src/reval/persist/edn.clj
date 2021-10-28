@@ -4,8 +4,6 @@
    [fipp.clojure]
    ;[webly.date :refer [now-str]]
    ))
-
-
 ; fast, but no pretty-print (makes it difficult to detect bugs)
 
 #_(defn write [filename data]
@@ -13,12 +11,11 @@
 
 (defn pprint [data opts]
   (with-out-str
-    (fipp.clojure.pprint/pprint data opts)))
-
+    (fipp.clojure/pprint data opts)))
 
 (defn save [file-name data]
   (info "saving edn file: " file-name)
-  (let [comment (str "; saved on " 
+  (let [comment (str "; saved on "
                      ;(now-str)
                      "\r\n")
         sedn (pprint data {:width 60})

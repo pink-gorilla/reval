@@ -120,7 +120,7 @@
    [console-output out]])
 
 (reset! c/document-root-dir "documents/")
-
+ 
 
 (defn run-notebook [ns]
   (execute-ns ns eval-result-view))

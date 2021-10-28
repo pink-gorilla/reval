@@ -101,7 +101,6 @@
                     :tags #{kernel}})
       (assoc :segments (text->segments kernel code))))
 
-
 (defn filename->kernel-type [filename]
   (let [m (re-matches #"(.*)\.clj([s]*)" filename)
         [_ name cljs?] m]
@@ -115,19 +114,13 @@
   (let [code (slurp filename)
         kernel (filename->kernel-type filename)
         nb (text->notebook kernel code)
-        nb (assoc-in nb [:meta :title ] (name filename))
-        ]
+        nb (assoc-in nb [:meta :title] (name filename))]
     (debug "notebook: " nb)
     nb))
 
-
 (comment
-  
+
   (->> (file->notebook "notebook/bananas.clj")
-      :segments
-      (filter #(= (:type %) :code))
-      (map #(get-in % [:data :code]))
-      )
-  
-  
-  )
+       :segments
+       (filter #(= (:type %) :code))
+       (map #(get-in % [:data :code]))))
