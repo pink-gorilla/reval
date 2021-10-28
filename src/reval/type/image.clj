@@ -41,7 +41,7 @@
           file-name (get-filename-ns *ns* name ext)
           src (get-link-ns *ns* name ext)]
       (println "saving: " file-name)
-      ;(ImageIO/write image ext ^java.io.File (io/file file-name))
+      (ImageIO/write image ext ^java.io.File (io/file file-name))
       [:img {:src src
              :width width
              :height height
