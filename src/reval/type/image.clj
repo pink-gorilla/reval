@@ -4,7 +4,7 @@
    [clojure.java.io :as io]
    [clojure.data.codec.base64 :as b64]
    [clojure.string :as string]
-   [reval.type.hiccup :refer [hiccup-convertable to-hiccup]]
+   [reval.type.protocol :refer [hiccup-convertable to-hiccup]]
    [reval.document.manager :refer [get-filename-ns get-link-ns]]
    [reval.helper.id :refer [guuid-str]])
   (:import

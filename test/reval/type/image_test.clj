@@ -1,8 +1,8 @@
 (ns reval.type.image-test
   (:require
    [clojure.test :refer :all]
-   [reval.type.hiccup :refer [to-hiccup]]
-   [reval.ui.core :refer [img img-inline]])
+   [reval.type.protocol :refer [to-hiccup]]
+   [reval.ui :refer [img img-inline]])
   (:import java.io.File
            java.io.InputStream
            javax.imageio.ImageIO))

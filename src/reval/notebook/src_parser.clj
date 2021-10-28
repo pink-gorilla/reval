@@ -36,7 +36,7 @@
   (if (str/blank? md-partial)
     state
     (let [new-seg (->segment-md md-partial)]
-      (warn "add segment md: " md-partial)
+      (debug "add segment md: " md-partial)
       (assoc state
              :segments (conj segments new-seg)
              :md-partial ""))))
@@ -51,7 +51,7 @@
 
 (defn process-comment [state {:keys [tag] :as f}]
   (let [c (or (n/string f) "xxx")]
-    (warn "comment: " c)
+    (debug "comment: " c)
     (if (str/starts-with? c ";;")
       (add-partial-md state c)
       (add-partial-comment state c))))
@@ -63,17 +63,17 @@
 
     (n/whitespace? f)
     (do
-      (warnf "whitespace node str: " (or (n/string f) "xxx"))
+      (debug "whitespace node str: " (or (n/string f) "xxx"))
       state)
 
     (n/tag f)
-    (do (info "tag:" (n/tag f))
+    (do (debug "tag:" (n/tag f))
         (-> state
             (add-segment-md) ; add accumulated md (if any)
             (add-segment-code kernel f)))
 
     :else
-    (do (warnf "ignoring form: %s" (pr-str f))
+    (do (debugf "ignoring form: %s" (pr-str f))
         state)))
 
 (defn text->segments [kernel code]
@@ -110,7 +110,7 @@
       :cljs)))
 
 (defn file->notebook [filename]
-  (info "slurping notebook: " filename)
+  (debug "slurping notebook: " filename)
   (let [code (slurp filename)
         kernel (filename->kernel-type filename)
         nb (text->notebook kernel code)

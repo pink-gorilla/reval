@@ -10,7 +10,6 @@
 (defn url-root []
   (:url-root @config))
 
-
 (defn use-tmp []
   (reset! config {:storage-root "/tmp/"
                   :url-root "/api/viewer/"}))
@@ -24,6 +23,4 @@
   (storage-root)
   (url-root)
 
-  (use-project)
-
-  )
+  (use-project))

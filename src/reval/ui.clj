@@ -1,4 +1,4 @@
-(ns reval.ui.core
+(ns reval.ui
   (:require
    [reval.type.image :as i]))
 

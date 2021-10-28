@@ -2,10 +2,9 @@
   (:require
    [taoensso.timbre :refer [debug info warnf]]
    [fipp.clojure]
-   ;[webly.date :refer [now-str]]
-   ))
-; fast, but no pretty-print (makes it difficult to detect bugs)
+   [reval.helper.date :refer [now-str]]))
 
+; fast, but no pretty-print (makes it difficult to detect bugs)
 #_(defn write [filename data]
     (spit filename  (pr-str data)))
 
@@ -16,7 +15,7 @@
 (defn save [file-name data]
   (info "saving edn file: " file-name)
   (let [comment (str "; saved on "
-                     ;(now-str)
+                     (now-str)
                      "\r\n")
         sedn (pprint data {:width 60})
         s (str comment sedn)]

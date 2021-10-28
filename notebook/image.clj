@@ -3,12 +3,14 @@
   (:require
    [clojure.java.io :as io]
    [reval.type.hiccup :refer [to-hiccup]]
-   [reval.ui.core :refer [img-inline img]])
+   [reval.ui :refer [img-inline img]])
   (:import
    [java.awt Image]
    [java.awt.image RenderedImage BufferedImageOp]
    [javax.imageio ImageIO ImageWriter ImageWriteParam IIOImage]
    [javax.imageio.stream FileImageOutputStream]))
+
+;; there is also a unit-test which does the same thing.
 
 (defn load-img
   "Reads a BufferedImage from source, something that can be turned into
@@ -25,11 +27,11 @@
     img-inline
     to-hiccup)
 
+
 (-> (load-img  "demo/resources/sun.png")
     img
     ;type
-    to-hiccup
-    )
+    to-hiccup)
 
 
 
