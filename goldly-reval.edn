@@ -18,7 +18,8 @@
  :goldly {:lazy true
           :autoload-dir  [; to load cljs files to repl state
                           ; order is important
-                          "src/reval/goldly/devtools"]
+                          "src/goldly/lib"
+                          "src/goldly/devtools"]
           ;:notebook-dir ["src/demo/warehouse"
           ;               "src/demo/studies"
           ;               "src/demo/playground"]

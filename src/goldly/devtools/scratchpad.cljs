@@ -47,7 +47,7 @@
 (defn process-scratchpad-op [{:keys [op hiccup] :as msg}]
   (case op
     :clear (clear-scratchpad)
-    :show  (show-hiccup hiccup)
+    :show  (show-hiccup (->hiccup hiccup))
     (println "unknown viewer op:" op)))
 
 (rf/reg-event-fx
