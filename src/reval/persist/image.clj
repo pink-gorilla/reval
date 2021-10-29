@@ -1,4 +1,5 @@
 (ns reval.persist.image
+  (:refer-clojure :exclude [read])
   (:require
    [clojure.java.io :as io]
    [reval.persist.protocol :refer [save loadr]])
@@ -12,3 +13,7 @@
                  ^java.io.File (io/file file-name)))
 
 
+(defmethod loadr :png [_ file-name]
+  "Reads a BufferedImage from source, something that can be turned into
+  a file with clojure.java.io/file"
+  (ImageIO/read (io/file file-name)))

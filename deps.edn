@@ -77,7 +77,8 @@
                :config "demo/goldly-reval.edn"}}
 
   :goldlyb
-  {:extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"}}
+  {:extra-paths ["demo"] ; to show static files (not auto generated ones)
+   :extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"}}
    :exec-fn goldly-server.app/goldly-server-run!
    :exec-args {:profile "jetty"
                :config "demo/goldly-reval.edn"}}

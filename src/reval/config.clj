@@ -2,7 +2,7 @@
 
 (def tmp-config
   {:storage-root "/tmp/rdocument/"
-   :url-root "/api/rdocument/"})
+   :url-root "/api/rdocument/file/"})
 
 (defonce config
   (atom tmp-config))
@@ -21,7 +21,7 @@
 
 (defn use-project []
   (set-config! {:storage-root "rdocument/"
-                :url-root "/api/rdocument/"}))
+                :url-root "/api/rdocument/file/"}))
 
 (comment
 

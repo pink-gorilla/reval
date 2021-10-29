@@ -16,9 +16,9 @@
   [req]
   (let [params (:params req)
         {:keys [ns name]} params]
-    (info "nb resource file handler: nbns:" ns "name:" name)
+    (info "nb resource file handler: ns:" ns "name:" name)
     (if-let [fmt (p/filename->format name)]
-      (if-let [file-name (dm/get-filename-ns ns name)]
+      (if-let [file-name (dm/get-filename-ns ns name fmt)]
         (file-response file-name)
         (do (error "viewer filename cannot be created: " ns name)
             (not-found {:body (str "filename cannot be created: " ns name)})))

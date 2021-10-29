@@ -10,11 +10,17 @@
 (defonce scratchpad-hiccup
   (r/atom empty-scratchpad-hiccup))
 
+(defonce scratchpad-hiccup-raw
+  (r/atom empty-scratchpad-hiccup))
+
 (defn clear-scratchpad [& args]
-  (reset! scratchpad-hiccup empty-scratchpad-hiccup))
+  (reset! scratchpad-hiccup empty-scratchpad-hiccup)
+  (reset! scratchpad-hiccup-raw empty-scratchpad-hiccup))
 
 (defn show-hiccup [h & args]
-  (reset! scratchpad-hiccup h))
+  (let [h-fn (->hiccup h)]
+    (reset! scratchpad-hiccup h-fn)  
+    (reset! scratchpad-hiccup-raw h)))
 
 (defn scratchpad []
   [:div.ml-5
@@ -26,7 +32,7 @@
     [:button.bg-gray-400.m-1 {:on-click #(show-hiccup demo-hiccup)} "demo"]]
    ;; hiccup (source)
    [:p.text-xl.text-blue-500.mt-3.mb-3 "hiccup"]
-   [:div.bg-gray-300  (pr-str @scratchpad-hiccup)]
+   [:div.bg-gray-300  (pr-str @scratchpad-hiccup-raw)]
    ; separator
    [:hr.mt-5]
    ; hiccup
@@ -46,7 +52,7 @@
 (defn process-scratchpad-op [{:keys [op hiccup] :as msg}]
   (case op
     :clear (clear-scratchpad)
-    :show  (show-hiccup (->hiccup hiccup))
+    :show  (show-hiccup hiccup)
     (println "unknown viewer op:" op)))
 
 (rf/reg-event-fx

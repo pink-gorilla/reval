@@ -1,6 +1,6 @@
 (ns reval.type.image
   "Render BufferedImage objects"
-  (:refer-clojure :exclude [read])
+  
   (:require
    [clojure.java.io :as io]
    [clojure.data.codec.base64 :as b64]
@@ -14,11 +14,7 @@
    [java.io ByteArrayOutputStream]
    [javax.imageio ImageIO]))
 
-(defn load-img
-  "Reads a BufferedImage from source, something that can be turned into
-  a file with clojure.java.io/file"
-  [source]
-  (ImageIO/read (io/file source)))
+
 
 (defn image-to-bytes [^Image image ^String type width height]
   (let [bi (BufferedImage. width height (if (#{"png" "gif"} type)
