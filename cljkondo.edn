@@ -9,13 +9,13 @@
   ; namespaces in this list are those we get for side-effects.
   ; it is also possible to do regex search here:
   ; https://github.com/borkdude/clj-kondo/blob/master/doc/config.md
-  {:level :info
+  {:level :off
    :exclude [clojure.core.async
              cljs.core.async
              cljs.core.async.macros]}
 
   :unused-referred-var
-  {:level :info
+  {:level :off
    :exclude {taoensso.timbre [trace tracef ; dont be strict in referring to logging functions 
                               debug debugf
                               info infof

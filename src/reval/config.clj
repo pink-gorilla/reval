@@ -1,7 +1,7 @@
 (ns reval.config)
 
 (defonce config
-  (atom {:storage-root "/tmp/studies/"
+  (atom {:storage-root "/tmp/document/"
          :url-root "/api/viewer/"}))
 
 (defn storage-root []
@@ -23,4 +23,7 @@
   (storage-root)
   (url-root)
 
-  (use-project))
+  (use-project)
+
+ ; 
+  )
