@@ -24,4 +24,4 @@ package-lock.json
 shadow-cljs.edn
 .webly
 goldly_bindings_generated.cljs
-document/
+rdocument/
