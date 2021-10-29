@@ -74,13 +74,13 @@
                                         :exclusions [org.pinkgorilla/ui-vega]}}
    :exec-fn goldly-server.app/goldly-server-run!
    :exec-args {:profile "watch"
-               :config "goldly-reval.edn"}}
+               :config "demo/goldly-reval.edn"}}
 
   :goldlyb
   {:extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"}}
    :exec-fn goldly-server.app/goldly-server-run!
    :exec-args {:profile "jetty"
-               :config "goldly-reval.edn"}}
+               :config "demo/goldly-reval.edn"}}
 
 ;
   }}

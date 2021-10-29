@@ -1,8 +1,11 @@
 (ns reval.config)
 
+(def tmp-config
+  {:storage-root "/tmp/rdocument/"
+   :url-root "/api/rdocument/"})
+
 (defonce config
-  (atom {:storage-root "/tmp/document/"
-         :url-root "/api/viewer/"}))
+  (atom tmp-config))
 
 (defn storage-root []
   (:storage-root @config))
@@ -10,13 +13,15 @@
 (defn url-root []
   (:url-root @config))
 
+(defn set-config! [c]
+  (reset! config c))
+
 (defn use-tmp []
-  (reset! config {:storage-root "/tmp/document/"
-                  :url-root "/api/document/"}))
+  (set-config! tmp-config))
 
 (defn use-project []
-  (reset! config {:storage-root "document/"
-                  :url-root "/api/document/"}))
+  (set-config! {:storage-root "rdocument/"
+                :url-root "/api/rdocument/"}))
 
 (comment
 

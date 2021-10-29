@@ -1,4 +1,4 @@
-(ns demo.repro1
+(ns demo.viewer
   (:require
    [clojure.string :as str]
    [taoensso.timbre :refer [debug info warnf]]
@@ -6,11 +6,7 @@
    [reval.notebook.src-parser :refer [text->notebook]]
    [reval.kernel.clj :refer [clj-eval-sync]]
    [reval.config :as c]
-    [reval.helper.id :refer [guuid]]
-   ))
-
-
-
+   [reval.helper.id :refer [guuid]]))
 
 (defn document? [doc]
   (and (map? doc)
@@ -31,14 +27,6 @@
 ;(defn notebook-document)
 
 
-
-
-
-
-
-
-
-
 (defn src-view [src]
   [:p src])
 
@@ -53,7 +41,7 @@
    [console-output out]])
 
 (reset! c/document-root-dir "documents/")
- 
+
 
 (defn run-notebook [ns]
   (execute-ns ns eval-result-view))

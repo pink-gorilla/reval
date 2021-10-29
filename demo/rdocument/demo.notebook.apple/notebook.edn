@@ -1,0 +1,31 @@
+; saved on 2021-10-29 22:58:20
+{:ns "demo.notebook.apple",
+ :name "notebook",
+ :meta {:java "16.0.1",
+        :clojure "1.10.3",
+        :eval-finished "2021-10-29 22:58:20"},
+ :content ({:src "(ns notebook.apple)",
+            :id :5b728088-74be-42e6-a4ca-d987a50a2789,
+            :out "",
+            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
+           {:src "(+ 1 1)",
+            :id :c263beac-9f3a-4a72-865e-6e357f9009b4,
+            :out "",
+            :hiccup [:span {:class "clj-long"} "2"]}
+           {:src "[1 2 3]",
+            :id :770a2f9f-77a4-480e-9de1-37e9192e0e08,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentVector"]]}
+           {:src "(println \"hello\")",
+            :id :4316d80b-8616-49b9-a638-9cfad7e12109,
+            :out "hello\n",
+            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
+           {:src "(defn add3 [v]\n  (+ 3 v))",
+            :id :a96b3bf5-f72c-4e71-b2f5-b83a986a5be5,
+            :out "",
+            :hiccup [:span
+                     {:class "clj-var"}
+                     "#'demo.notebook.apple/add3"]})}

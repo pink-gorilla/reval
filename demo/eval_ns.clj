@@ -4,27 +4,29 @@
    [reval.ns-eval :refer [eval-ns]]
    [reval.config :as c]))
 
- (timbre/set-config!
-   (merge timbre/default-config
-         {:min-level :info}))
- 
- 
- (c/use-project)
+(timbre/set-config!
+ (merge timbre/default-config
+        {:min-level :info}))
 
- (eval-ns "notebook.apple")
- 
- (eval-ns "notebook.image")
- 
- 
- (ns (symbol "bongo.bongo"))
-  (ns "bongo")
+(c/set-config!
+ {:storage-root "demo/rdocument/"
+  :url-root "/api/rdocument/"})
 
- (-> (eval-ns "notebook.image")
-     :content
-     count)
- 
 
- 
- 
- 
+
+(eval-ns "demo.notebook.apple")
+
+(-> (eval-ns "demo.notebook.apple")
+    :content
+    count)
+
+(eval-ns "demo.notebook.image")
+
+
+
+
+
+
+
+
 
