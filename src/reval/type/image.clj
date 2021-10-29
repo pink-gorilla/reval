@@ -29,26 +29,12 @@
     (ImageIO/write bi type baos)
     (.toByteArray baos)))
 
+;; inline image
 (defrecord img-inline-record [image alt type width height]
   hiccup-convertable
   (to-hiccup [{:keys [image alt type width height]}]
     (let [b64-img (String. (b64/encode (image-to-bytes image type width height)))
           src (format "data:image/%1$s;base64,%2$s" type b64-img)]
-      [:img {:src src
-             :width width
-             :height height
-             :alt alt}])))
-
-(defrecord img-record [image alt type width height]
-  hiccup-convertable
-  (to-hiccup [{:keys [^BufferedImage image alt type width height]}]
-    (let [b64-img (String. (b64/encode (image-to-bytes image type width height)))
-          name (guuid-str)
-          ext type
-          file-name (get-filename-ns *ns* name ext)
-          src (get-link-ns *ns* name ext)]
-      (println "saving: " file-name)
-      (ImageIO/write image ext ^java.io.File (io/file file-name))
       [:img {:src src
              :width width
              :height height
@@ -65,6 +51,23 @@
                 height [(int (* (/ height ih) iw)) (int height)]
                 :else [iw ih])]
     (img-inline-record. image alt type w h)))
+
+;; image (to document manager)
+
+(defrecord img-record [image alt type width height]
+  hiccup-convertable
+  (to-hiccup [{:keys [^BufferedImage image alt type width height]}]
+    (let [b64-img (String. (b64/encode (image-to-bytes image type width height)))
+          name (guuid-str)
+          ext type
+          file-name (get-filename-ns *ns* name ext)
+          src (get-link-ns *ns* name ext)]
+      (println "saving: " file-name)
+      (ImageIO/write image ext ^java.io.File (io/file file-name))
+      [:img {:src src
+             :width width
+             :height height
+             :alt alt}])))
 
 (defn image [^BufferedImage image & {:keys [alt type width height]}]
   (let [alt (or alt "")

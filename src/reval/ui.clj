@@ -6,8 +6,6 @@
 
 (def img i/image)
 
-
-
 (defmacro cljs2 [render-fn & args]
   (into
    [(quote `render-fn)]

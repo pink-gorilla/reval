@@ -1,4 +1,4 @@
-(ns ta.notebook.handler
+(ns goldly.document-handler
   (:require
    [taoensso.timbre  :refer [debug info warn error]]
    [ring.util.response :as res :refer [not-found file-response resource-response response]]
@@ -10,15 +10,15 @@
 
 ;; file 
 
-(defn notebook-resource-file-handler [req]
+(defn ns-resource-file-handler [req]
   (let [params (:params req)
-        {:keys [nbns name]} params]
-    (info "nb resource file handler: nbns:" nbns "name:" name)
+        {:keys [ns name]} params]
+    (info "nb resource file handler: nbns:" ns "name:" name)
     (if-let [fmt (p/filename->format name)]
-      (if-let [file-name (p/get-filename-ns nbns name)]
+      (if-let [file-name (p/get-filename-ns ns name)]
         (file-response file-name)
-        (do (error "viewer filename cannot be created: " nbns name)
-            (not-found {:body (str "filename cannot be created: " nbns name)})))
+        (do (error "viewer filename cannot be created: " ns name)
+            (not-found {:body (str "filename cannot be created: " ns name)})))
       (do (error (str "viewer file resource - format could not be determined for name: [" name "]"))
           (not-found {:error (str "format could not be determined: " name)})))))
 

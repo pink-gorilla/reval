@@ -17,8 +17,6 @@
    :mapping-table @mapping-table
    :make-resources true})
 
-
-
 (defmacro show [form]
   (send!
    (walk-forms

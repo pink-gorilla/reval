@@ -44,15 +44,22 @@
       (pinkie-tag? tag))
     false))
 
-(defn get-pinkie-renderer [t]
+(defn pinkie-manual-lookup [t]
   (case t
     :p/clock clock))
 
+(defn pinkie-registry-lookup [t]
+  ; not possible to do the lookup manually, as
+  ; pinkie/registry is NOT exported.
+  ; (pinkie/tags) shows registered tags.
+  ; pinkie/register-tag - registeres a tag.
+  )
 ;; hiccup preprocessor
 
 (defn ->hiccup [h-tree]
   (println "processing hiccup: " h-tree)
   [error-boundary
    (-> h-tree
-       (hiccup-tree-replacer p-pinkie get-pinkie-renderer))])
+       ;(hiccup-tree-replacer p-pinkie pinkie-manual-lookup)
+       pinkie/render)])
 

@@ -1,14 +1,15 @@
 (ns reval.persist.text
   (:require
-   [taoensso.timbre :refer [info]]))
+   [taoensso.timbre :refer [info]]
+   [reval.persist.protocol :refer [save loadr]]))
 
-(defn save [file-name t]
+(defmethod save  :txt [_ file-name data]
   (info "saving text file: " file-name)
-  (spit file-name (str t))
-  t  ; important to be here, as save-study is used often in a threading macro
+  (spit file-name (str data))
+  data  ; important to be here, as save-study is used often in a threading macro
   )
 
-(defn loadr [file-name]
+(defmethod loadr :txt [_ file-name]
   (info "loading text file: " file-name)
   (slurp file-name))
 

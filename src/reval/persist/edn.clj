@@ -3,7 +3,8 @@
    [taoensso.timbre :refer [debug info warnf]]
    [fipp.clojure]
    [clojure.edn]
-   [reval.helper.date :refer [now-str]])
+   [reval.helper.date :refer [now-str]]
+   [reval.persist.protocol :refer [save loadr]])
   (:import (java.io StringWriter)))
 
 ; fast, but no pretty-print (makes it difficult to detect bugs)
@@ -16,7 +17,7 @@
   (with-out-str
     (fipp.clojure/pprint data opts)))
 
-(defn save [file-name data]
+(defmethod save  :edn [_ file-name data]
   (info "saving edn file: " file-name)
   (let [sw (StringWriter.)
         comment (str "; saved on "
@@ -29,7 +30,7 @@
     data  ; important to be here, as save-study is used often in a threading macro
     ))
 
-(defn loadr [file-name]
+(defmethod loadr :edn [_ file-name]
   (info "loading edn file: " file-name)
   (-> (slurp file-name)
       (clojure.edn/read-string)))

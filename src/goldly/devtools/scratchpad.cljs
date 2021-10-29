@@ -18,7 +18,7 @@
 
 (defn scratchpad []
   [:div.ml-5
-   
+
    ; header
    [:div.pt-5
     [:span.text-xl.text-blue-500.text-bold.mr-4 "scratchpad"]
@@ -36,7 +36,6 @@
 (defn scratchpad-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
    [scratchpad]])
-
 
 (add-page scratchpad-page :scratchpad)
 

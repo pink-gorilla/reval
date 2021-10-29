@@ -9,7 +9,7 @@
    [reval.helper.date :refer [now-str]]
    [reval.config :as c]
    [reval.type.converter :refer [value->hiccup]]
-   [reval.type.default]  ; side effects to include all default converters
+   [reval.default]  ; side effects to include all default converters
    ))
 
 (defn find-filename [ns]

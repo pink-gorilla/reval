@@ -1,12 +1,12 @@
 (ns reval.persist.image
   (:require
-   ;[tech.v3.resource :as resource]
-   [clojure.java.io :as io])
+   [clojure.java.io :as io]
+   [reval.persist.protocol :refer [save loadr]])
   (:import java.io.File
            java.awt.image.BufferedImage
            javax.imageio.ImageIO))
 
-(defn save-png [file-name ^BufferedImage buffered-image]
+(defmethod save :png [_ file-name ^BufferedImage buffered-image]
   (ImageIO/write buffered-image
                  "png"
                  ^java.io.File (io/file file-name)))

@@ -3,7 +3,7 @@
    [clojure.test :refer [deftest are]]
    [clojure.core.async :refer [<! go]]
    [reval.kernel.protocol :refer [kernel-eval]]
-   [reval.type.default]  ; side-effects
+   [reval.default]  ; side-effects
    [reval.kernel.clj] ; add clj kernel
    ))
 
@@ -18,10 +18,9 @@
 
         "13"
         {:src "13"
-         :value 13 
+         :value 13
          :out ""
-         :picasso {:type :hiccup, :content [:span {:class "clj-long"} "13"]}
-         } 
+         :picasso {:type :hiccup, :content [:span {:class "clj-long"} "13"]}}
 
         "[7 8]"
         {:picasso

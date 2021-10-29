@@ -11,12 +11,12 @@
   (:url-root @config))
 
 (defn use-tmp []
-  (reset! config {:storage-root "/tmp/"
-                  :url-root "/api/viewer/"}))
+  (reset! config {:storage-root "/tmp/document/"
+                  :url-root "/api/document/"}))
 
 (defn use-project []
   (reset! config {:storage-root "document/"
-                  :url-root "/api/viewer/"}))
+                  :url-root "/api/document/"}))
 
 (comment
 
