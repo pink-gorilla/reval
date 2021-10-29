@@ -17,12 +17,7 @@
    :mapping-table @mapping-table
    :make-resources true})
 
-(defn send! [r]
-  (info "sending to scratchpad: " r)
-  (send-all! [:viewer/update {:ns-nb (str *ns*)
-                              :op :plot
-                              :data (dissoc r :ns-nb)}])
-  r)
+
 
 (defmacro show [form]
   (send!

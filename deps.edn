@@ -33,7 +33,7 @@
  ; https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md
   :lint
   {:extra-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
-   :main-opts ["-m" "clj-kondo.main" 
+   :main-opts ["-m" "clj-kondo.main"
                "--lint" "src"
                "--config" "cljkondo.edn"]}
 
@@ -69,26 +69,18 @@
        :exec-args {:profile "ci"
                    :config nil}}
 
-  :perf {:extra-paths ["dev"]
-         :extra-deps {metasoarous/darkstar {:mvn/version "0.1.0"}
-                      cheshire/cheshire {:mvn/version "5.10.1"}
-                      com.taoensso/tufte {:mvn/version "2.2.0"}}
-         :main-opts ["-m" "perf.core"]}
-
-  :notebook
-  {:extra-deps {org.pinkgorilla/notebook {:mvn/version "0.5.40"
-                                          :exclusions [org.pinkgorilla/ui-vega]}
-                org.pinkgorilla/ui-input {:mvn/version "0.0.13"}}
-   :exec-fn pinkgorilla.notebook-ui.app.app/run
-   :exec-args {:config "notebook-plot.edn"}}
-
-
   :goldly
   {:extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.38"
                                         :exclusions [org.pinkgorilla/ui-vega]}}
    :exec-fn goldly-server.app/goldly-server-run!
    :exec-args {:profile "watch"
-               :config "goldly-plot.edn"}}
+               :config "goldly-reval.edn"}}
+
+  :goldlyb
+  {:extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"}}
+   :exec-fn goldly-server.app/goldly-server-run!
+   :exec-args {:profile "jetty"
+               :config "goldly-reval.edn"}}
 
 ;
   }}
