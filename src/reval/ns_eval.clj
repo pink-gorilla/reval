@@ -71,7 +71,7 @@
          doc {:ns ns
               :name "notebook"
               :meta (document-meta)
-              :content content}]
+              :content (into [] content)}]
      (save-document ns doc)
      (println "restoring prior ns: " prior-ns)
      (eval-src "user " (str "(ns " prior-ns ")"))

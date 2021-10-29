@@ -1,28 +1,28 @@
-; saved on 2021-10-29 22:58:24
+; saved on 2021-10-29 23:03:35
 {:ns "demo.notebook.image",
  :name "notebook",
  :meta {:java "16.0.1",
         :clojure "1.10.3",
-        :eval-finished "2021-10-29 22:58:24"},
+        :eval-finished "2021-10-29 23:03:35"},
  :content ({:src "(ns notebook.image\n  (:require\n   [clojure.java.io :as io]\n   [reval.type.protocol :refer [to-hiccup]]\n   [reval.ui :refer [img-inline img]]\n   [reval.type.image :refer [load-img]]))",
-            :id :678450a6-7723-4033-8d09-72ba24c4757a,
+            :id :1998f09f-52f1-4fc9-8057-82cb93c760e1,
             :out "",
             :hiccup [:div.p-2.clj-nil [:p "nil"]]}
            {:src "(-> \"demo/resources/sun.png\"\n    io/file\n    .exists)",
-            :id :2556b250-4df2-42dd-ac43-d6468f2e2828,
+            :id :86d4a611-c465-4c93-996d-a97ac32fe4f6,
             :err #object[clojure.lang.Compiler$CompilerException
-                         "0x3126aa15"
+                         "0x716f9b80"
                          "Syntax error compiling at (2:1)."],
             :hiccup [:div.p-2.clj-nil [:p "nil"]]}
            {:src "(-> (load-img  \"demo/resources/sun.png\")\n    img-inline\n    ;to-hiccup\n    )",
-            :id :e0c290ae-b729-4a91-9e4e-d08829e5f1cd,
+            :id :b20008ed-b6af-4d90-aa52-738951478260,
             :err #object[clojure.lang.Compiler$CompilerException
-                         "0x58b99528"
+                         "0x455f84b"
                          "Syntax error compiling at (2:1)."],
             :hiccup [:div.p-2.clj-nil [:p "nil"]]}
            {:src "(-> (load-img  \"demo/resources/sun.png\")\n    img\n    (assoc :alt \"adf\")\n    ;type\n    ;to-hiccup\n    )",
-            :id :22c4b137-9360-4dfd-af0f-4398281c661e,
+            :id :ed7bbd29-7004-41fc-aaec-04e3cd9ba7f7,
             :err #object[clojure.lang.Compiler$CompilerException
-                         "0x2e0f552f"
+                         "0x1c3fcbd4"
                          "Syntax error compiling at (4:5)."],
             :hiccup [:div.p-2.clj-nil [:p "nil"]]})}

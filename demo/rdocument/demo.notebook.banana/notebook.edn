@@ -1,0 +1,16 @@
+; saved on 2021-10-29 23:03:45
+{:ns "demo.notebook.banana",
+ :name "notebook",
+ :meta {:java "16.0.1",
+        :clojure "1.10.3",
+        :eval-finished "2021-10-29 23:03:45"},
+ :content ({:src "(ns notebook.bananas)",
+            :id :ab4963fc-23fb-4867-a15a-2750420fd034,
+            :out "",
+            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
+           {:src "; this is an error:\n\n; hello should be a string\n\n(println hello)",
+            :id :56c5f28d-321b-4bff-8c36-ee52caabd639,
+            :err #object[clojure.lang.Compiler$CompilerException
+                         "0x4d0743aa"
+                         "Syntax error compiling at (6:1)."],
+            :hiccup [:div.p-2.clj-nil [:p "nil"]]})}

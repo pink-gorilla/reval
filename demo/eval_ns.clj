@@ -8,6 +8,7 @@
  (merge timbre/default-config
         {:min-level :info}))
 
+
 (c/set-config!
  {:storage-root "demo/rdocument/"
   :url-root "/api/rdocument/"})
@@ -21,6 +22,8 @@
     count)
 
 (eval-ns "demo.notebook.image")
+
+(eval-ns "demo.notebook.banana")
 
 
 
