@@ -1,31 +1,42 @@
-; saved on 2021-10-29 23:10:17
-{:ns "demo.notebook.apple",
- :name "notebook",
- :meta {:java "16.0.1",
-        :clojure "1.10.3",
-        :eval-finished "2021-10-29 23:10:17"},
- :content [{:src "(ns notebook.apple)",
-            :id :78b48446-a05f-4159-b88f-b5944b9b860b,
-            :out "",
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
-           {:src "(+ 1 1)",
-            :id :a2b03f70-b654-4cfb-91f8-0cddcb50c9a2,
-            :out "",
-            :hiccup [:span {:class "clj-long"} "2"]}
-           {:src "[1 2 3]",
-            :id :99392f90-98f4-4d88-bb8f-95bee6a77b1c,
+; saved on 2021-10-30 12:34:28
+{:content [{:src {:src "(ns notebook.apple)"},
+            :id :ee9eaa20-1a37-4a4b-b2a3-7d7176d2ac8e,
             :out "",
             :hiccup [:div.bg-red-300.border-solid.p-2
                      [:p "unknown type"]
                      [:h1
-                      "class clojure.lang.PersistentVector"]]}
-           {:src "(println \"hello\")",
-            :id :d54ced76-ecbf-4183-b76d-6842d272d792,
-            :out "hello\n",
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
-           {:src "(defn add3 [v]\n  (+ 3 v))",
-            :id :98651259-3608-44b4-afe4-238eb28ce9c2,
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "(+ 1 1)"},
+            :id :33634c22-7b20-4f9d-bbe6-47c67624db19,
             :out "",
-            :hiccup [:span
-                     {:class "clj-var"}
-                     "#'demo.notebook.apple/add3"]}]}
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "[1 2 3]"},
+            :id :a1d52dce-764e-4a44-a541-53ddb8b923d2,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "(println \"hello\")"},
+            :id :90292687-6d95-49b0-99cd-e86ac03d5363,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "(defn add3 [v]\n  (+ 3 v))"},
+            :id :8de00e8b-48bd-4b9b-8239-e93d3e1b1a60,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}],
+ :meta {:id :06d315fc-4f71-44c4-805c-b9e52c24e812,
+        :created "2021-10-30 12:34:28",
+        :ns "demo.notebook.apple",
+        :eval-finished "2021-10-30 12:34:28",
+        :java "16.0.1",
+        :clojure "1.10.3"}}

@@ -14,7 +14,7 @@
                :err (str "kernel unknown: " (:kernel m))})
         (close! c))
     c))
-
+ 
 (defn available-kernels []
   (->> (methods kernel-eval)
        keys

@@ -1,28 +1,35 @@
-; saved on 2021-10-29 23:03:35
-{:ns "demo.notebook.image",
- :name "notebook",
- :meta {:java "16.0.1",
-        :clojure "1.10.3",
-        :eval-finished "2021-10-29 23:03:35"},
- :content ({:src "(ns notebook.image\n  (:require\n   [clojure.java.io :as io]\n   [reval.type.protocol :refer [to-hiccup]]\n   [reval.ui :refer [img-inline img]]\n   [reval.type.image :refer [load-img]]))",
-            :id :1998f09f-52f1-4fc9-8057-82cb93c760e1,
+; saved on 2021-10-30 12:34:30
+{:content [{:src {:src "(ns notebook.image\n  (:require\n   [clojure.java.io :as io]\n   [reval.type.protocol :refer [to-hiccup]]\n   [reval.persist.protocol :refer [loadr]]\n   [reval.ui :refer [img-inline img]]))"},
+            :id :9fc3388d-1f55-4dad-8d62-7e3c0d6be65e,
             :out "",
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
-           {:src "(-> \"demo/resources/sun.png\"\n    io/file\n    .exists)",
-            :id :86d4a611-c465-4c93-996d-a97ac32fe4f6,
-            :err #object[clojure.lang.Compiler$CompilerException
-                         "0x716f9b80"
-                         "Syntax error compiling at (2:1)."],
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
-           {:src "(-> (load-img  \"demo/resources/sun.png\")\n    img-inline\n    ;to-hiccup\n    )",
-            :id :b20008ed-b6af-4d90-aa52-738951478260,
-            :err #object[clojure.lang.Compiler$CompilerException
-                         "0x455f84b"
-                         "Syntax error compiling at (2:1)."],
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
-           {:src "(-> (load-img  \"demo/resources/sun.png\")\n    img\n    (assoc :alt \"adf\")\n    ;type\n    ;to-hiccup\n    )",
-            :id :ed7bbd29-7004-41fc-aaec-04e3cd9ba7f7,
-            :err #object[clojure.lang.Compiler$CompilerException
-                         "0x1c3fcbd4"
-                         "Syntax error compiling at (4:5)."],
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]})}
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "(-> \"demo/public/sun.png\"\n    io/file\n    .exists)"},
+            :id :a682bdd7-23b6-4025-88ff-e77c0c3f49d8,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "(-> (loadr :png  \"demo/public/sun.png\")\n    img-inline\n    ;to-hiccup\n    )"},
+            :id :e9e14f67-2e67-46bd-a2d4-dd9514131997,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "(-> (load-img  \"demo/public/sun.png\")\n    img\n    (assoc :alt \"adf\")\n    ;type\n    ;to-hiccup\n    )"},
+            :id :f4df42af-ff17-4ae3-bcc5-5bdb4f8d9b95,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}],
+ :meta {:id :e08280d6-df95-4bef-95e2-0e102b691f38,
+        :created "2021-10-30 12:34:30",
+        :ns "demo.notebook.image",
+        :eval-finished "2021-10-30 12:34:30",
+        :java "16.0.1",
+        :clojure "1.10.3"}}

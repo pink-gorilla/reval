@@ -1,4 +1,4 @@
-(ns reval.notebook.src-parser
+(ns reval.document.src-parser
   (:require
    [clojure.string :as str]
    [taoensso.timbre :refer [trace debug debugf info infof warn warnf error errorf]]

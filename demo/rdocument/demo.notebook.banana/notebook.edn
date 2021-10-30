@@ -1,16 +1,21 @@
-; saved on 2021-10-29 23:03:45
-{:ns "demo.notebook.banana",
- :name "notebook",
- :meta {:java "16.0.1",
-        :clojure "1.10.3",
-        :eval-finished "2021-10-29 23:03:45"},
- :content ({:src "(ns notebook.bananas)",
-            :id :ab4963fc-23fb-4867-a15a-2750420fd034,
+; saved on 2021-10-30 12:34:32
+{:content [{:src {:src "(ns notebook.bananas)"},
+            :id :07b7ea28-5475-4d4f-9d34-a00995bf512a,
             :out "",
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]}
-           {:src "; this is an error:\n\n; hello should be a string\n\n(println hello)",
-            :id :56c5f28d-321b-4bff-8c36-ee52caabd639,
-            :err #object[clojure.lang.Compiler$CompilerException
-                         "0x4d0743aa"
-                         "Syntax error compiling at (6:1)."],
-            :hiccup [:div.p-2.clj-nil [:p "nil"]]})}
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}
+           {:src {:src "; this is an error:\n\n; hello should be a string\n\n(println hello)"},
+            :id :f6195f6e-f7d3-454b-a913-de8eff7e2214,
+            :out "",
+            :hiccup [:div.bg-red-300.border-solid.p-2
+                     [:p "unknown type"]
+                     [:h1
+                      "class clojure.lang.PersistentArrayMap"]]}],
+ :meta {:id :b72ff98a-b6f9-4bea-a980-e2040d54bf19,
+        :created "2021-10-30 12:34:32",
+        :ns "demo.notebook.banana",
+        :eval-finished "2021-10-30 12:34:32",
+        :java "16.0.1",
+        :clojure "1.10.3"}}
