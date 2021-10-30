@@ -1,7 +1,7 @@
 (ns demo.init
  (:require
    [taoensso.timbre :as timbre]
-   [reval.ns-eval :refer [eval-ns]]
+   [reval.document.notebook]
    [reval.config :as c]
    [goldly.devtools] ; side effects
   ))

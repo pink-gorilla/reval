@@ -14,7 +14,5 @@
                  ^java.io.File (io/file file-name)))
 
 (defmethod loadr :png
-  "Reads a BufferedImage from source, something that can be turned into
-  a file with clojure.java.io/file"
   [_ file-name]
   (ImageIO/read (io/file file-name)))

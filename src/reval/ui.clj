@@ -16,14 +16,11 @@
 
 (defn make-cljs-hiccup-fn [k]
   (fn [& args]
-     (into [k] args)))
+    (into [k] args)))
 
 (comment
   (-> (make-cljs-hiccup-fn :eval-result)
       (3))
 
-  
-
-
-  ;
+;
   )
