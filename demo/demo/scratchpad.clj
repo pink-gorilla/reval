@@ -11,6 +11,7 @@
 (show! [:p "hello, demo!"])
 
 
+
 ; evaled expression inside the hiccup.
 (show! [:p "Multiplication result: " (* 7 7)])
 
@@ -33,7 +34,7 @@
     show!)
 ;; the resulting image is rendered as inline base64 image.
 
-*ns*
+
 (-> (loadr :png  "demo/public/sun.png")
     ui/img
     ;value->hiccup
@@ -43,8 +44,7 @@
 ;        :width 192, :height 187, :alt ""}]
 
 
-
-; (show! (ui/image ) )
+;
 
 (defmacro cljs [render-fn & args]
   (into

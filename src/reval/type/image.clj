@@ -1,6 +1,6 @@
 (ns reval.type.image
   "Render BufferedImage objects"
-  
+
   (:require
    [clojure.java.io :as io]
    [clojure.data.codec.base64 :as b64]
@@ -13,8 +13,6 @@
    [java.awt.image BufferedImage]
    [java.io ByteArrayOutputStream]
    [javax.imageio ImageIO]))
-
-
 
 (defn image-to-bytes [^Image image ^String type width height]
   (let [bi (BufferedImage. width height (if (#{"png" "gif"} type)
@@ -54,12 +52,11 @@
   hiccup-convertable
   (to-hiccup [{:keys [^BufferedImage image alt type width height]}]
     (let [b64-img (String. (b64/encode (image-to-bytes image type width height)))
-          name (guuid-str)
-          ext type
-          file-name (get-filename-ns *ns* name ext)
-          src (get-link-ns *ns* name ext)]
+          name (str (guuid-str) "." type)
+          file-name (get-filename-ns *ns* name)
+          src (get-link-ns *ns* name)]
       (println "saving: " file-name)
-      (ImageIO/write image ext ^java.io.File (io/file file-name))
+      (ImageIO/write image type ^java.io.File (io/file file-name))
       [:img {:src src
              :width width
              :height height

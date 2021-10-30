@@ -26,6 +26,7 @@
                          ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
                          }}
           :systems [goldly.devtools
+                    demo.init ; setup paths
                     ;demo.env.services
                     ;demo.env.picasso ; for techml rendering (no need to require namespace)
                     ;ta.notebook.handler

@@ -20,3 +20,10 @@
        keys
        (remove #(= :default %))
        (into [])))
+
+(comment
+
+  (available-kernels)
+
+ ; 
+  )

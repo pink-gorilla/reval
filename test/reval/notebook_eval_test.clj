@@ -13,7 +13,7 @@
 
 (deftest notebook-eval-test
   (eval-ns "demo.notebook.apple")
-  (let [nb (loadr :edn "/tmp/document/demo.notebook.apple/notebook.edn")
+  (let [nb (loadr :edn "/tmp/rdocument/demo.notebook.apple/notebook.edn")
         segments (:content nb)]
     (is (= (:ns nb) "demo.notebook.apple"))
     (is (= (count segments) 5))

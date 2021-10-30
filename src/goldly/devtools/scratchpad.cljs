@@ -19,7 +19,7 @@
 
 (defn show-hiccup [h & args]
   (let [h-fn (->hiccup h)]
-    (reset! scratchpad-hiccup h-fn)  
+    (reset! scratchpad-hiccup h-fn)
     (reset! scratchpad-hiccup-raw h)))
 
 (defn scratchpad []

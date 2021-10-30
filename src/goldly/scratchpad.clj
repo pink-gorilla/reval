@@ -10,13 +10,11 @@
   (send-all! [:scratchpad/msg {:op :clear}])
   nil)
 
-
 (defn ->hiccup [h]
   (if (vector? h)
     h
     ;(to-hiccup h)
-    (value->hiccup h)
-    ))
+    (value->hiccup h)))
 
 (defn show! [h-or-type]
   (let [h (->hiccup h-or-type)]

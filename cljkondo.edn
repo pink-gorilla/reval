@@ -59,4 +59,27 @@
 
 
   ; linters end
-  }}
+  }
+  
+  
+ :output {:format :text ;; or :edn
+          ;:format :edn
+          :summary true ;; outputs summary at end, only applicable to output :text
+          ;; outputs analyzed var definitions and usages of them
+          :analysis false
+          ;; set to truthy to print progress while linting, only applicable to output :text
+          :progress false
+          ;; output can be filtered and removed by regex on filename. empty options leave the output untouched.
+          :include-files [] #_["^src" "^test"]
+          :exclude-files [".*cljs"
+                          ;"src/systems.*" ; system macro.
+                             ;"^cljs/core"
+                             ; "profiles/test/src/demo/cljs.*"
+                          ]
+             ;; the output pattern can be altered using a template. use {{LEVEL}} to print the level in capitals.
+             ;; the default template looks like this:
+             ;; :pattern "{{filename}}:{{row}}:{{col}}: {{level}}: {{message}}"
+          :canonical-paths false ;; set to true to see absolute file paths and jar files
+          :level :warning}
+  
+  }

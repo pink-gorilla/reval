@@ -14,7 +14,7 @@
         vec)))
 
 (deftest image-inline-test
-  (let [sun (ImageIO/read (File. "demo/resources/sun.png"))
+  (let [sun (ImageIO/read (File. "demo/public/sun.png"))
         hiccup (-> sun img-inline to-hiccup)
         hiccup-no-source (remove-option hiccup :src)]
     (is (= [:img {;:src "/api/viewer/user/6e914fe9-43b4-430e-82d8-59950ed024c5.png"
@@ -24,7 +24,7 @@
            hiccup-no-source))))
 
 (deftest image-test
-  (let [sun (ImageIO/read (File. "demo/resources/sun.png"))
+  (let [sun (ImageIO/read (File. "demo/public/sun.png"))
         hiccup (-> sun img to-hiccup)
         hiccup-no-source (remove-option hiccup :src)]
     (is (= [:img {;:src "/api/viewer/user/6e914fe9-43b4-430e-82d8-59950ed024c5.png"
@@ -38,7 +38,7 @@
   (-> [:img {:src "x" :a 1} "hello"]
       (remove-option :src))
 
-  (-> (ImageIO/read (File. "demo/resources/sun.png"))
+  (-> (ImageIO/read (File. "demo/public/sun.png"))
       img
       to-hiccup
       (remove-option :src)))

@@ -4,11 +4,11 @@
 ;; this is conveted to filename-extension ".edn" ".txt" ".json"
 
 (defmulti save
-  (fn [type file-name data]
+  (fn [type _ _] ;file-name data (avoid lint warnings)
     type))
 
 (defmulti loadr
-  (fn [type file-name]
+  (fn [type _] ; file-name   (avoid lint warnings)
     type))
 
 #_(def formats

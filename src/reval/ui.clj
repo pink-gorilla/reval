@@ -6,7 +6,10 @@
 
 (def img i/image)
 
-(defmacro cljs2 [render-fn & args]
-  (into
-   [(quote `render-fn)]
-   args))
+; we really need a macro that gets a symbol and returns 
+; a function that returns ['symbol & args]
+
+#_(defmacro cljs2 [render-fn & args]
+    (into
+     [(quote `render-fn)]
+     args))

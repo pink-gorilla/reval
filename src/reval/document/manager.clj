@@ -6,44 +6,49 @@
    [reval.persist.protocol :as p]
    [reval.config :refer [storage-root url-root]]))
 
-;; helper fns
+; get-filename and get-link may NOT contain the fmt parameter
+; the name contains the extension. The reason is, that we have
+; a format detector based on full name. This is important, as
+; formats that contain 2 extensions (.nippy.gz) might be hard
+; to parse via a single regex, and therefore are not so easy
+; to use in routing tables. 
+
+; demo/rdocument/demo.notebook.apple/notebook.edn
+
+;; URL side
+
+(defn get-link-ns [ns name]
+  (str (url-root) (str ns) "/" name))
+
+;; FILE side
+
+(defn get-path-ns [ns]
+  (str (storage-root) (str ns) "/"))
+
+(defn get-filename-ns [ns name]
+  (str (get-path-ns ns) name))
 
 (defn- ensure-directory [path]
   (when-not (.exists (io/file path))
     (.mkdir (java.io.File. path))))
 
-(defn- ensure-directory-storage-root []
-  (ensure-directory (storage-root)))
+(defn- add-extension [name format]
+  (let [ext (clojure.core/name format)]
+    (str name "." ext)))
 
-(defn- make-filename [ns name format]
-  (let [;nss *ns*
-        ext (clojure.core/name format)
-        study-dir (str (storage-root) ns)
-        file-name (str study-dir "/" name "." ext)]
-    (ensure-directory-storage-root)
-    (ensure-directory study-dir)
-    file-name))
+(defn save [data ns name-no-ext format]
+  (let [filename (-> (get-filename-ns ns name-no-ext)
+                     (add-extension format))]
+    (ensure-directory (storage-root))
+    (ensure-directory (get-path-ns ns))
+    (p/save format filename data)
+    data ; usable for threading macros  
+    ))
 
-;; api
-
-(defn get-filename-ns [ns name format]
-  (let [ext (str format)
-        root (storage-root)
-        dir (str root (str ns) "/")]
-    (ensure-directory root)
-    (ensure-directory dir)
-    (str dir name "." ext)))
-
-(defn get-link-ns [ns name ext]
-  (str (url-root) (str ns) "/" name "." ext))
-
-(defn save [data ns name format]
-  (p/save format (make-filename ns name format) data)
-  data ; usable for threading macros
-  )
-
-(defn loadr [ns name format]
-  (p/loadr format (make-filename ns name format)))
+(defn loadr [ns name-no-ext format]
+  (let [filename (-> (get-filename-ns ns name-no-ext)
+                     (add-extension format))]
+    (p/loadr format filename)))
 
 ;; explore
 
@@ -67,10 +72,10 @@
 
 (comment
 
-  (ensure-directory-storage-root)
+  (ensure-directory (storage-root))
 
-  (get-filename-ns "demo.study3" "bongo" "txt")
-  (get-link-ns "demo.study3" "bongo" "txt")
+  (get-filename-ns "demo.study3" "bongo.txt")
+  (get-link-ns "demo.study3" "bongo.txt")
 
   (save {:a 1 :b "bongotrott" :c [1 2 3]}  "demo.3" "bongotrott" :edn)
   (save  {:a 1 :b "bongotrott" :c [1 2 3]} "demo.3" "bongotrott-1" :edn)

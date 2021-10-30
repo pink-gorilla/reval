@@ -2,7 +2,7 @@
   (:require
    [taoensso.timbre  :refer [debug info warn error]]
    ; side effects:
-   [reval.default] 
+   [reval.default]
    [goldly.document-handler]))
 
 (info "goldly devtools loading..")

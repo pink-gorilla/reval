@@ -9,6 +9,9 @@
    [reval.persist.protocol :as p]
    [reval.document.manager :as dm]))
 
+; url:
+; http://localhost:8000/api/rdocument/file/demo.notebook.apple/notebook.edn
+
 (defn ns-file-handler
   "ring handler to serve files in reproduceable ns folder
    it needs to be added to the routing-table
@@ -17,9 +20,11 @@
   (let [params (:params req)
         {:keys [ns name]} params]
     (info "nb resource file handler: ns:" ns "name:" name)
-    (if-let [fmt (p/filename->format name)]
-      (if-let [file-name (dm/get-filename-ns ns name fmt)]
-        (file-response file-name)
+    (if-let [fmt (p/filename->format name)] ; todo: eventually do not check format here at all ?
+      (if-let [file-name (dm/get-filename-ns ns name)]
+        (do
+          (info "serving ns-file: " file-name "format: " fmt)
+          (file-response file-name))
         (do (error "viewer filename cannot be created: " ns name)
             (not-found {:body (str "filename cannot be created: " ns name)})))
       (do (error (str "viewer file resource - format could not be determined for name: [" name "]"))
@@ -60,15 +65,15 @@
 
   ; (loadr "demo.studies.asset-allocation-dynamic" "2" :text)
 
-  (notebook-resource-file-handler
+  (ns-file-handler
    {:params {:nbns "demo.studies.asset-allocation-dynamic"
              :name "1.edn"}})
 
-  (notebook-resource-file-handler
+  (ns-file-handler
    {:params {:nbns "demo.studies.asset-allocation-dynamic"
              :name "2.txt"}})
 
-  (get-resource-list "ta.notebook.persist")
+  (get-ns-files "ta.notebook.persist")
 
 ;  
   )
