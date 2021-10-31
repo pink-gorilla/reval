@@ -68,6 +68,28 @@ trateg: persist.
 
    
  
+cljc:
+(defn notebook [nb]
+  ; nb format to hiccup
+)
+
+cljs:
+(defn show-hiccup [h]
+  ; shows hiccup in browser.
+  ; do pinkie tag replacement.
+  ; input: [:vega vega-spec]
+  ; output: [vega-fn vega-spec]
+)
+
+(defn notebook-page []
+   ; get lists of notebooks
+   
+   ; show notebook
+      ; -> get-edn (rdoc/link ns "notebook")
+
+      
+)
+
 
 
 
@@ -101,3 +123,55 @@ Run `clj -X:notebook watch` to edit example notebooks.
 clj -M:test
 ./scripts/test-cljs.sh
 ```
+
+s
+
+demo.apple.nb.clj
+ => is this clojure ns a notebook?
+ => should this namespace be shown in a notebook list?
+
+
+WE HAVE:
+- namespaces
+- reproduceable document manager repository
+  => evalauated namespaces.
+
+
+(defn demo-notebooks []
+  (-> all namespaces
+      (filter (str/starts-with "demo.")))
+  
+(defn user-notebooks []
+  (-> all namespaces
+      (filter (str/starts-with "test-notebook.")))
+  
+  (defn my-collection []
+    ["demo.apple"]
+    )
+  
+
+  (:p/notebook)
+
+    fn => pinkie-hiccup => atom => lister => websocket => browser.
+   
+    fn => pinkie-hiccup
+      SRC-CODE OUT ERR
+  
+(ns algo.demo)
+  
+(defn show-correlation-table []
+  
+  )
+
+  [:div [:h1 "correlation table"]
+      (algo.correlation/table ["MSFT" "GOOG" "AAPL"])
+      (code algo.demo/show-correlation-table)
+        (with-code 
+         )
+  ]
+
+  
+
+     [:p/code ]
+   
+   ]

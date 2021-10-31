@@ -35,7 +35,8 @@
   :lint
   {:extra-deps {clj-kondo/clj-kondo {:mvn/version "RELEASE"}}
    :main-opts ["-m" "clj-kondo.main"
-               "--lint" "src"
+               "--lint" 
+               "src" "test"
                "--config" "cljkondo.edn"]}
 
   :outdated
@@ -52,7 +53,7 @@
    :extra-deps {com.workframe/garamond {:mvn/version "0.4.0"}}}
 
   :test
-  {:extra-paths ["test" "demo"]
+  {:extra-paths ["test"]
    :extra-deps {io.github.cognitect-labs/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner.git"
                  :sha "dd6da11611eeb87f08780a30ac8ea6012d4c05ce"}}
@@ -78,7 +79,7 @@
                :config "demo/goldly-reval.edn"}}
 
   :goldlyb
-  {:extra-paths ["demo"] ; to show static files (not auto generated ones)
+  {:extra-paths ["demo" "test"] ; to show static files (not auto generated ones)
    :extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"
                                                :exclusions [org.pinkgorilla/ui-site]}
                 org.pinkgorilla/ui-site {:mvn/version "0.0.12"}}

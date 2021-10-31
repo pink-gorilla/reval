@@ -26,7 +26,7 @@
    (str/replace dir #"/" ".")
    (str/replace name #"_" "-")))
 
-(defn get-ns-list [res-path fmt]
+(defn get-ns-list [fmt res-path]
   (->> (get-ns-files res-path)
        (map :name)
        (map split-ext)
@@ -34,12 +34,19 @@
        (map first)
        (map #(filename->ns res-path %))))
 
-; snippet notebook files should be in demo/notebook
-; just "notebook" will create problems with notebook code namespace
 
-(defn get-ns-overview []
-  {:demo (get-ns-list "demo/notebook/" :clj)
-   :user (get-ns-list "demo/notebook_test/" :clj)})
+(defn get-nss-list [fmt res-paths]
+  (->> (map #(get-ns-list fmt %) res-paths)
+      (apply concat [])
+       vec
+       ))
+
+(defn get-collections [spec]
+  (->> (map (fn [[k v]]
+             [k (get-nss-list (first v) (rest v))]) spec)
+       (into {})))
+  
+
 
 (comment
 
@@ -61,10 +68,19 @@
 
   (filename->ns "demo/notebook/" "apple_blue.clj")
 
-  (get-ns-list "demo/notebook/" :clj)
-  (get-ns-list "demo/notebook/" :cljs)
+  (get-ns-list :clj "demo/notebook/" )
+  (get-ns-list :cljs "demo/notebook/" )
 
-  (get-ns-overview)
+  (get-nss-list :cljs ["demo/notebook/"])
+
+  
+  (get-collections
+   {:demo [:clj "demo/notebook/"]
+    :user [:clj "demo/notebook_test/"]})
+
+
+
+  
 
   ;
   )

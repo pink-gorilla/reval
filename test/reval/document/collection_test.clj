@@ -2,10 +2,15 @@
   (:require
    [clojure.test :refer :all]
    [reval.persist.protocol :refer [loadr]]
-   [reval.document.collection :refer [get-ns-overview]]
+   [reval.document.collection :refer [get-collections]]
    [reval.test-init]))
 
+
+
 (deftest collection-overview-test
-  (is (= (get-ns-overview)
+  (is (= (get-collections
+          {:demo [:clj "demo/notebook/"]
+           :user [:clj "test/notebook/"]})
          {:demo '("demo.notebook.image")
-          :user '("demo.notebook_test.apple" "demo.notebook_test.banana")})))
+          :user '("test.notebook.apple" "test.notebook.banana")})))
+
