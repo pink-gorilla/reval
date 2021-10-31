@@ -1,6 +1,6 @@
 (ns reval.document.notebook-eval-test
   (:require
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest is]]
    ;[reval.persist.protocol :refer [loadr]]
    [reval.document.notebook :refer [eval-notebook load-notebook]]
    [reval.test-init]))
@@ -26,8 +26,9 @@
            "hello\n"))))
 
 (comment
-  (eval-notebook "demo.notebook-test.apple")
-  (loadr :edn "demo/rdocument/demo/notebook_test/apple/notebook.edn")
+  (eval-notebook "test.notebook.apple")
+  (load-notebook "test.notebook.apple")
+  ;(loadr :edn "demo/rdocument/demo/notebook_test/apple/notebook.edn")
 
 ;  
   )

@@ -14,24 +14,25 @@
 
 ;; view
 
-(def show-viewer-debug-ui true)
+(def show-viewer-debug-ui false) ; true for debugging
 
 (defn segment-debug [segment]
-  [:div.bg-gray-500.mt-5
+  [:div.bg-gray-500
    [:p.font-bold "segment debug ui"]
    (pr-str segment)])
 
 (defn segment [{:keys [src out hiccup] :as segment}]
-  [:div.bg-indigo-300.p-7
-   (when src
-     [code src])
-   (when out
-     [text2 src])
-   (when hiccup
-     [:div.mt-5
-      (->hiccup hiccup)])
-   (when show-viewer-debug-ui
-     [segment-debug segment])])
+  (let [scode (:code segment)]
+    [:div
+     (when scode
+       [code scode])
+     (when (not (str/blank? out))
+       [text2 out])
+     (when hiccup
+       [:div.mt-1.mb-1
+        (->hiccup hiccup)])
+     (when show-viewer-debug-ui
+       [segment-debug segment])]))
 
 (defn notebook-debug [nb]
   [:div.bg-gray-500.mt-5
@@ -40,12 +41,16 @@
 
 (defn notebook [{:keys [meta content] :as nb}]
   (let [{:keys [ns created]} meta]
-    [:div.bg-indigo-300.p-7
-     [:h1.text-xl.text-blue-800.text-xl.pb-3 ns]
+    [:div.bg-indigo-100.p-2
+     [:h1.text-xl.text-blue-800.text-xl.pb-2 ns]
+     [:p.pb-2 "evaluated: " created]
+     [:hr]
      (into [:div]
            (map segment content))
      (when show-viewer-debug-ui
        [notebook-debug nb])]))
+
+(pinkie/register-tag :p/notebook notebook)
 
 ;; DATA
 

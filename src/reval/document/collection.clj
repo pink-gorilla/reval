@@ -34,19 +34,15 @@
        (map first)
        (map #(filename->ns res-path %))))
 
-
 (defn get-nss-list [fmt res-paths]
   (->> (map #(get-ns-list fmt %) res-paths)
-      (apply concat [])
-       vec
-       ))
+       (apply concat [])
+       vec))
 
 (defn get-collections [spec]
   (->> (map (fn [[k v]]
-             [k (get-nss-list (first v) (rest v))]) spec)
+              [k (get-nss-list (first v) (rest v))]) spec)
        (into {})))
-  
-
 
 (comment
 
@@ -68,21 +64,16 @@
 
   (filename->ns "demo/notebook/" "apple_blue.clj")
 
-  (get-ns-list :clj "demo/notebook/" )
-  (get-ns-list :cljs "demo/notebook/" )
+  (get-ns-list :clj "demo/notebook/")
+  (get-ns-list :cljs "demo/notebook/")
 
   (get-nss-list :cljs ["demo/notebook/"])
 
-  
   (get-collections
    {:demo [:clj "demo/notebook/"]
     :user [:clj "demo/notebook_test/"]})
 
-
-
-  
-
-  ;
+;
   )
 
 

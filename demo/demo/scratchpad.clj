@@ -1,9 +1,9 @@
 (ns demo.scratchpad
   (:require
-   [goldly.scratchpad :refer [show! clear!]]
-   [reval.ui :as ui]
    [reval.persist.protocol :refer [loadr]]
    [reval.type.converter :refer [value->hiccup]]
+   [reval.ui :as ui]
+   [goldly.scratchpad :refer [show! clear!]]
    [demo.init] ; side effects
    ))
 

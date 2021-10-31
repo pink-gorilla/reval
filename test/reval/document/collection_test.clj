@@ -1,11 +1,9 @@
 (ns reval.document.collection-test
   (:require
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest is]]
    [reval.persist.protocol :refer [loadr]]
    [reval.document.collection :refer [get-collections]]
    [reval.test-init]))
-
-
 
 (deftest collection-overview-test
   (is (= (get-collections

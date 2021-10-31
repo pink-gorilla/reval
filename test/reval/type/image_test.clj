@@ -1,6 +1,6 @@
 (ns reval.type.image-test
   (:require
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest is]]
    [reval.type.protocol :refer [to-hiccup]]
    [reval.persist.protocol :refer [loadr]]
    [reval.ui :refer [img img-inline]]

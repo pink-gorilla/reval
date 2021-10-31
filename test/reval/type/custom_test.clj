@@ -1,6 +1,6 @@
 (ns reval.type.custom-test
   (:require
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest is]]
    [reval.type.protocol :refer [to-hiccup hiccup-convertable]]
    [reval.test-init]))
 

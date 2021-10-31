@@ -1,6 +1,6 @@
 (ns reval.type.unknown-test
   (:require
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest is]]
    [reval.type.protocol :refer [to-hiccup]]
    [reval.type.converter :refer [value->hiccup unknown-view]]
    [reval.test-init]))

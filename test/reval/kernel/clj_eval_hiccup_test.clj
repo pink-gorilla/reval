@@ -12,7 +12,6 @@
       :hiccup))
 
 (deftest test-eval-clj
-  "eval with several expressions"
   (are [code hiccup]
        (= hiccup (eval-src->hiccup code))
 

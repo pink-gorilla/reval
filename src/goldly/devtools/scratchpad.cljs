@@ -23,24 +23,25 @@
     (reset! scratchpad-hiccup-raw h)))
 
 (defn scratchpad []
-  [:div.ml-5
-
+  [:div.w-full.h-full.m-0.p-5
    ; header
    [:div.pt-5
     [:span.text-xl.text-blue-500.text-bold.mr-4 "scratchpad"]
     [:button.bg-gray-400.m-1 {:on-click clear-scratchpad} "clear"]
     [:button.bg-gray-400.m-1 {:on-click #(show-hiccup demo-hiccup)} "demo"]]
-   ;; hiccup (source)
-   [:p.text-xl.text-blue-500.mt-3.mb-3 "hiccup"]
-   [:div.bg-gray-300  (pr-str @scratchpad-hiccup-raw)]
-   ; separator
-   [:hr.mt-5]
    ; hiccup
    [:p.text-xl.text-blue-500.mt-3.mb-3 "output"]
-   @scratchpad-hiccup])
+   [:div.w-full
+    @scratchpad-hiccup]
+   ; separator
+   [:hr.mt-5]
+   ; hiccup (source)
+   [:p.text-xl.text-blue-500.mt-3.mb-3 "hiccup"]
+   [:p "asdf"]
+   [:div.bg-gray-300.overflow-scroll (pr-str @scratchpad-hiccup-raw)]])
 
 (defn scratchpad-page [{:keys [route-params query-params handler] :as route}]
-  [:div.bg-green-300.w-screen.h-screen
+  [:div.bg-green-300.w-screen.h-screen.overflow-scroll
    [scratchpad]])
 
 (add-page scratchpad-page :scratchpad)

@@ -1,6 +1,6 @@
 (ns reval.type.clj-type-test
   (:require
-   [clojure.test :refer :all]
+   [clojure.test :refer [deftest is]]
    [reval.type.protocol :refer [to-hiccup]]
    [reval.test-init]))
 
