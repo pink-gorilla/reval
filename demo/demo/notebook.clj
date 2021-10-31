@@ -5,9 +5,9 @@
    [demo.init] ; side effects
    ))
 
-
-
 (eval-notebook "demo.notebook.hello")
+
+
 
 (-> (eval-notebook "demo.notebook.hello")
     :content
@@ -19,6 +19,11 @@
 ; demo.notebook.image is part of the reval demo notebooks
 (->> (eval-notebook "demo.notebook.image")
      (show-as :p/notebook))
+
+
+
+
+
 
 
 

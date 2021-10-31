@@ -59,7 +59,7 @@
              :height height
              :alt alt}])))
 
-(defn image [^BufferedImage image & {:keys [alt type width height ns]}]
+(defn image [^BufferedImage image & {:keys [alt type width height]}]
   (let [alt (or alt "")
         type (string/lower-case (or type "png"))
         iw (.getWidth image)

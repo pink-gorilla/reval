@@ -44,6 +44,15 @@
     (ensure-directory root)
     (reduce ensure root dirs)))
 
+(defn delete-recursively [fname]
+  (doseq [f (reverse (file-seq (clojure.java.io/file fname)))]
+    (clojure.java.io/delete-file f true)))
+
+(defn delete-directory-ns [ns]
+  (let [ns-path (get-path-ns ns)]
+    (info "deleting reproduceable ns: " ns "path: " ns-path)
+    (delete-recursively ns-path)))
+
 (defn- add-extension [name format]
   (let [ext (clojure.core/name format)]
     (str name "." ext)))
@@ -129,6 +138,8 @@
   (loadr "demo.studies.asset-allocation-dynamic" "ds2" :bad-format-5)
   (loadr "demo.studies.asset-allocation-dynamic" "ds-777" :nippy)
   (loadr "demo.studies.asset-allocation-dynamic" "ds2" :arrow)
+
+  (delete-recursively "demo/rdocument/demo/notebook/hello")
 
 ; 
   )

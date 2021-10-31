@@ -41,6 +41,7 @@
                  (into []))})
 
 (defn create-notebook [ns]
+  (rdm/delete-directory-ns ns)
   (-> ns
       load-src
       src->src-list
