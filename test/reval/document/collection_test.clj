@@ -9,6 +9,7 @@
   (is (= (get-collections
           {:demo [:clj "demo/notebook/"]
            :user [:clj "test/notebook/"]})
-         {:demo '("demo.notebook.image")
-          :user '("test.notebook.apple" "test.notebook.banana")})))
+         {:demo ["demo.notebook.image"]
+          :user ["test.notebook.apple"
+                 "test.notebook.banana"]})))
 

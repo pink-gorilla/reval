@@ -1,16 +1,52 @@
-# reval [![GitHub Actions status |pink-gorilla/ui-vega](https://github.com/pink-gorilla/ui-vega/workflows/CI/badge.svg)](https://github.com/pink-gorilla/ui-vega/actions?workflow=CI)[![Codecov Project](https://codecov.io/gh/pink-gorilla/ui-vega/branch/master/graph/badge.svg)](https://codecov.io/gh/pink-gorilla/ui-vega)[![Clojars Project](https://img.shields.io/clojars/v/org.pinkgorilla/ui-vega.svg)](https://clojars.org/org.pinkgorilla/ui-vega)
+# reval [![GitHub Actions status |pink-gorilla/reval](https://github.com/pink-gorilla/reval/workflows/CI/badge.svg)](https://github.com/pink-gorilla/reval/actions?workflow=CI)[![Codecov Project](https://codecov.io/gh/pink-gorilla/reval/branch/master/graph/badge.svg)](https://codecov.io/gh/pink-gorilla/reval)[![Clojars Project](https://img.shields.io/clojars/v/org.pinkgorilla/reval.svg)](https://clojars.org/org.pinkgorilla/reval)
 
 ## reval
-- ui-vega defines a reagent wrapper to render vega-plots
+- reval stands for reproduceable [namespace=notebook] evaluation
+- an eval result can be just the normal value, or it can be converted to hiccup
+- our hiccup format has a little extra: it can include custom types.
+  Of course custom types need special browser rendering code, but we ship that too.
+- When you eval a form that say has a buffered image, then this form will be stored
+  as a png image. Now thi happens in the context of the notebook (a notebook is
+  just an evaluated namespace). 
+
+  Example:
+
+  If you have the following clj namespaces:
+
+  ```
+     demo.notebook.apple
+     demo.notebook.banana
+  ```
+
+  Now say demo.notebook.banana includes a BufferedImage, then upon 
+  ```
+    (eval-notebook "demo.notebook.apple)
+    (eval-notebook "demo.notebook.banana)
+  ```
+
+   then the reproduceable document folder will look like this
+
+  ```
+     rdocument/demo/notebook/apple/notebook.edn
+     rdocument/demo/notebook/banana/notebook.edn
+     rdocument/demo/notebook/banana/67770344-1424-4803-a9aa-01e21cb4ce39.png
+
+  ``` 
+
+  )
+- you can evaluate a namespace
+- this means you can evaluate a clj namespace, and the evaluation output is stored in
+  a repository. 
+- `(eval-notebook "demo.notebook.apple")` evaluates the namespace demo.notebook.apple
+  and saves the output 
+
+ui-vega defines a reagent wrapper to render vega-plots
 - vega is a browser based plot renderer, that uses declarative syntax to build plots
 - vega comes as vega spec and vega-lite spec. vega lite spec is compiled to vega-spec 
 and is a more condensed specification with less features.
 
 
-von
-goldly: rewrite, explore
-picasso: kernel, nb executor
-trateg: persist.
+
 
 
 # scratchpad
@@ -175,3 +211,9 @@ WE HAVE:
      [:p/code ]
    
    ]
+
+
+von
+goldly: rewrite, explore
+picasso: kernel, nb executor
+trateg: persist.
