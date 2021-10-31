@@ -12,6 +12,7 @@
   ; todo: replace with cljc time
   com.lucasbradstreet/cljs-uuid-utils {:mvn/version "1.0.2"} ; uuid - clojurescript
   fipp/fipp {:mvn/version "0.6.24"} ; edn pretty printing
+  cheshire/cheshire {:mvn/version "5.10.1"}  ; JSON parsings and pretty printing
   resauce/resauce {:mvn/version  "0.2.0"} ; jar resources
   ;com.cemerick/url {:mvn/version "0.1.1"}
   hawk/hawk {:mvn/version "0.2.11"} ; file watcher  ;:exclusions [[net.java.dev.jna/jna]] ; this breaks tech.ml.dataset and libpythonclj

@@ -3,5 +3,5 @@
    [taoensso.timbre :refer [debug info warnf error]]
    [reval.persist.protocol :refer [save loadr]]))
 
-(defmethod save :default [t]
-  (error "unknown format: " t))
+(defmethod save :default [t filename _]
+  (error "unknown format: " t " file: " filename))

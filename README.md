@@ -78,6 +78,9 @@ By default storage root is "/tmp/rdocument/".
 clj -M:test
 ```
 
+If some of the types cannot be found do `rm .cpcache -r`. Multimethods and
+protocols sometimes are a little tricky.
+
 
 
 

@@ -15,6 +15,7 @@
    [reval.persist.edn]
    [reval.persist.image]
    [reval.persist.text]
+   [reval.persist.json]
 
    ;  kernel 
    [reval.kernel.protocol]
