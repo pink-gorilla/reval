@@ -4,7 +4,7 @@
    [clojure.java.io :as io]
    [clojure.data.codec.base64 :as b64]
    [clojure.string :as string]
-   [reval.type.protocol :refer [hiccup-convertable to-hiccup]]
+   [reval.type.protocol :refer [hiccup-convertable to-hiccup hiccup-convertable-reproduceable]]
    [reval.document.manager :as rdm]
    [reval.helper.id :refer [guuid-str]])
   (:import
@@ -47,19 +47,19 @@
 
 ;; image (to document manager)
 
-(defrecord img-record [image alt type width height]
+(defrecord imgrecord [image alt type width height ns]
   hiccup-convertable
   (to-hiccup [{:keys [^BufferedImage image alt type width height]}]
     (let [name-no-ext (guuid-str)
-          name (str  "." type)
-          src (rdm/get-link-ns *ns* name)]
-      (rdm/save image *ns* name-no-ext :png)
+          name (str name-no-ext "." type)
+          src (rdm/get-link-ns ns name)]
+      (rdm/save image ns name-no-ext :png)
       [:img {:src src
              :width width
              :height height
              :alt alt}])))
 
-(defn image [^BufferedImage image & {:keys [alt type width height]}]
+(defn image [^BufferedImage image & {:keys [alt type width height ns]}]
   (let [alt (or alt "")
         type (string/lower-case (or type "png"))
         iw (.getWidth image)
@@ -69,4 +69,4 @@
                 width [(int width) (int (* (/ width iw) ih))]
                 height [(int (* (/ height ih) iw)) (int height)]
                 :else [iw ih])]
-    (img-record. image alt type w h)))
+    (imgrecord. image alt type w h (str *ns*))))

@@ -6,6 +6,7 @@
    ))
 
 
+
 (eval-notebook "demo.notebook.hello")
 
 (-> (eval-notebook "demo.notebook.hello")
@@ -18,6 +19,14 @@
 ; demo.notebook.image is part of the reval demo notebooks
 (->> (eval-notebook "demo.notebook.image")
      (show-as :p/notebook))
+
+
+
+
+
+
+
+
 
 
 

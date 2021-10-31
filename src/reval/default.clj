@@ -1,9 +1,7 @@
 (ns reval.default
   "default ns to load ns with side effects"
   (:require
-   ;[picasso.protocols]
-
-   ; render
+     ; render
    ; #?(:clj [picasso.render.clj-types])
    ; #?(:cljs [picasso.render.cljs-types])
    ;#?(:clj [picasso.render.image])
@@ -18,8 +16,10 @@
    [reval.persist.image]
    [reval.persist.text]
 
-   [reval.ui]
+   ;  kernel 
    [reval.kernel.protocol]
 
-   ; clj kernel ?
-   ))
+   ; repl functions
+   [reval.ui])
+
+  (:import [reval.type.image imgrecord]))

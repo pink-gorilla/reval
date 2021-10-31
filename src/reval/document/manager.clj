@@ -19,7 +19,7 @@
 ;; URL side
 
 (defn get-link-ns [ns name]
-  (str (url-root) (ns->dir ns) "/" name))
+  (str (url-root)  ns "/" name))
 
 ;; FILE side
 
@@ -52,6 +52,7 @@
   (let [filename (-> (get-filename-ns ns name-no-ext)
                      (add-extension format))]
     (ensure-directory-ns ns)
+    (info "saving: " filename)
     (p/save format filename data)
     data ; usable for threading macros  
     ))
@@ -86,7 +87,8 @@
   (ensure-directory (storage-root))
 
   (get-filename-ns "demo.study3" "bongo.txt")
-  (get-link-ns "demo.study3" "bongo.txt")
+
+  (get-link-ns "demo.notebook.image" "bongo.txt")
 
   (ensure-directory-ns "demo.test-notebook.apple")
 

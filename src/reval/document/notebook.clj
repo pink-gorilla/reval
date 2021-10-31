@@ -86,7 +86,6 @@
                           (let [er (clj-eval (assoc seg :ns @nsa))]
                             (reset! nsa (:ns er))
                             er))]
-     ;(map clj-eval segments)
     (map nb-eval-segment segments)))
 
 (defn eval-notebook

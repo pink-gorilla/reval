@@ -7,3 +7,6 @@
 
 (info "goldly devtools loading..")
 
+; localhost:9100
+(spit ".nrepl-port" "9100") ; todo - add this to goldly!
+
