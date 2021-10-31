@@ -37,6 +37,7 @@
 (defn get-nss-list [fmt res-paths]
   (->> (map #(get-ns-list fmt %) res-paths)
        (apply concat [])
+       sort
        vec))
 
 (defn get-collections [spec]
