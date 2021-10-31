@@ -28,6 +28,17 @@
 ```
 - Now you can use your custom project in the same way as before, but get vizualisations.
 
+## configuration
+
+```
+(reval.config/set-config!
+ {:storage-root "demo/rdocument/"
+  :url-root "/api/rdocument/file/"})
+```
+
+By default storage root is "/tmp/rdocument/".
+
+
 ## reproduceable storage
 
   *Example*
@@ -63,9 +74,8 @@
 
 # For Developers
 
-``
+```
 clj -M:test
-./scripts/test-cljs.sh
 ```
 
 
