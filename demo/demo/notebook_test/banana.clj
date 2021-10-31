@@ -1,4 +1,4 @@
-(ns notebook.bananas)
+(ns demo.notebook-test.bananas)
 
 ; this is an error:
 ; hello should be a string

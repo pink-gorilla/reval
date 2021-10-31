@@ -2,8 +2,7 @@
   (:require
    [clojure.test :refer :all]
    [reval.type.protocol :refer [to-hiccup]]
-   [reval.type.clj] ; bring the renderers into scope
-   ))
+   [reval.test-init]))
 
 ; Type Tests	array? fn? number? object? string?
 ; instance?

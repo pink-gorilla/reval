@@ -13,6 +13,67 @@ picasso: kernel, nb executor
 trateg: persist.
 
 
+# scratchpad
+- the scratchpad is all I need for development
+- but it is pain in ass to always have to call ->scratchpad
+- nrepl middleware can watch expression evals and send them to scratchpad
+- ide specific plugin like CTRL+ENTER in vscode could do not only eval, but eval+to-hiccup+->scratchpad
+- => ->scratchpad is a CORE api interface (rest or ws)
+- to-hiccup is the core fn in the browser to render stuff.
+
+# why notebook ?
+- clj cannot be evaled in the browser
+- eval takes time
+- extra dependencies not in goldly, extra data not in goldly (say a big database)
+- a notebook can be used as documentation, or to display result of batch runs that calculate something
+- should NOT include too much data, in any case it should not contain data that is not renderable on browser.
+
+# what is notespace
+ (fn [ns]
+   (->> ns
+       (load-ns src)
+       (src->src-single-form)
+       (map eval-src)
+       (map to-hiccup) 
+       (ns->document) ;based on meta-data does something
+     ))
+
+# what could be notespace
+- dynamic
+- instead of processing entire ns, we could only render the result of a single fn.
+- then we have full control over the data.
+- then code would be just the src INSIDE one function. this code can be read via rewrite-clj 
+- what is important: it shudl not matter if the namespace was used or if code inside a fn was used.
+- SERVE COMPLEX DOCUMENT DYNAMICALLY IN A WEB APP! URL ROUTE => WHICH FORMAT TO LOAD.
+
+# notebook as independent html
+- when a notebook is statically rendered, it needs to use renderers, otherwise we could just write html.
+- therefore goldly needs to be used, because goldly has the extension manager.
+- goldly needs to be stripped completley by anything eval related.
+- all the goldly ui needs to be moved to reval
+- to render ->hiccup must be called, with some data from the reproduceable document manager
+- so webly needs to be stripped of any default ui. 
+- does it make sense? NO: notebooks only make sense when you view them as a collection!
+- but user must be able to start notebook viewer REALLY easy. perhaps: goldly that only starts notebook explorer?
+
+
+
+# daniel
+- in different demo github projects evaluate the notebooks.
+- store the reproduceable document format of the different notebooks in scicloj/datascience-demo-notebooks
+  this project then gets included by default into goldly. 
+  goldly will magically find them via collection exporer
+- notebook analyzer: find list of ui forms, and store them as index.
+  then we use exactly that in ui. 
+
+   
+ 
+
+
+
+
+
+
 ## chain of data
 
 (defn calculate-notebook [nb-ns]
@@ -32,17 +93,7 @@ Run `clj -X:goldly` to see ui-vega goldly snippets. Navigate to snippets registr
 
 Run `clj -X:notebook watch` to edit example notebooks.
 
-## Implementation
 
-- Legacy gorilla-plot was originally written by Jony Hudson for Gorilla repl.
-- Gorilla-Plot Legacy uses vega-spec, updated to vega 5 spec.
-- multiplot uses vega-lite spec.
-
-## Performance test
-
-```
-clj -M:perf
-```
 
 ## Unit test
 
@@ -50,14 +101,3 @@ clj -M:perf
 clj -M:test
 ./scripts/test-cljs.sh
 ```
-
-**vega problems**
-
-If there are problems in using vega with errors to "buffer" then `npm install shadow-cljs --save` might fix it. thheller: both buffer and process are polyfills packages that shadow-cljs will provide ... the npm package is mostly the for CLI stuff but also brings in some extra npm packages
-the compiler is from the CLJ dependency you have in project.clj.
-the npm stuff never does any actual compilation, just runs the java process
-
-you do not need to worry about process or buffer at all
-you can fix this easily by bumping 
-:compiler-options {:output-feature-set :es6} or whatever language level is appropriate
-:es8 is good if you have bunch of async/await code in libs

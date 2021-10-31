@@ -1,21 +1,18 @@
-(ns reval.notebook-eval-test
+(ns reval.document.notebook-eval-test
   (:require
    [clojure.test :refer :all]
    [reval.persist.protocol :refer [loadr]]
-   [reval.ns-eval :refer [eval-ns]]
-   [reval.default] ;; side effects
-   [reval.config :refer [use-tmp]]))
+   [reval.document.notebook :refer [eval-notebook]]
+   [reval.test-init]))
 
 ; this test relies on the default storage path
 ; defined in reval.config.
 
-(use-tmp)
-
 (deftest notebook-eval-test
-  (eval-ns "demo.notebook.apple")
-  (let [nb (loadr :edn "/tmp/rdocument/demo.notebook.apple/notebook.edn")
+  (eval-notebook "demo.notebook-test.apple")
+  (let [nb (loadr :edn "/tmp/rdocument/demo/notebook_test/apple/notebook.edn")
         segments (:content nb)]
-    (is (= (:ns nb) "demo.notebook.apple"))
+    (is (= (get-in nb [:meta :ns]) "demo.notebook-test.apple"))
     (is (= (count segments) 5))
     (is (= (-> (get segments 0) :hiccup)
            ; (ns ) evaluates to nil.
@@ -28,8 +25,8 @@
            "hello\n"))))
 
 (comment
-  (eval-ns "demo.notebook.apple")
-  (loadr "document/demonotebook.apple/notebook.edn")
+  (eval-notebook "demo.notebook-test.apple")
+  (loadr :edn "demo/rdocument/demo/notebook_test/apple/notebook.edn")
 
 ;  
   )

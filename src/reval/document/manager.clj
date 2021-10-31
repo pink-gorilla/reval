@@ -1,9 +1,10 @@
 (ns reval.document.manager
   (:require
    [taoensso.timbre :refer [debug info warnf error]]
+   [clojure.string :as str]
    [clojure.java.io :as io]
-   ; persister
    [reval.persist.protocol :as p]
+   [reval.document.classpath :refer [ns->dir]]
    [reval.config :refer [storage-root url-root]]))
 
 ; get-filename and get-link may NOT contain the fmt parameter
@@ -18,12 +19,12 @@
 ;; URL side
 
 (defn get-link-ns [ns name]
-  (str (url-root) (str ns) "/" name))
+  (str (url-root) (ns->dir ns) "/" name))
 
 ;; FILE side
 
 (defn get-path-ns [ns]
-  (str (storage-root) (str ns) "/"))
+  (str (storage-root) (ns->dir ns) "/"))
 
 (defn get-filename-ns [ns name]
   (str (get-path-ns ns) name))
@@ -32,6 +33,17 @@
   (when-not (.exists (io/file path))
     (.mkdir (java.io.File. path))))
 
+(defn- ensure-directory-ns [ns]
+  (let [root (storage-root)
+        ns-path (ns->dir ns)
+        dirs (str/split ns-path #"/")
+        ensure (fn [r dir]
+                 (let [edir (str r dir "/")]
+                   (ensure-directory edir)
+                   edir))]
+    (ensure-directory root)
+    (reduce ensure root dirs)))
+
 (defn- add-extension [name format]
   (let [ext (clojure.core/name format)]
     (str name "." ext)))
@@ -39,8 +51,7 @@
 (defn save [data ns name-no-ext format]
   (let [filename (-> (get-filename-ns ns name-no-ext)
                      (add-extension format))]
-    (ensure-directory (storage-root))
-    (ensure-directory (get-path-ns ns))
+    (ensure-directory-ns ns)
     (p/save format filename data)
     data ; usable for threading macros  
     ))
@@ -76,6 +87,8 @@
 
   (get-filename-ns "demo.study3" "bongo.txt")
   (get-link-ns "demo.study3" "bongo.txt")
+
+  (ensure-directory-ns "demo.test-notebook.apple")
 
   (save {:a 1 :b "bongotrott" :c [1 2 3]}  "demo.3" "bongotrott" :edn)
   (save  {:a 1 :b "bongotrott" :c [1 2 3]} "demo.3" "bongotrott-1" :edn)

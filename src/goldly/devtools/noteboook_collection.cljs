@@ -4,14 +4,13 @@
            :clj  ["scratchpad"]
            :snippets  ["scratchpad"]}))
 
-
 (defn collection [notebook-ns-list on-select]
   [:table
    (for [n notebook-ns-list]
      [:tr
       [:a {:href (str "/viewer/notebook/" n)
            :on-click (fn [& args]
-                       (when on-select 
+                       (when on-select
                          (on-select n)))}
        [:td n]]])])
 
@@ -24,7 +23,7 @@
    [collection (get-in @collection-state [:evaluated])]
    [:p "add code here..."]])
 
-(add-page viewer-page :viewer)
+(add-page collection-page :viewer/collection)
 
 ;:resources [["1" :edn]]
 

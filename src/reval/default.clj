@@ -16,4 +16,10 @@
    [reval.persist.unknown]
    [reval.persist.edn]
    [reval.persist.image]
-   [reval.persist.text]))
+   [reval.persist.text]
+
+   [reval.ui]
+   [reval.kernel.protocol]
+
+   ; clj kernel ?
+   ))

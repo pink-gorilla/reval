@@ -15,7 +15,7 @@
 (defn value-type->hiccup [v]
   (try
     (to-hiccup v)
-    (catch Exception e
+    (catch Exception _
       (unknown-view v))))
 
 (defn value->hiccup
@@ -26,6 +26,7 @@
   (if v
     (let [m (meta v)]
       (cond
+        (contains? m :no-hiccup) [:div.no-hiccup]
       ;(contains? m :r) (make :reagent {:hiccup v :map-keywords false})
       ;(contains? m :R) (make :reagent {:hiccup v :map-keywords true})
       ;(contains? m :p/render-as) (make :reagent {:hiccup v :map-keywords true})

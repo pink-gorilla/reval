@@ -1,26 +1,32 @@
 (ns reval.document.notebook
   (:require
    [clojure.string :as str]
+   [clojure.java.io :as io]
    [taoensso.timbre :refer [debug info warnf]]
-   [reval.document.manager :as p]
-   [reval.kernel.clj :refer [clj-eval-sync]]
    [reval.helper.id :refer [guuid]]
    [reval.helper.date :refer [now-str]]
-   [reval.config :as c]
    [reval.type.converter :refer [value->hiccup]]
+   [reval.config :as c] ; this really is the reproduceabe document config
+   [reval.document.manager :as rdm]
+   [reval.document.classpath :refer [ns->dir]]
+   [reval.document.src-parser :refer [text->notebook]]
+   [reval.kernel.clj-eval :refer [clj-eval]]
    [reval.default]  ; side effects to include all default converters
-   [reval.document.src-parser :refer [text->notebook]]))
+   ))
 
 ;; create
 
-(defn find-filename [ns]
-  (-> (str/replace ns #"\." "/")
-      (str ".clj")))
+(defn ns->filename [ns fmt]
+  (let [name (ns->dir ns)]
+    (case fmt
+      :clj (str name ".clj")
+      :cljs (str name ".cljs"))))
 
 (defn load-src [ns]
-  (-> ns
-      find-filename
-      slurp))
+  (->
+   (ns->filename ns :clj)
+   (io/resource)
+   slurp))
 
 (defn src->src-list [src]
   (->>
@@ -31,7 +37,7 @@
 
 (defn src-list->notebook [src-list]
   {:content (->> (map (fn [src]
-                        {:src src}) src-list)
+                        {:code src}) src-list)
                  (into []))})
 
 (defn create-notebook [ns]
@@ -46,14 +52,14 @@
 ;; persistence
 
 (defn load-notebook [ns]
-  (let [nb (p/loadr ns "notebook" :edn)]
+  (let [nb (rdm/loadr ns "notebook" :edn)]
     (if nb
       nb
       (create-notebook ns))))
 
 (defn save-notebook [ns nb]
   (info "saving notebook: " ns)
-  (p/save nb ns "notebook" :edn))
+  (rdm/save nb ns "notebook" :edn))
 
 ; eval
 
@@ -63,24 +69,32 @@
         (assoc :hiccup hiccup)
         (dissoc :value))))
 
-(defn eval-src [ns src]
-  (clj-eval-sync (guuid) src ns))
-
 (defn eval-ns-raw
   "evaluates a clj namespace.
      returns seq of eval-result"
   [ns]
   (let [src (load-src ns)
         src-list (src->src-list src)]
-    (map (partial eval-src ns) src-list)))
+    (map #(clj-eval {:ns ns
+                     :code %})
+         src-list)))
+
+(defn eval-nb-segments [nb ns]
+  (let [nsa (atom ns)
+        segments (:content nb)
+        nb-eval-segment (fn [seg]
+                          (let [er (clj-eval (assoc seg :ns @nsa))]
+                            (reset! nsa (:ns er))
+                            er))]
+     ;(map clj-eval segments)
+    (map nb-eval-segment segments)))
 
 (defn eval-notebook
   ([ns]
    (eval-notebook ns eval-result->hiccup)) ; default converter
   ([ns eval-result-view-fn]
-   (let [prior-ns (-> *ns* str)
-         nb (create-notebook ns)
-         eval-results (map #(eval-src ns %) (:content nb))
+   (let [nb (create-notebook ns)
+         eval-results (eval-nb-segments nb ns)
          content (if eval-result-view-fn
                    (map eval-result-view-fn eval-results) ; use here a better thing.
                    eval-results)
@@ -90,14 +104,16 @@
                 (assoc-in [:meta :java] (-> (System/getProperties) (get "java.version")))
                 (assoc-in [:meta :clojure] (clojure-version)))]
      (save-notebook ns nb)
-     (println "restoring prior ns: " prior-ns)
-     (eval-src "user" (str "(ns " prior-ns ")"))
      nb)))
 
 (comment
 
-  (find-filename "notebook.banana")
-  (-> (load-src "notebook.banana")
+  (ns->filename "demo.notebook-test.banana" :clj)
+
+  (load-src "demo.notebook.image")
+  (load-src "demo.notebook-test.banana")
+
+  (-> (load-src "demo.notebook-test.banana")
       type)
 
   ;;  "(+ 1 1)
@@ -105,7 +121,7 @@
   ;; [1 2 3]
   ;; {:a 3}"
 
-  (-> "demo.notebook.banana"
+  (-> "demo.notebook-test.banana"
       load-src
       src->src-list)
 
@@ -114,16 +130,18 @@
   ;;  "[1 2 3]"
   ;;  "{:a 3}"]
 
-  (eval-src "bongo" "(+ 4 4)")
+  (clj-eval {:code "(+ 4 4)"})
+  (clj-eval {:code "(+ 4 4)" :ns "bongo"})
+
   ;; {:src "(+ 4 4)", 
   ;;  :result 8       note: result has not been processed in any way. result is a single eval result. 
   ;;  :out "", 
   ;;  :id :87929fe8-4003-4c25-9df4-512391857d07 }
 
-  (create-notebook "demo.notebook.apple")
-  (eval-notebook "demo.notebook.apple")
+  (create-notebook "demo.notebook-test.apple")
+  (eval-notebook "demo.notebook-test.apple")
 
-  (eval-ns "notebook.image")
+  (eval-notebook "demo.notebook.image")
 
 ;
   )

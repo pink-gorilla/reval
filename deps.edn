@@ -13,6 +13,7 @@
   com.lucasbradstreet/cljs-uuid-utils {:mvn/version "1.0.2"} ; uuid - clojurescript
   fipp/fipp {:mvn/version "0.6.24"} ; edn pretty printing
   resauce/resauce {:mvn/version  "0.2.0"} ; jar resources
+  ;com.cemerick/url {:mvn/version "0.1.1"}
   hawk/hawk {:mvn/version "0.2.11"} ; file watcher  ;:exclusions [[net.java.dev.jna/jna]] ; this breaks tech.ml.dataset and libpythonclj
   rewrite-clj/rewrite-clj {:mvn/version "1.0.644-alpha"}}
 
@@ -51,7 +52,7 @@
    :extra-deps {com.workframe/garamond {:mvn/version "0.4.0"}}}
 
   :test
-  {:extra-paths ["test"]
+  {:extra-paths ["test" "demo"]
    :extra-deps {io.github.cognitect-labs/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner.git"
                  :sha "dd6da11611eeb87f08780a30ac8ea6012d4c05ce"}}
@@ -78,7 +79,9 @@
 
   :goldlyb
   {:extra-paths ["demo"] ; to show static files (not auto generated ones)
-   :extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"}}
+   :extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"
+                                               :exclusions [org.pinkgorilla/ui-site]}
+                org.pinkgorilla/ui-site {:mvn/version "0.0.12"}}
    :exec-fn goldly-server.app/goldly-server-run!
    :exec-args {:profile "jetty"
                :config "demo/goldly-reval.edn"}}

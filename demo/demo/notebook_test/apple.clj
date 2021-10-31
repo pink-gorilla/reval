@@ -1,4 +1,4 @@
-(ns notebook.apple)
+(ns demo.notebook-test.apple)
 
 (+ 1 1)
 

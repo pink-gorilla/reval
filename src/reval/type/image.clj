@@ -1,12 +1,11 @@
 (ns reval.type.image
   "Render BufferedImage objects"
-
   (:require
    [clojure.java.io :as io]
    [clojure.data.codec.base64 :as b64]
    [clojure.string :as string]
    [reval.type.protocol :refer [hiccup-convertable to-hiccup]]
-   [reval.document.manager :refer [get-filename-ns get-link-ns]]
+   [reval.document.manager :as rdm]
    [reval.helper.id :refer [guuid-str]])
   (:import
    [java.awt Image]
@@ -51,12 +50,10 @@
 (defrecord img-record [image alt type width height]
   hiccup-convertable
   (to-hiccup [{:keys [^BufferedImage image alt type width height]}]
-    (let [b64-img (String. (b64/encode (image-to-bytes image type width height)))
-          name (str (guuid-str) "." type)
-          file-name (get-filename-ns *ns* name)
-          src (get-link-ns *ns* name)]
-      (println "saving: " file-name)
-      (ImageIO/write image type ^java.io.File (io/file file-name))
+    (let [name-no-ext (guuid-str)
+          name (str  "." type)
+          src (rdm/get-link-ns *ns* name)]
+      (rdm/save image *ns* name-no-ext :png)
       [:img {:src src
              :width width
              :height height

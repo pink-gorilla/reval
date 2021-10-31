@@ -19,8 +19,8 @@
     (into [k] args)))
 
 (comment
-  (-> (make-cljs-hiccup-fn :eval-result)
-      (3))
+  (let  [eval-result (make-cljs-hiccup-fn :eval-result)]
+    (eval-result 3))
 
 ;
   )

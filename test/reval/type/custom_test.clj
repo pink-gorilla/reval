@@ -1,7 +1,8 @@
 (ns reval.type.custom-test
   (:require
    [clojure.test :refer :all]
-   [reval.type.protocol :refer [to-hiccup hiccup-convertable]]))
+   [reval.type.protocol :refer [to-hiccup hiccup-convertable]]
+   [reval.test-init]))
 
 ;; REIFY DUMMY
 

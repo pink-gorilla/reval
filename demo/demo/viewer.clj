@@ -4,7 +4,7 @@
    [taoensso.timbre :refer [debug info warnf]]
    [reval.document.persist :as p]
    [reval.notebook.src-parser :refer [text->notebook]]
-   [reval.kernel.clj :refer [clj-eval-sync]]
+   [reval.kernel.clj-eval :refer [clj-eval-sync]]
    [reval.config :as c]
    [reval.helper.id :refer [guuid]]))
 

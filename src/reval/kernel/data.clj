@@ -1,10 +1,5 @@
-(ns reval.kernel.clj
-  (:require
-   [clojure.core :refer [read-string load-string]]
-   [clojure.core.async :refer [>! chan close! go <! <!!]]
-   [taoensso.timbre :as timbre :refer [debugf info error]]
-   [reval.helper.id :refer [guuid]]
-   [reval.kernel.protocol :refer [kernel-eval]]))
+
+
 
 #_(def ex-msg
     {:session "7362f58e-b613-46f8-853c-efcd8b61a590"
@@ -17,12 +12,6 @@
      :status #{:eval-error}
      :ex "class clojure.lang.Compiler$CompilerException"
      :root-ex "class clojure.lang.Compiler$CompilerException"})
-
-#_(def value-msg
-    {:session "7362f58e-b613-46f8-853c-efcd8b61a590"
-     :id "d5d598e3-ec20-4bf1-b6b9-af6329ac58c1"
-     :ns "dynalloc.chevvy"
-     :value "\"{:value-response {:type :html, :content [:span {:class \\\"clj-nil\\\"} \\\"nil\\\"], :value \\\"nil\\\"}}\""})
 
 #_(def stacktrace-msg
     {:id "b1a8e582-57ba-4cdc-a17b-5a608776bedc"
@@ -47,69 +36,3 @@
        {:name "clojure.lang.AFn/run", :file "AFn.java", :line 22, :class "clojure.lang.AFn", :method "run", :type :java, :flags #{:java}, :file-url nil} {:fn "session-exec/main-loop/fn", :method "invoke", :ns "nrepl.middleware.session", :name "nrepl.middleware.session$session_exec$main_loop__24465$fn__24469/invoke", :file "session.clj", :type :clj, :file-url "jar:file:/home/andreas/.m2/repository/nrepl/nrepl/0.6.0/nrepl-0.6.0.jar!/nrepl/middleware/session.clj", :line 171, :var "nrepl.middleware.session/session-exec", :class "nrepl.middleware.session$session_exec$main_loop__24465$fn__24469", :flags #{:tooling :clj}}
        {:fn "session-exec/main-loop", :method "invoke", :ns "nrepl.middleware.session", :name "nrepl.middleware.session$session_exec$main_loop__24465/invoke", :file "session.clj", :type :clj, :file-url "jar:file:/home/andreas/.m2/repository/nrepl/nrepl/0.6.0/nrepl-0.6.0.jar!/nrepl/middleware/session.clj", :line 170, :var "nrepl.middleware.session/session-exec", :class "nrepl.middleware.session$session_exec$main_loop__24465", :flags #{:tooling :clj}}
        {:name "clojure.lang.AFn/run", :file "AFn.java", :line 22, :class "clojure.lang.AFn", :method "run", :type :java, :flags #{:java}, :file-url nil} {:name "java.lang.Thread/run", :file "Thread.java", :line 748, :class "java.lang.Thread", :method "run", :type :java, :flags #{:java}, :file-url nil})})
-
-(defmacro with-out-str-data-map
-  [& body]
-  `(let [s# (new java.io.StringWriter)]
-     (binding [*out* s#]
-       (let [r# ~@body]
-         {:value r#
-          :out    (str s#)}))))
-
-; (-> (load-string "*ns*") str symbol) 
-(defn clj-eval-sync [id code ns]
-  (let [ns-s (if (string? ns)
-               (symbol ns)
-               ns)
-        code-with-ns (str "(ns " ns-s " )\n" code "\n ")
-        m {:src code
-           :id id}]
-    (try
-      (let [eval-result  (with-out-str-data-map (load-string code-with-ns))]
-        (merge m eval-result))
-      (catch Exception e
-        (merge m {:err e})))))  ; nrepl compatible!
-
-(comment
-  (-> *ns* class)
-  (-> *ns* type)
-  (in-ns 'bongo)
-  (clj-eval-sync 3 "(println 3) (+ 3 4)" "bongo")
-
- ; 
-  )
-
-(defmethod kernel-eval :clj [{:keys [id code ns]
-                              :or {id (guuid)
-                                   ns "user"}}]
-  ; no logging in here. 
-  ; when capturing eval result, it is not a good idea.
-  (let [c (chan)]
-    (go
-      (>! c (clj-eval-sync id code ns))
-      (close! c))
-    c))
-
-;(defn eval-sync-clj [code]
-; (let [c (kernel-eval {:id (guuid) :code code :kernel :clj})]
-;   (<!! c)))
-
-(comment
-
-  (clj-eval-sync 1 "(+ 3 4)\n5\n{:a 3}888" "bongo")
-
-  (read-string "(+ 1 2) (- 3 2)") ; reads next expression from string
-
-  (load-string "(ns bongo)")
-  (load-string "*ns*")
-
-  (clj-eval-sync 4 "(ns bongo (:require [reval.config :as c]))" "bongo")
-  (clj-eval-sync 4 "(ns bongo (:require [reval.config :as c]))" "bongo")
-  (clj-eval-sync 4 "(c/use-project)" "bongo")
-  (clj-eval-sync 4 "*ns*" "bongo")
-
-  (let [c (kernel-eval {:id 4 :code "(ns bongo) (+ 5 5)" :kernel :clj})]
-    (<!! c))
-
-; 
-  )
