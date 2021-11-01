@@ -43,8 +43,8 @@
 (defn scratchpad-page [{:keys [route-params query-params handler] :as route}]
   ;[:div.bg-green-300.w-screen.h-screen.overflow-scroll
   [site/main-with-header
-      [devtools-menu] 30
-      [scratchpad]])
+   [devtools-menu] 30
+   [scratchpad]])
 
 (add-page scratchpad-page :scratchpad)
 

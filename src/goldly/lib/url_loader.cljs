@@ -7,18 +7,18 @@
 (defn load-url [fmt url a arg-fetch]
   (let [comparator? (or url arg-fetch)
         comparator [url arg-fetch]]
-  (if comparator?
-    (when (not (= comparator (:comparator @a)))
-      (info (str "loading:  " comparator))
-      (swap! a assoc :comparator comparator)
-      (case fmt
-        :txt (http/get-str url a [:data])
-        :edn (http/get-edn url a [:data])
-        :clj (if arg-fetch 
-               (run-a a [:data] url arg-fetch)
-               (run-a a [:data] url)))
-      nil)
-    (swap! a assoc :data nil))))
+    (if comparator?
+      (when (not (= comparator (:comparator @a)))
+        (info (str "loading:  " comparator))
+        (swap! a assoc :comparator comparator)
+        (case fmt
+          :txt (http/get-str url a [:data])
+          :edn (http/get-edn url a [:data])
+          :clj (if arg-fetch
+                 (run-a a [:data] url arg-fetch)
+                 (run-a a [:data] url)))
+        nil)
+      (swap! a assoc :data nil))))
 
 ; run-a is not yet perfect. It is difficult to pass args as aparameter
 ; (run-a state [:version] :goldly/version "goldly")

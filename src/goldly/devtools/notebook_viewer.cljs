@@ -44,7 +44,6 @@
   [:p
    [link-dispatch [:bidi/goto :viewer :query-params {:ns ns}] ns]])
 
-
 (defn nb-list [[name list]]
   (into
    [:div
@@ -58,7 +57,6 @@
    [:div.flex.flex-col.items-stretch.h-full.bg-gray-50.w-full]
    (map #(nb-list %) d)))
 
-
 (pinkie/register-tag :p/notebookcollection notebook-collection)
 
 ;; APP
@@ -69,7 +67,6 @@
    [{:code "(println \"Welcome to Goldly Notebook Viewer \")"
      :hiccup [:h1.text-blue-800 "Welcome to Notebook Viewer!"]
      :out "Welcome to Goldly Notebook Viewer"}]})
-
 
 (defn viewer-debug [query-params]
   [:div.bg-gray-500.pt-10.hoover-bg-blue-300
@@ -89,10 +86,10 @@
       [:div
        (if-let [ns (:ns query-params)]
          [url-loader #_{:fmt :edn
-                      :url  (rdoc-link ns "notebook.edn")}
-                     {:fmt :clj
-                      :url :nb/load
-                      :arg-fetch ns}
+                        :url  (rdoc-link ns "notebook.edn")}
+          {:fmt :clj
+           :url :nb/load
+           :arg-fetch ns}
           notebook]
          [notebook nb-welcome])
        (when show-viewer-debug-ui

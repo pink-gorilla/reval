@@ -8,7 +8,6 @@
    [link-dispatch [:bidi/goto :devtools] "devtools help"]
    [link/href "/goldly/about" "goldly developer tools (OLD)"]])
 
-
 (def header
   [{:brand "Your Application"
     :brand-link "/"

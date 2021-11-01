@@ -70,9 +70,7 @@
   (let [filename (-> (get-filename-ns ns name-no-ext)
                      (add-extension format))]
     (when (.exists (io/as-file filename))
-       (p/loadr format filename)  
-      )
-    ))
+      (p/loadr format filename))))
 
 ;; explore
 

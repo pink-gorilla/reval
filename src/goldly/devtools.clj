@@ -14,16 +14,13 @@
 ; localhost:9100
 (spit ".nrepl-port" "9100") ; todo - add this to goldly!
 
-
 (defn nb-collections []
   (let [devtools (get-in-config [:devtools])
-        devtools (if devtools 
+        devtools (if devtools
                    devtools
-                     (do (warn "no :devtools key in goldly-config. using default deftools settings")
-                         {:demo [:clj "demo/notebook/"]})
-                     )]
-  (c/get-collections devtools)))
-
+                   (do (warn "no :devtools key in goldly-config. using default deftools settings")
+                       {:demo [:clj "demo/notebook/"]}))]
+    (c/get-collections devtools)))
 
 (s/add {:nb/collections nb-collections
         :nb/load  load-notebook

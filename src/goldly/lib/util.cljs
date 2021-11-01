@@ -10,12 +10,8 @@
   [:a.bg-blue-600.cursor-pointer.hover:bg-red-700.m-1
    {:href href} text])
 
-
 (defn rdoc-link [ns name]
-  (str "/api/rdocument/file/" ns "/" name))  
-
-
-
+  (str "/api/rdocument/file/" ns "/" name))
 
 (defn print-result [t]
   (fn [r]

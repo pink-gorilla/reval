@@ -145,7 +145,5 @@
 
   (load-notebook "user.notebook.banana")
 
-
-
 ;
   )

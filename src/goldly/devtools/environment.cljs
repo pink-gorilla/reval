@@ -45,7 +45,6 @@
                  :url :goldly/services}
      (partial keyword-list "services")]]])
 
-
 (defn environment-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
    [environment]])
