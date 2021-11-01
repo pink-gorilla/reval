@@ -143,5 +143,9 @@
 
   (eval-notebook "demo.notebook.image")
 
+  (load-notebook "user.notebook.banana")
+
+
+
 ;
   )

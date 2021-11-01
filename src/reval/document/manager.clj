@@ -69,7 +69,10 @@
 (defn loadr [ns name-no-ext format]
   (let [filename (-> (get-filename-ns ns name-no-ext)
                      (add-extension format))]
-    (p/loadr format filename)))
+    (when (.exists (io/as-file filename))
+       (p/loadr format filename)  
+      )
+    ))
 
 ;; explore
 
@@ -134,7 +137,7 @@
   (-> (loadr "demo.3" "bongotrott-2" :edn)
       :c)
 
-  (loadr "demo.studies.asset-allocation-dynamic" "2" :text)
+  (loadr "demo.studies.asset-allocation-dynamic" "2" :txt)
   (loadr "demo.studies.asset-allocation-dynamic" "ds2" :bad-format-5)
   (loadr "demo.studies.asset-allocation-dynamic" "ds-777" :nippy)
   (loadr "demo.studies.asset-allocation-dynamic" "ds2" :arrow)

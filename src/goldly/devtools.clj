@@ -5,7 +5,7 @@
    [goldly.service.core :as s]
    [goldly.document-handler] ; side effect
    [reval.document.collection :as c]
-   [reval.document.notebook :refer [load-notebook eval-notebook]]
+   [reval.document.notebook :refer [load-notebook eval-notebook save-notebook]]
    [reval.default] ; side effects
    ))
 

@@ -88,9 +88,11 @@
        notebook-collection]
       [:div
        (if-let [ns (:ns query-params)]
-         [url-loader {:fmt :edn
-                      :url  (rdoc-link ns "notebook.edn") ;  (str "/api/rdocument/file/" ns "/notebook.edn")
-                      }
+         [url-loader #_{:fmt :edn
+                      :url  (rdoc-link ns "notebook.edn")}
+                     {:fmt :clj
+                      :url :nb/load
+                      :arg-fetch ns}
           notebook]
          [notebook nb-welcome])
        (when show-viewer-debug-ui

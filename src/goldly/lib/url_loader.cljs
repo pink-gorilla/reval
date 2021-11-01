@@ -1,4 +1,4 @@
-(def show-loader-debug-ui true)
+(def show-loader-debug-ui false)
 
 ; (get-edn "/r/repl/bongo.edn" state [:data])
 

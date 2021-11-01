@@ -21,7 +21,7 @@
    [:h2.text-2xl.text-blue-700.bg-blue-300 name]
    (into [:div.grid.grid-cols-4]
          (map kw-item (sort list)))])
- 
+
 ;[:h2.text-2xl.text-blue-700.bg-blue-300 "pinkie renderer - lazy"]
 ;(into [:p] (map p (sort (lazy/available))))
 
@@ -33,19 +33,18 @@
   [:div (pr-str d)])
 
 (defn environment []
-    [site/main-with-header
-     [devtools-menu] 30
-     [:div
-        [keyword-list "hiccup-fh (functional hiccup list) " (pinkie/tags)]
-        [keyword-list "pages" (page/available)]
-        #_ [url-loader {:fmt :clj
-                     :url :extension/summary}
-           show-extensions ]
-        [url-loader {:fmt :clj
-                     :url :goldly/services}
-           (partial keyword-list "services")]
-      ]])
- 
+  [site/main-with-header
+   [devtools-menu] 30
+   [:div
+    [keyword-list "hiccup-fh (functional hiccup list) " (pinkie/tags)]
+    [keyword-list "pages" (page/available)]
+    #_[url-loader {:fmt :clj
+                   :url :extension/summary}
+       show-extensions]
+    [url-loader {:fmt :clj
+                 :url :goldly/services}
+     (partial keyword-list "services")]]])
+
 
 (defn environment-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
