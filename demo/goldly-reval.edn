@@ -21,8 +21,10 @@
                           "src/goldly/lib"
                           "src/goldly/devtools"]
           :routes {:app {"" :devtools
-                         "goldly/scratchpad" :scratchpad
-                         "goldly/viewer" :viewer}
+                         "devtools/scratchpad" :scratchpad
+                         "devtools/viewer" :viewer
+                         "devtools/environment" :environment
+                         }
                    :api {"rdocument/ns" :rdocument/ns
                          "rdocument/files" :rdocument/files
                          ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
@@ -31,7 +33,12 @@
                     demo.init ; setup paths
                     ;demo.env.services
                     ;demo.env.picasso ; for techml rendering (no need to require namespace)
-                    ;ta.notebook.handler
                     systems.snippet-registry  ; if you want snippet browser started
-                    systems.snippet-scratchpad
-                    ]}}
+                    systems.snippet-scratchpad]}
+
+ ; devtools is used by reval
+ :devtools {:user [:clj "user/notebook/"]
+            :demo [:clj "demo/notebook/"]}
+ 
+ ;
+ }

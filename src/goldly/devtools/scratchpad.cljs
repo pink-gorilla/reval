@@ -1,6 +1,7 @@
 (def empty-scratchpad-hiccup
   [:div ;.bg-blue-500.h-24.pt-3
-   [:h1.text-xxl "your scratchpad is empty!"]
+   [:blockquote.text-xl.italic.ml-10.text-red-600 "Scratchpad is the new REPL!"]
+   [:h1.text-xl "your scratchpad is empty!"]
    [:p.mb-3 "you can send hiccup to the browser"]
    [code "(goldly.scratchpad/show! [:p \"hello \"])"]])
 
@@ -37,12 +38,18 @@
    [:hr.mt-5]
    ; hiccup (source)
    [:p.text-xl.text-blue-500.mt-3.mb-3 "hiccup"]
-   [:p "asdf"]
-   [:div.bg-gray-300.overflow-scroll (pr-str @scratchpad-hiccup-raw)]])
+   [:div.bg-gray-300.overflow-scroll.w-full (pr-str @scratchpad-hiccup-raw)]])
 
 (defn scratchpad-page [{:keys [route-params query-params handler] :as route}]
-  [:div.bg-green-300.w-screen.h-screen.overflow-scroll
-   [scratchpad]])
+  ;[:div.bg-green-300.w-screen.h-screen.overflow-scroll
+  ; [scratchpad]]
+  
+  [site/main-with-header
+     ;[:div "header"] 30
+      [devtools-menu] 30
+      [scratchpad]]
+  
+  )
 
 (add-page scratchpad-page :scratchpad)
 

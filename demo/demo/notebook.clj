@@ -5,19 +5,19 @@
    [demo.init] ; side effects
    ))
 
-(eval-notebook "demo.notebook.hello")
+(eval-notebook "user.notebook.hello")
 
 
 
-(-> (eval-notebook "demo.notebook.hello")
+(-> (eval-notebook "user.notebook.hello")
     :content
     count)
 
-(->> (eval-notebook "demo.notebook.hello")
+(->> (eval-notebook "user.notebook.hello")
      (show-as :p/notebook))
 
 ; demo.notebook.image is part of the reval demo notebooks
-(->> (eval-notebook "demo.notebook.image")
+(->> (eval-notebook "user.notebook.image")
      (show-as :p/notebook))
 
 

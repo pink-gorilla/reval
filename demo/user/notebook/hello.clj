@@ -1,4 +1,4 @@
-(ns demo.notebook.hello
+(ns user.notebook.hello
   (:require
    [clojure.pprint :refer [print-table]]))
 

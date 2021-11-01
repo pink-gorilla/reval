@@ -1,5 +1,14 @@
 
 
+(defn devtools-menu []
+  [:div
+   [link-dispatch [:bidi/goto :viewer :query-params {}] "notebook viewer"]
+   [link-dispatch [:bidi/goto :scratchpad] "scratchpad"]
+   [link-dispatch [:bidi/goto :environment] "environment"]
+   [link-dispatch [:bidi/goto :devtools] "devtools help"]
+   [link/href "/goldly/about" "goldly developer tools (OLD)"]])
+
+
 (def header
   [{:brand "Your Application"
     :brand-link "/"

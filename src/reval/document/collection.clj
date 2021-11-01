@@ -74,6 +74,10 @@
    {:demo [:clj "demo/notebook/"]
     :user [:clj "demo/notebook_test/"]})
  
+  (get-collections
+  {:user [:clj "user/notebook/"]
+   :demo [:clj "demo/notebook/"]})
+   
   
 
 ;
