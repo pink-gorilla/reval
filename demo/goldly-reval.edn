@@ -32,7 +32,6 @@
           :systems [goldly.devtools
                     demo.init ; setup paths
                     ;demo.env.services
-                    ;demo.env.picasso ; for techml rendering (no need to require namespace)
                     systems.snippet-registry  ; if you want snippet browser started
                     systems.snippet-scratchpad]}
 
