@@ -12,6 +12,10 @@
 - Open the repo in your preferred ide. Connect to nrepl on port 8000.
 - demo/demo/scratchpad.clj or Eval demo/demo/notebook.clj 
 
+## scratchpad
+- you can send vizualisations of your clj expressions to the scratchpad 
+- `->scratchpad` sends the vizualisation to the browser.
+
 ## Use it in your project
 - add a dependency to pinkgorilla/goldlyb.
 - create a goldly config similar to `demo/goldly-reval.edn`
@@ -58,7 +62,7 @@ By default storage root is "/tmp/rdocument/".
      rdocument/demo/notebook/banana/67770344-1424-4803-a9aa-01e21cb4ce39.png
 
   ``` 
-## why notebook ?
+## why use a notebook ?
 - clj cannot be evaled in the browser
 - eval takes time
 - eval might need extra dependencies or data 
@@ -66,9 +70,7 @@ By default storage root is "/tmp/rdocument/".
 - documentation
 - examples
 
-## scratchpad
-- you can send vizualisations of your clj expressions to the scratchpad 
-- `->scratchpad` sends the vizualisation to the browser.
+
 
 
 
