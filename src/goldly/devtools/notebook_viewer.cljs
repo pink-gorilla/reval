@@ -40,18 +40,23 @@
 
 ;; COLLECTION UI
 
-(defn nb-chooser [goto-nb nb-name]
-  ;[link-dispatch [:bidi/goto :goldly/system :system-id :snippet-registry] "snippets (alt-g s)"]
-  [:span.m-1.border.p-1
-   {:on-click #(goto-nb nb-name)}
-   nb-name])
+(defn nb-item [ns]
+  [:p 
+   [link-dispatch [:bidi/goto :viewer :query-params {:ns ns}] ns]])
+
+
+(defn nb-list [[name list]]
+  (into 
+    [:div
+     [:p.bg-red-300 name]
+     [:p (pr-str list)]]
+    (map nb-item list)))
 
 (defn notebook-collection [d]
   (into
-   [:div
-    [:p (pr-str d)]]
-   ;(map #(nb-chooser goto-nb %) [])
-   [:div]))
+   [:div.flex.flex-col.items-stretch.h-full.bg-gray-50.w-full]
+    (map #(nb-list %) d)))
+
 
 (pinkie/register-tag :p/notebookcollection notebook-collection)
 
