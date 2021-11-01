@@ -1,20 +1,6 @@
-(def welcome-notebook
-  {:meta {:ns "goldly.welcome"}
-   :content
-   [{:src "(println \"Welcome to Goldly Notebook Viewer \")"
-     :hiccup [:h1.text-blue-800 "Welcome to Notebook Viewer!"]
-     :out "Welcome to Goldly Notebook Viewer"}]})
+;; NOTEBOOK UI
 
-(def empty-viewer-state
-  {:notebooks {:welcome welcome-notebook}
-   :current :welcome})
-
-(defonce viewer-state
-  (r/atom empty-viewer-state)) ; start empty.
-
-;; view
-
-(def show-viewer-debug-ui false) ; true for debugging
+(def show-viewer-debug-ui true) ; true for debugging
 
 (defn segment-debug [segment]
   [:div.bg-gray-500
@@ -52,48 +38,87 @@
 
 (pinkie/register-tag :p/notebook notebook)
 
+;; COLLECTION UI
+
+(defn nb-chooser [goto-nb nb-name]
+  ;[link-dispatch [:bidi/goto :goldly/system :system-id :snippet-registry] "snippets (alt-g s)"]
+  [:span.m-1.border.p-1
+   {:on-click #(goto-nb nb-name)}
+   nb-name])
+
+(defn notebook-collection [d]
+  (into
+   [:div
+    [:p (pr-str d)]]
+   ;(map #(nb-chooser goto-nb %) [])
+   [:div]))
+
+(pinkie/register-tag :p/notebookcollection notebook-collection)
+
 ;; DATA
+
+(def empty-viewer-state
+  {:collections {}
+   :notebook nil})
+
+(defonce viewer-state
+  (r/atom empty-viewer-state)) ; start empty.
 
 (defn url-nb [ns]
   (str "http://localhost:8000/api/rdocument/file/" ns "/notebook.edn"))
 
-#_(defn get-notebooks-once []
-    (when (empty? (get-in @viewer-state [:notebooks :data]))
-      (get-edn "/api/notebook/ns" viewer-state [:notebooks])))
+(defn goto-nb [ns]
+  ;(swap! viewer-state assoc :current ns)
+  )
 
-;; COLLECTION
 
-(defn nb-chooser [nb-name]
-  [:span.m-1.border.p-1
-   {:on-click #(swap! viewer-state assoc :current nb-name)}
-   nb-name])
-
-(defn notebook-list [notebook-names]
-  (into
-   [:div]
-   (map nb-chooser notebook-names)))
 
 ;; APP
 
-(defn viewer-debug []
+
+
+(def nb-welcome
+  {:meta {:ns "goldly.welcome"}
+   :content
+   [{:code "(println \"Welcome to Goldly Notebook Viewer \")"
+     :hiccup [:h1.text-blue-800 "Welcome to Notebook Viewer!"]
+     :out "Welcome to Goldly Notebook Viewer"}]})
+
+
+; (let [{:keys [current notebooks]} @viewer-state
+;          nb (get notebooks current)
+;          notebook-names (-> @viewer-state :notebooks keys)]
+
+;  [notebook-list notebook-names]
+
+(defn viewer-debug [query-params]
   [:div.bg-gray-500.pt-10.hoover-bg-blue-300
    [:p.font-bold "viewer debug ui"]
+   [:p "query params:"]
+   [:p (pr-str query-params)]
+   [:p "ns: " (:ns query-params)]
    [:p "viewer state:"]
    [:p (-> @viewer-state pr-str)]])
 
-(defn viewer []
-  (fn []
-    (let [{:keys [current notebooks]} @viewer-state
-          nb (get notebooks current)
-          notebook-names (-> @viewer-state :notebooks keys)]
+(defn viewer [query-params]
+  (fn [query-params]
+    [site/main-with-header
+     [:div "header"] 30
+     [site/sidebar-layout
+      [url-loader {:fmt :clj
+                   :url :nb/collections}
+       notebook-collection []]
       [:div
-       [notebook-list notebook-names]
-       [notebook nb]
+       (if-let [ns (:ns query-params)]
+         [url-loader {:fmt :edn
+                      :url (str "/api/rdocument/file/" ns "/notebook.edn")}
+          notebook []]
+         [notebook nb-welcome])
        (when show-viewer-debug-ui
-         [viewer-debug])])))
+         [viewer-debug query-params])]]]))
 
 (defn viewer-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
-   [viewer]])
+   [viewer query-params]])
 
 (add-page viewer-page :viewer)
