@@ -11,4 +11,6 @@
   [:div.p-4
    ;test if text2 works
    ;[text2 {:class "bg-blue-300 text-red-500"} "asdf\nasdf\n"]
-   [url-loader url text-data args]])
+   [url-loader {:url url 
+                :args args}
+     text-data ]])

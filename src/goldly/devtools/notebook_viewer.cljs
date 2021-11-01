@@ -85,13 +85,13 @@
      [site/sidebar-layout
       [url-loader {:fmt :clj
                    :url :nb/collections}
-       notebook-collection []]
+       notebook-collection]
       [:div
        (if-let [ns (:ns query-params)]
          [url-loader {:fmt :edn
                       :url  (rdoc-link ns "notebook.edn") ;  (str "/api/rdocument/file/" ns "/notebook.edn")
                       }
-          notebook []]
+          notebook]
          [notebook nb-welcome])
        (when show-viewer-debug-ui
          [viewer-debug query-params])]]]))

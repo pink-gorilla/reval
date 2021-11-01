@@ -1,43 +1,52 @@
-(def show-loader-debug-ui false)
+(def show-loader-debug-ui true)
 
 ; (get-edn "/r/repl/bongo.edn" state [:data])
 
 ;http://localhost:8000/api/viewer/file/demo.playground.cljplot/1.txt
 
-(defn load-url [fmt url a]
-  (if url
-    (when (not (= url (:url @a)))
-      (info (str "load-url: " url))
-      (swap! a assoc :url url)
+(defn load-url [fmt url a arg-fetch]
+  (let [comparator? (or url arg-fetch)
+        comparator [url arg-fetch]]
+  (if comparator?
+    (when (not (= comparator (:comparator @a)))
+      (info (str "loading:  " comparator))
+      (swap! a assoc :comparator comparator)
       (case fmt
         :txt (http/get-str url a [:data])
         :edn (http/get-edn url a [:data])
-        :clj (run-a a [:data] url))
+        :clj (if arg-fetch 
+               (run-a a [:data] url arg-fetch)
+               (run-a a [:data] url)))
       nil)
-    (swap! a assoc :data nil)))
+    (swap! a assoc :data nil))))
 
-(defn debug-loader [url data args]
+; run-a is not yet perfect. It is difficult to pass args as aparameter
+; (run-a state [:version] :goldly/version "goldly")
+
+(defn debug-loader [url data args-render]
   [:div.bg-gray-500.mt-5
    [:p.font-bold "loader debug ui"]
    [:p "url: " url]
-   [:p "args: " (pr-str args)]
+   [:p "args-render: " (pr-str args-render)]
    [:p "data: " data]])
 
-(defn url-loader [{:keys [url fmt]
-                   :or {fmt :txt}}
-                  fun args]
+(defn url-loader [{:keys [url fmt arg-fetch args-render]}
+                  fun]
   (let [a (r/atom {:data nil
-                   :url nil})]
-    (fn [{:keys [url fmt]
-          :or {fmt :txt}}
-         fun args]
-      (load-url fmt url a)
+                   :url nil
+                   :arg-fetch nil})]
+    (fn [{:keys [url fmt arg-fetch args-render]
+          :or {fmt :txt
+               arg-fetch nil
+               args-render []}}
+         fun]
+      (load-url fmt url a arg-fetch)
       (if-let [d (:data @a)]
         [:div
          [error-boundary
-          (if (empty? args)
+          (if (empty? args-render)
             (fun d)
-            (apply fun d args))]
+            (apply fun d args-render))]
          (when show-loader-debug-ui
-           [debug-loader url d args])]
+           [debug-loader url d args-render])]
         [:div "loading: " url]))))

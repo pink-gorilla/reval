@@ -29,7 +29,7 @@
 
 ;(run-a state [:services] :goldly/services)
 
-(defn show-extensions [d]
+(defn show-extensions [& d]
   [:div (pr-str d)])
 
 (defn environment []
@@ -38,14 +38,12 @@
      [:div
         [keyword-list "hiccup-fh (functional hiccup list) " (pinkie/tags)]
         [keyword-list "pages" (page/available)]
-        #_[url-loader {:fmt :clj
+        #_ [url-loader {:fmt :clj
                      :url :extension/summary}
-           show-extensions []]
+           show-extensions ]
         [url-loader {:fmt :clj
                      :url :goldly/services}
-           ;show-extensions []
-           (partial keyword-list "services") []
-         ]
+           (partial keyword-list "services")]
       ]])
  
 
