@@ -9,3 +9,7 @@
 (defn add3 [v]
   (+ 3 v))
 
+; this is an error:
+; hello should be a string
+
+(println hello)
