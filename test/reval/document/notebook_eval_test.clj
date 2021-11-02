@@ -14,7 +14,7 @@
         ;;(loadr :edn "/tmp/rdocument/test/notebook/apple/notebook.edn")
         segments (:content nb)]
     (is (= (get-in nb [:meta :ns]) "test.notebook.apple"))
-    (is (= (count segments) 5))
+    (is (= (count segments) 6))
     (is (= (-> (get segments 0) :hiccup)
            ; (ns ) evaluates to nil.
            [:div.p-2.clj-nil [:p "nil"]]))
