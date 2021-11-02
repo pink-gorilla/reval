@@ -8,7 +8,7 @@
 
 ## DEMO - Get Started
 - clone this repo
-- Run `clj -X:goldlyb`. Open Browser on Port 8000
+- Run `clj -X:goldly-docs`. Open Browser on Port 8000
 - Open the repo in your preferred ide. Connect to nrepl on port 8000.
 - demo/demo/scratchpad.clj or Eval demo/demo/notebook.clj 
 
@@ -17,22 +17,31 @@
 - `->scratchpad` sends the vizualisation to the browser.
 
 ## Use it in your project
-- add a dependency to pinkgorilla/goldlyb.
+- add a dependency to pinkgorilla/goldly-docs.
 - create a goldly config similar to `demo/goldly-reval.edn`
-- Add this to your deps.edn
+- Add this *alias* to your deps.edn
+
 ```
- :goldlyb
+ :goldly-docs
   {:extra-paths ["demo" "test"] ; to show static files (not auto generated ones)
-   :extra-deps {org.pinkgorilla/goldly-bundel {:mvn/version "0.3.45"
-                                               :exclusions [org.pinkgorilla/ui-site]}
-                org.pinkgorilla/ui-site {:mvn/version "0.0.12"}}
+   :extra-deps {org.pinkgorilla/goldly-docs {:mvn/version "RELEASE"}}
    :exec-fn goldly-server.app/goldly-server-run!
    :exec-args {:profile "jetty"
                :config "demo/goldly-reval.edn"}}
 ```
-- Now you can use your custom project in the same way as before, but get vizualisations.
+
+Now you can use your custom project in the same way as before, but get vizualisations.
 
 ## configuration
+
+The devtools config we use (in goldly-docs)
+
+```
+:devtools {:rdocument  {:storage-root "demo/rdocument/"
+                         :url-root "/api/rdocument/file/"}
+            :collections {:user [:clj "user/notebook/"]
+                          :demo [:clj "demo/notebook/"]}}
+```
 
 ```
 (reval.config/set-config!
@@ -130,49 +139,9 @@ cljs:
   ; output: [vega-fn vega-spec]
 )
 
-(defn notebook-page []
-   ; get lists of notebooks
-   
-   ; show notebook
-      ; -> get-edn (rdoc/link ns "notebook")
-
-      
-)
-
-
-
-
-
-
-
-## chain of data
-
-(defn calculate-notebook [nb-ns]
-  (-> nbns
-      
-  )
-
-
-)
-clj-ns -> [get-ns-forms-as-src] (seq src) -> [eval-src] (seq of eval-result) 
-
-
-
-
-
-
-
-s
-
 demo.apple.nb.clj
  => is this clojure ns a notebook?
  => should this namespace be shown in a notebook list?
-
-
-WE HAVE:
-- namespaces
-- reproduceable document manager repository
-  => evalauated namespaces.
 
 
 (defn demo-notebooks []
