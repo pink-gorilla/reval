@@ -4,9 +4,7 @@
    [clojure.java.io :as io]
    [resauce.core :as rs])
   (:import
-   [java.net JarURLConnection URI] ; URL
-   ;[java.util.jar JarEntry]
-   ))
+   [java.net JarURLConnection URI]))
 ; discover clj/cljs files in resources (can be jar or file)
 
 (defn- url-scheme [url]
