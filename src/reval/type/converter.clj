@@ -5,7 +5,7 @@
 (defn unknown-view [v]
   (let [type-as-str (-> v type str)]
     [:div.bg-red-300.border-solid.p-2
-     [:p "unknown type"]
+     [:p "no type->hiccup converter found for:"]
      [:h1 type-as-str]]))
 
 (def nil-view
@@ -27,9 +27,9 @@
     (let [m (meta v)]
       (cond
         (contains? m :no-hiccup) [:div.no-hiccup]
-      ;(contains? m :r) (make :reagent {:hiccup v :map-keywords false})
+        (contains? m :R) v
         (contains? m :fh) v
-      ;(contains? m :p/render-as) (make :reagent {:hiccup v :map-keywords true})
+        (contains? m :render-as) [(:render-as m) v]
         :else (value-type->hiccup v)))
     nil-view))
 

@@ -54,9 +54,10 @@
 
 (defn load-notebook [ns]
   (let [nb (rdm/loadr ns "notebook" :edn)]
-    (if nb
-      nb
-      (create-notebook ns))))
+    (-> (if nb
+          nb
+          (create-notebook ns))
+        (with-meta nb {:render-as :p/notebook}))))
 
 (defn save-notebook [ns nb]
   (info "saving notebook: " ns)
@@ -104,7 +105,7 @@
                 (assoc-in [:meta :java] (-> (System/getProperties) (get "java.version")))
                 (assoc-in [:meta :clojure] (clojure-version)))]
      (save-notebook ns nb)
-     nb)))
+     (with-meta nb {:render-as :p/notebook}))))
 
 (comment
 

@@ -11,9 +11,37 @@
 
 ;; A default, catch-all renderer that takes anything we don't know what to do with
 
+(def styles
+  {"clj-raw"    {:color "red"}
+   "clj-nil"    {:color "grey"}
+   "clj-symbol" {:color  "steelblue"}
+   "clj-namespace" {:color "steelblue"}
+   "clj-keyword" {:color "rgb(30, 30, 82)"}
+   "clj-var" {:color "deeppink"}
+   "clj-atom" {:color "darkorange"}
+   "clj-agent" {:color "darkorange"}
+   "clj-ref" {:color "darkorange"}
+
+   "clj-char" {:color "dimgrey"}
+   "clj-string" {:color "grey"}
+   "clj-int" {:color "blue"}
+   "clj-long" {:color "blue"}
+   "clj-bigint" {:color "blue"}
+   "clj-float" {:color "darkgreen"}
+   "clj-double" {:color "darkgreen"}
+   "clj-bigdecimal" {:color "darkgreen"}
+   "clj-ratio" {:color "darkgreen"}
+
+   "clj-localdate" {:color "green"}})
+
+(defn class->style [c]
+  (if-let [s (get styles c)]
+    {:style s}
+    {:class c}))
+
 (defn span-render
   [thing class]
-  [:span {:class class} (pr-str thing)])
+  [:span (class->style class) (pr-str thing)])
 
 ; everything is a type. not sure if we want to have this
 ; we now have nil checker. so shoudl be better ?
