@@ -4,25 +4,49 @@
    [webly.config :refer [get-in-config]]
    [goldly.service.core :as s]
    [goldly.document-handler] ; side effect
-   [reval.document.collection :as c]
+   [reval.document.collection :as nbcol]
    [reval.document.notebook :refer [load-notebook eval-notebook save-notebook]]
+   [reval.config :as reval-config]
    [reval.default] ; side effects
    ))
 
 (info "goldly devtools loading..")
 
-; localhost:9100
-(spit ".nrepl-port" "9100") ; todo - add this to goldly!
+(def default-devtools-config
+  {:rdocument  {:storage-root "/tmp/rdocument/"
+                :url-root "/api/rdocument/file/"}
+   :collections {:demo [:clj "demo/notebook/"]}})
+
+(defn get-config []
+  (let [user (get-in-config [:devtools])
+        user-rdocument (:rdocument user)
+        user-collections (:collections user)]
+    (if user
+      {:rdocument (if user-rdocument
+                    user-rdocument
+                    (:rdocument default-devtools-config))
+       :collections (if user-collections
+                      user-collections
+                      (:collections default-devtools-config))}
+      (do (warn "no :devtools key in goldly-config. using default deftools settings")
+          default-devtools-config))))
+
+(def devtools-config
+  (get-config))
+
+(reval-config/set-config! (:rdocument devtools-config))
 
 (defn nb-collections []
-  (let [devtools (get-in-config [:devtools])
-        devtools (if devtools
-                   devtools
-                   (do (warn "no :devtools key in goldly-config. using default deftools settings")
-                       {:demo [:clj "demo/notebook/"]}))]
-    (c/get-collections devtools)))
+  (nbcol/get-collections (:collections devtools-config)))
 
 (s/add {:nb/collections nb-collections
         :nb/load  load-notebook
         :nb/eval  eval-notebook
         :nb/save save-notebook})
+
+(comment
+  devtools-config
+  (nb-collections)
+
+;  
+  )

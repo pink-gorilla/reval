@@ -6,11 +6,15 @@
    [goldly.devtools] ; side effects
   ))
 
-(timbre/set-config!
+
+;; config is managed by reval.
+
+
+#_(timbre/set-config!
  (merge timbre/default-config
         {:min-level :info}))
 
 
-(c/set-config!
+#_(c/set-config!
  {:storage-root "demo/rdocument/"
   :url-root "/api/rdocument/file/"})

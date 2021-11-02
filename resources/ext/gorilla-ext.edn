@@ -9,4 +9,7 @@
  :lazy true
 
  ; run time
- :clj-require []}
+ :clj-require [goldly.devtools]
+ :autoload-cljs-dir ["goldly/lib"
+                     "goldly/devtools"]
+ }

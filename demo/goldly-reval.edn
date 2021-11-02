@@ -1,43 +1,34 @@
-{:settings {; settings can be changed by user (via dialog)
-            ; :use-localstorage is true: load settings from localstorage, and only use
-            ; config-settings to initialize the app when localstorage is empty
-            :use-localstorage  false
-            :notebook  {:layout :horizontal ; :vertical
-                        :view-only false}}
-
- :timbre-loglevel
- [[#{"pinkgorilla.nrepl.*"} :warn]
-  [#{"org.eclipse.jetty.*"} :warn]
-  [#{"webly.*"} :info]
-  [#{"*"} :info]]
+{:timbre-loglevel [[#{"pinkgorilla.nrepl.*"} :warn]
+                   [#{"org.eclipse.jetty.*"} :warn]
+                   [#{"webly.*"} :info]
+                   [#{"*"} :info]]
 
  :nrepl {:enabled true
          :bind "0.0.0.0"
          :port 9100}
 
  :goldly {:lazy true
-          :autoload-dir  [; to load cljs files to repl state
-                          ; order is important
-                          "src/goldly/lib"
-                          "src/goldly/devtools"]
+          ; runtime
+          :autoload-clj-ns [goldly.devtools
+                            demo.init]
+          :autoload-cljs-dir  [; to load cljs files to repl state
+                               ; order is important
+                               "src/goldly/lib"
+                               "src/goldly/devtools"]
           :routes {:app {"" :devtools
                          "devtools/scratchpad" :scratchpad
                          "devtools/viewer" :viewer
-                         "devtools/environment" :environment
-                         }
+                         "devtools/environment" :environment}
                    :api {"rdocument/ns" :rdocument/ns
                          "rdocument/files" :rdocument/files
                          ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
-                         }}
-          :systems [goldly.devtools
-                    demo.init ; setup paths
-                    ;demo.env.services
-                    systems.snippet-registry  ; if you want snippet browser started
-                    systems.snippet-scratchpad]}
+                         }}}
 
  ; devtools is used by reval
- :devtools {:user [:clj "user/notebook/"]
-            :demo [:clj "demo/notebook/"]}
- 
+ :devtools {:rdocument  {:storage-root "demo/rdocument/"
+                         :url-root "/api/rdocument/file/"}
+            :collections {:user [:clj "user/notebook/"]
+                          :demo [:clj "demo/notebook/"]}}
+
  ;
  }
