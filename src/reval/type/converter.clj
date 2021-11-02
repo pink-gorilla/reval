@@ -28,7 +28,7 @@
       (cond
         (contains? m :no-hiccup) [:div.no-hiccup]
       ;(contains? m :r) (make :reagent {:hiccup v :map-keywords false})
-      ;(contains? m :R) (make :reagent {:hiccup v :map-keywords true})
+        (contains? m :fh) v
       ;(contains? m :p/render-as) (make :reagent {:hiccup v :map-keywords true})
         :else (value-type->hiccup v)))
     nil-view))

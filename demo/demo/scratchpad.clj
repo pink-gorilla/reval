@@ -39,19 +39,31 @@
 (-> (loadr :png  "demo/public/sun.png")
     ui/img
     ;value->hiccup
-    show!
-    )
+    show!)
 ; [:img {:src "/api/rdocument/file/demo.scratchpad/7f9fdfa1-fcde-411f-8022-717337664a41.png"
 ;        :width 192, :height 187, :alt ""}]
 
 
-(show! 
- 
- [:p/evalerr (:err (clj-eval-raw "(+ 3 4"))
-  ])
+; test eval error ui
+(show! [:p/evalerr (:err (clj-eval-raw "(+ 3 4"))])
 
- 
- 
+
+(show! [:p.text-red-500 "hello world"])
+(show! ^:hiccup [:p.text-red-500 "hello world"])
+
+(value->hiccup
+ ^:fh
+ [:p/evalerr (:err (clj-eval-raw "(+ 3 4"))])
+
+
+(defn eval-err [e]
+  (value->hiccup
+   ^:fh
+   [:p/evalerr (:err (clj-eval-raw "(+ 3 4"))]))
+
+
+(show! (eval-err (:err (clj-eval-raw "(+ 3 4"))))
+
 
 
 
