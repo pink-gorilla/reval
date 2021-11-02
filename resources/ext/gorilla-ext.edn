@@ -1,12 +1,13 @@
 {:name "reval"
  ; build time
+ :lazy false  ; we dont have any code, lazy fucks up size report
  :theme {:available  {}
          :current {}}
  :cljs-namespace []
  :cljs-ns-bindings {}
  :cljs-bindings {}
  :pinkie {}
- :lazy true
+ 
 
  ; run time
  :clj-require []
