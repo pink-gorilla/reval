@@ -6,6 +6,26 @@
    [reval.helper.id :refer [guuid]]
    [reval.kernel.protocol :refer [kernel-eval]]))
 
+(defn stack-frame
+  "Return a map describing the stack frame."
+  [^StackTraceElement frame]
+  {:name   (str (.getClassName frame) "/" (.getMethodName frame))
+   :file   (.getFileName frame)
+   :line   (.getLineNumber frame)
+   :class  (.getClassName frame)
+   :method (.getMethodName frame)})
+
+(defn stacktrace [e]
+  (->> e
+       .getStackTrace
+       (map stack-frame)
+       (into [])))
+
+(defn err [e]
+  {:class (.getName (class e))
+   :message (.getMessage e)
+   :stacktrace (stacktrace e)})
+
 (defmacro with-out-str-data-map
   [& body]
   `(let [s# (new java.io.StringWriter)]
@@ -15,11 +35,11 @@
           :out    (str s#)} ; nrepl compatible!
          ))))
 
-(defn- clj-eval-raw [code]
+(defn clj-eval-raw [code]
   (try
     (with-out-str-data-map (load-string code))
     (catch Exception e
-      {:err e})))
+      {:err (err e)})))
 
 (defn clj-eval
   "evaluate code in namespace ns
@@ -64,6 +84,14 @@
   (clj-eval-raw "(ns willy) (def a 3) (println 55) (str *ns*)")
   (clj-eval-raw "1 2 3")
 
+  (->> (clj-eval-raw "(+ 3 4")
+       :err
+      ;type
+      ;class
+       ;stacktrace
+       ;.getCause
+       ;.getVia
+       )
   (clj-eval {:code "(println 3) (def x 777) (+ 3 4)" :ns "bongo"})
   (clj-eval {:code "x" :ns "bongo" :id 3})
 

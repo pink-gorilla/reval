@@ -2,6 +2,7 @@
   (:require
    [reval.persist.protocol :refer [loadr]]
    [reval.type.converter :refer [value->hiccup]]
+   [reval.kernel.clj-eval :refer [clj-eval-raw]] ; side effects
    [reval.ui :as ui]
    [goldly.scratchpad :refer [show! clear!]]
    [demo.init] ; side effects
@@ -42,6 +43,17 @@
     )
 ; [:img {:src "/api/rdocument/file/demo.scratchpad/7f9fdfa1-fcde-411f-8022-717337664a41.png"
 ;        :width 192, :height 187, :alt ""}]
+
+
+(show! 
+ 
+ [:p/evalerr (:err (clj-eval-raw "(+ 3 4"))
+  ])
+
+ 
+ 
+
+
 
 
 ;
