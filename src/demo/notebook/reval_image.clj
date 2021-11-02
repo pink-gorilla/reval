@@ -1,4 +1,4 @@
-(ns demo.notebook.image
+(ns demo.notebook.reval-image
   (:require
    [clojure.java.io :as io]
    [reval.type.protocol :refer [to-hiccup]]

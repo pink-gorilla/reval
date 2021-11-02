@@ -3,7 +3,7 @@
    [:blockquote.text-xl.italic.ml-10.text-red-600 "Scratchpad is the new REPL!"]
    [:h1.text-xl "your scratchpad is empty!"]
    [:p.mb-3 "you can send hiccup to the browser"]
-   [code "(goldly.scratchpad/show! [:p \"hello \"])"]])
+   [user/highlightjs "(goldly.scratchpad/show! [:p \"hello \"])"]])
 
 (def demo-hiccup
   [:p.bg-red-300 "demo123"])

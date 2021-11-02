@@ -16,10 +16,12 @@
        (= hiccup (eval-src->hiccup code))
 
     "13"
-    [:span {:class "clj-long"} "13"]
+    [:span {:style {:color "blue"}} "13"]
 
     "[7 8]"
-    [:div.bg-red-300.border-solid.p-2 [:p "unknown type"] [:h1 "class clojure.lang.PersistentVector"]]
+    [:div.bg-red-300.border-solid.p-2
+     [:p "no type->hiccup converter found for:"]
+     [:h1 "class clojure.lang.PersistentVector"]]
 
     #_{:picasso
        {:type :list-like

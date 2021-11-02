@@ -13,6 +13,12 @@
 (defn rdoc-link [ns name]
   (str "/api/rdocument/file/" ns "/" name))
 
+(defn block [& children]
+  (into [:div.bg-blue-400.m-5.inline-block {:class "w-1/4"}]
+        children))
+
+;; websocket helper
+
 (defn print-result [t]
   (fn [r]
     (println "callback result: " r)))

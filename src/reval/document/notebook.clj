@@ -23,10 +23,15 @@
       :cljs (str name ".cljs"))))
 
 (defn load-src [ns]
-  (->
-   (ns->filename ns :clj)
-   (io/resource)
-   slurp))
+  (try
+    (->
+     (ns->filename ns :clj)
+     (io/resource)
+     slurp)
+    (catch Exception _
+      (str "(ns " ns ")
+            Namespace not found on classpath
+                 "))))
 
 (defn src->src-list [src]
   (->>
@@ -47,7 +52,7 @@
       src->src-list
       src-list->notebook
       (assoc :meta {:id (guuid)
-                    :created (now-str)
+                    :eval-time "not evaluated"
                     :ns ns})))
 
 ;; persistence
@@ -57,7 +62,7 @@
     (-> (if nb
           nb
           (create-notebook ns))
-        (with-meta nb {:render-as :p/notebook}))))
+        (with-meta {:render-as :p/notebook}))))
 
 (defn save-notebook [ns nb]
   (info "saving notebook: " ns)
@@ -101,7 +106,7 @@
                    eval-results)
          nb (-> nb
                 (assoc :content (into [] content))
-                (assoc-in [:meta :eval-finished] (now-str))
+                (assoc-in [:meta :eval-time] (now-str))
                 (assoc-in [:meta :java] (-> (System/getProperties) (get "java.version")))
                 (assoc-in [:meta :clojure] (clojure-version)))]
      (save-notebook ns nb)

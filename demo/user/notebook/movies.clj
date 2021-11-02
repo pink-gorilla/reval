@@ -1,12 +1,8 @@
-(ns user.notebook.hello
+(ns user.notebook.movies
   (:require
    [clojure.pprint :refer [print-table]]))
 
-(+ 1 1)
-
-[1 2 3]
-
-(println "hello")
+(println "hello\nworld!")
 
 (defn add3 [v]
   (+ 3 v))
@@ -19,3 +15,11 @@
 
 (print-table movies)
 
+
+; seqs and maps are not implemented
+; the question is what is an efficient show way that is also nice.
+(+ 1 1)
+[1 2 3]
+
+^:R
+[:p/text "hello\nworld"]

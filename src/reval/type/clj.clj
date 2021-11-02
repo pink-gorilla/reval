@@ -41,7 +41,8 @@
 
 (defn span-render
   [thing class]
-  [:span (class->style class) (pr-str thing)])
+  [:span (class->style class)
+   (pr-str thing)])
 
 ; everything is a type. not sure if we want to have this
 ; we now have nil checker. so shoudl be better ?

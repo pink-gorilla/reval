@@ -44,16 +44,16 @@
       (pinkie-tag? tag))
     false))
 
-(defn pinkie-manual-lookup [t]
-  (case t
-    :p/clock clock))
+#_(defn pinkie-manual-lookup [t]
+    (case t
+      :p/clock clock))
 
-(defn pinkie-registry-lookup [t]
+#_(defn pinkie-registry-lookup [t]
   ; not possible to do the lookup manually, as
   ; pinkie/registry is NOT exported.
   ; (pinkie/tags) shows registered tags.
   ; pinkie/register-tag - registeres a tag.
-  )
+    )
 ;; hiccup preprocessor
 
 (defn ->hiccup [h-tree]

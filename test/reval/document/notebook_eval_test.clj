@@ -20,7 +20,7 @@
            [:div.p-2.clj-nil [:p "nil"]]))
     (is (= (-> (get segments 1) :hiccup)
            ; (+ 1 1) evaluates to 2
-           [:span {:class "clj-long"} "2"]))
+           [:span {:style {:color "blue"}} "2"]))
     (is (= (-> (get segments 3) :out)
            ; "(println \"hello\")" gives :out hello
            "hello\n"))))

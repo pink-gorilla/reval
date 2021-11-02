@@ -6,23 +6,41 @@
    ))
 
 
-(-> (eval-notebook "user.notebook.hello")
+
+;; checkout one notebook..
+
+(-> (eval-notebook "user.notebook.movies")
     meta)
 
-
-(-> (eval-notebook "user.notebook.hello")
+(-> (eval-notebook "user.notebook.movies")
     :content
     count)
 
-(->> (eval-notebook "user.notebook.hello")
+(->> (eval-notebook "user.notebook.movies")
      (show-as :p/notebook))
 
-; demo.notebook.image is part of the reval demo notebooks
-(->> (eval-notebook "user.notebook.image")
-     (show-as :p/notebook))
+;; eval an notebook that does not exist:
 
-(->> (eval-notebook "user.notebook.hello")
+(->> (eval-notebook "user.notebook.image") ; this does not exist !!
+     (show-as :p/notebook)) ;; we will get a notebook that contains an error.
+
+;; eval a list of notebooks
+
+(map eval-notebook ["user.notebook.movies"
+                    "user.notebook.exception"
+                    "demo.notebook.reval-image" ;; demo.notebook.image is part of the reval demo notebooks
+                    "demo.notebook.highlightjs"
+                    
+                    ])
+
+;; show notebook in scratchpad
+
+(->> (eval-notebook "user.notebook.movies")
      show!)
+
+
+
+
 
 
 

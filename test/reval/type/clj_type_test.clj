@@ -10,27 +10,27 @@
 
 (deftest renderable-nil
   (is (= (to-hiccup nil)
-         [:span {:class "clj-nil"} "nil"])))
+         [:span {:style {:color "grey"}} "nil"])))
 
 (deftest renderable-keyword
   (is (= (to-hiccup :test)
-         [:span {:class "clj-keyword"} ":test"])))
+         [:span {:style {:color "rgb(30, 30, 82)"}} ":test"])))
 
 (deftest renderable-symbol
   (is (= (to-hiccup (symbol "s"))
-         [:span {:class "clj-symbol"} "s"])))
+         [:span {:style {:color "steelblue"}} "s"])))
 
 (deftest renderable-string
   (is (= (to-hiccup "s")
-         [:span {:class "clj-string"} "\"s\""])))
+         [:span {:style {:color "grey"}} "\"s\""])))
 
 (deftest renderable-char
   (is (= (to-hiccup \c)
-         [:span {:class "clj-char"} "\\c"])))
+         [:span {:style {:color "dimgrey"}} "\\c"])))
 
 (deftest renderable-number
   (is (= (to-hiccup 13)
-         [:span {:class "clj-long"} "13"])))
+         [:span {:style {:color "blue"}} "13"])))
 
 (deftest renderable-bool
   (is (= (to-hiccup true)

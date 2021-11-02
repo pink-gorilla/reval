@@ -16,6 +16,7 @@
                                "src/goldly/lib"
                                "src/goldly/devtools"]
           :routes {:app {"" :devtools
+                         "devtools/pages" :pages
                          "devtools/scratchpad" :scratchpad
                          "devtools/viewer" :viewer
                          "devtools/environment" :environment}
