@@ -23,13 +23,41 @@
     (reset! scratchpad-hiccup h-fn)
     (reset! scratchpad-hiccup-raw h)))
 
+; eval
+
+(defonce scratchpad-show
+  (r/atom false))
+
+(defonce scratchpad-code
+  (r/atom "(+ 7 7)"))
+
+(defonce cljs-er
+  (r/atom nil))
+
+(defn eval-cljs []
+  (let [code @scratchpad-code
+        _ (println "eval cljs: " code)
+        er (compile-sci code)]
+    (println "cljs eval result:" er)
+    (reset! cljs-er er)))
+
 (defn scratchpad []
   [:div.w-full.h-full.m-0.p-5
    ; header
    [:div.pt-5
     [:span.text-xl.text-blue-500.text-bold.mr-4 "scratchpad"]
     [:button.bg-gray-400.m-1 {:on-click clear-scratchpad} "clear"]
-    [:button.bg-gray-400.m-1 {:on-click #(show-hiccup demo-hiccup)} "demo"]]
+    [:button.bg-gray-400.m-1 {:on-click #(show-hiccup demo-hiccup)} "demo"]
+    [:button.bg-gray-400.m-1 {:on-click #(swap! scratchpad-show not)} "eval-cljs"]]
+   ; eval
+   (when @scratchpad-show
+     [:div
+      [:p.text-xl.text-blue-500.mt-3.mb-3 "eval"]
+       ;[highlightjs {:code @scratchpad-code}]
+      [codemirror 27 scratchpad-code]
+      [:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
+      (when @cljs-er
+        [:div (pr-str @cljs-er)])])
    ; hiccup
    [:p.text-xl.text-blue-500.mt-3.mb-3 "output"]
    [:div.w-full
