@@ -68,7 +68,7 @@
 
 (defn notebook [{:keys [meta content] :as nb}]
   (let [{:keys [ns eval-time]} meta]
-    [:div.bg-indigo-100.p-2
+    [:div.bg-indigo-50.p-2
      [:h1.text-xl.text-blue-800.text-xl.pb-2 ns]
      [:p.pb-2 "evaluated: " eval-time]
      [:hr.h-full.border-solid]
@@ -82,21 +82,25 @@
 ;; COLLECTION UI
 
 (defn nb-item [ns]
-  [:p
-   [link-dispatch [:bidi/goto :viewer :query-params {:ns ns}] ns]])
+  [:p.w-full.truncate ; .overflow-x-hidden
+   [link-dispatch [:bidi/goto :viewer :query-params {:ns ns}]
+    (-> (str/split ns ".") last)
+   ; ns
+    ]])
 
 (defn nb-list [[name list]]
   (into
-   [:div
+   [:div.w-full
     [:p.bg-red-300 name]
     (when show-viewer-debug-ui
       [:p (pr-str list)])]
    (map nb-item list)))
 
 (defn notebook-collection [d]
-  (into
-   [:div.flex.flex-col.items-stretch.h-full.bg-gray-50.w-full]
-   (map #(nb-list %) d)))
+  [:div.w-full.h-full.w-min-64
+   (into
+    [:div.flex.flex-col.items-stretch.bg-gray-50.h-full.w-full]
+    (map #(nb-list %) d))])
 
 (pinkie/register-tag :p/notebookcollection notebook-collection)
 

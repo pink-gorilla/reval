@@ -67,15 +67,17 @@
   ; demo ui
 
   :ci {:extra-paths ["test"]
-       :extra-deps  {org.pinkgorilla/goldly {:mvn/version "0.3.60"}}
+       :extra-deps  {org.pinkgorilla/goldly {:mvn/version "0.3.63"}}
        :exec-fn webly.user.app.app/webly-run
        :exec-args {:profile "ci"
                    :config nil}}
 
   :goldly
   {:extra-paths ["demo"] ; to show static files (not auto generated ones)
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.60"
-                                        :exclusions [org.pinkgorilla/reval]}}
+   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.63"
+                                        :exclusions [org.pinkgorilla/reval]}
+                org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}
+                }
    :exec-fn goldly.app/goldly-server-run!
    :exec-args {:profile "watch2"
                :config "demo/goldly-reval.edn"}}
