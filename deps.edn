@@ -77,6 +77,7 @@
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.63"
                                         :exclusions [org.pinkgorilla/reval]}
                 org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}
+                org.pinkgorilla/ui-repl {:mvn/version "0.0.25"}
                 }
    :exec-fn goldly.app/goldly-server-run!
    :exec-args {:profile "watch2"
