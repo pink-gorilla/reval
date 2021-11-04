@@ -1,6 +1,6 @@
 {:paths ["src"
          "resources" ; snippets, demo data and specs
-         "target/node_modules"] ; vega specs json
+         ]
  :deps
  {org.clojure/clojure    {:mvn/version "1.10.3"}
   org.clojure/core.async {:mvn/version "1.3.618"}
@@ -72,15 +72,13 @@
        :exec-args {:profile "ci"
                    :config nil}}
 
-  
+
   :goldly ; goldly compile (show reval in goldly, but with up to date reval!)
   {:extra-paths ["demo"] ; to show static files (not auto generated ones)
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.67"
                                         :exclusions [org.pinkgorilla/reval
-                                                     org.pinkgorilla/ui-gorilla
-                                                     ]}
-                org.pinkgorilla/ui-gorilla {:mvn/version "0.4.2"}
-                }
+                                                     org.pinkgorilla/ui-gorilla]}
+                org.pinkgorilla/ui-gorilla {:mvn/version "0.4.2"}}
    :exec-fn goldly.app/goldly-server-run!
    :exec-args {:profile "watch2"
                :config "demo/goldly-reval.edn"}}
