@@ -72,6 +72,7 @@
        :exec-args {:profile "ci"
                    :config nil}}
 
+  
   :goldly ; goldly compile (show reval in goldly, but with up to date reval!)
   {:extra-paths ["demo"] ; to show static files (not auto generated ones)
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.67"
