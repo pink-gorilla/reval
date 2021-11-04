@@ -1,12 +1,6 @@
 
 
 
-(defn rdoc-link [ns name]
-  (str "/api/rdocument/file/" ns "/" name))
-
-(defn block [& children]
-  (into [:div.bg-blue-400.m-5.inline-block {:class "w-1/4"}]
-        children))
 
 ;; websocket helper
 
@@ -20,5 +14,11 @@
                       timeout 5000}}]
   (rf/dispatch [:ws/send [type args] fn-callback timeout]))
 
+;; websocket status
 
+(def connected-a
+  (rf/subscribe [:ws/connected?]))
 
+(defn ws-status []
+  (fn []
+    [:span.bg-blue-300 "ws connected: " (pr-str @connected-a)]))
