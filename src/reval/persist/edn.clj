@@ -66,7 +66,6 @@
   (clojure.edn/read-string "#inst \"1985-04-12T23:20:50.52Z\"")
   (clojure.edn/read-string  "#time/date \"2021-11-04\"")
 
-
   (def x (read-str "#time/date \"2011-01-01\""))
   (def x (read-str "#time/date-time \"2021-11-04T00:52:59.694154533\""))
 
