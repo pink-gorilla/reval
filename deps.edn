@@ -1,5 +1,5 @@
 {:paths ["src"
-         "resources" ; snippets, demo data and specs
+         "resources" ; extension , resources used in devtools ui
          ]
  :deps
  {org.clojure/clojure    {:mvn/version "1.10.3"}
@@ -67,21 +67,44 @@
   ; demo ui
 
   :ci {:extra-paths ["test"]
-       :extra-deps  {org.pinkgorilla/goldly {:mvn/version "0.3.67"}}
+       :extra-deps  {org.pinkgorilla/goldly {:mvn/version "0.3.70"}}
        :exec-fn webly.user.app.app/webly-run
        :exec-args {:profile "ci"
                    :config nil}}
 
 
   :goldly ; goldly compile (show reval in goldly, but with up to date reval!)
-  {:extra-paths ["demo"] ; to show static files (not auto generated ones)
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.67"
+  {:extra-paths ["demo" ; for user code and web resources
+                 "target/webly" ; to include the sci-bindings info
+                 ] 
+   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.70"
                                         :exclusions [org.pinkgorilla/reval
                                                      org.pinkgorilla/ui-gorilla]}
                 org.pinkgorilla/ui-gorilla {:mvn/version "0.4.2"}}
    :exec-fn goldly.app/goldly-server-run!
    :exec-args {:profile "watch2"
-               :config "demo/goldly-reval.edn"}}
+               :config  {:goldly {:lazy  true
+                                  ; runtime
+                                  :autoload-clj-ns [goldly.devtools
+                                                    demo.init]
+                                  :autoload-cljs-dir  [; to load cljs files to repl state
+                                                       ; order is important
+                                                       ;"src/goldly/lib"
+                                                       ;"src/goldly/devtools"
+                                                       ]
+                                  :routes {:app {"" :devtools
+                                                 "devtools/pages" :pages
+                                                 "devtools/scratchpad" :scratchpad
+                                                 "devtools/viewer" :viewer
+                                                 "devtools/environment" :environment}
+                                           :api {"rdocument/ns" :rdocument/ns
+                                                 "rdocument/files" :rdocument/files
+                                                 ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
+                                                 }}}
+                         :devtools {:rdocument  {:storage-root "demo/rdocument/"
+                                                 :url-root "/api/rdocument/file/"}
+                                    :collections {:user [:clj "user/notebook/"]
+                                                  :demo [:clj "demo/notebook/"]}}}}}
 
 ;
   }}

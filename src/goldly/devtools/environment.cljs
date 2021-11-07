@@ -1,18 +1,5 @@
 
 
-
-
-
-
-; ; (defmethod reagent-page :demo/main [& args]
-
-
-#_(defn available-pages []
-    (->> (methods reagent-page)
-         keys
-         (remove #(= :default %))
-         (into [])))
-
 (defn kw-item [t]
   [:p.m-1 (pr-str t)])
 
@@ -44,18 +31,35 @@
          ]
         (map ext exts)))
 
-(defn ns-bindings-view [[sci cljs]] ; 
+;; sci bindings
+
+(defn ns-binding-view [[sci cljs]] ; 
   [:p
    [:span.text-red-500 (pr-str sci)]
-   [:span (pr-str cljs)]])
+   [:span.ml-3 (pr-str cljs)]])
+
+(defn ns-bindings-view [ns bindings]
+  [:div
+   [:h1.text-blue-500.text-xl "sci ns: " (str ns)]
+   (into [:div.grid.grid-cols-2]
+         (map ns-binding-view bindings))])
+
+(defn ns-bindings-list [ns-bindings]
+  (into [:div]
+        (map (fn [[k v]]
+                ;[:div "ns: " k "bindings: " v]
+               (ns-bindings-view k v)) ns-bindings)))
 
 (defn sci-bindings [{:keys [data] :as sci-bindings}]
   (let [{:keys [namespaces bindings ns-bindings]} data]
     [:div
      [:h2.text-2xl.text-blue-700.bg-blue-300 "sci bindings"]
       ;(pr-str bindings)
-     (into [:div.grid.grid-cols-2]
-           (map ns-bindings-view bindings))]))
+      ;(pr-str ns-bindings)
+     [ns-bindings-view 'user bindings]
+     [ns-bindings-list ns-bindings]]))
+
+;;
 
 (defn extension-list [exts]
   [:div
@@ -65,6 +69,7 @@
          []
         ;(map ext exts)
          )])
+
 (defn environment []
   [site/main-with-header
    [devtools-menu] 30
