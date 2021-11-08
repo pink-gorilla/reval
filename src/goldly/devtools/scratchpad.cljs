@@ -48,7 +48,10 @@
     [:span.text-xl.text-blue-500.text-bold.mr-4 "scratchpad"]
     [:button.bg-gray-400.m-1 {:on-click clear-scratchpad} "clear"]
     [:button.bg-gray-400.m-1 {:on-click #(show-hiccup demo-hiccup)} "demo"]
-    [:button.bg-gray-400.m-1 {:on-click #(swap! scratchpad-show not)} "eval-cljs"]]
+    [:button.bg-gray-400.m-1 {:on-click #(swap! scratchpad-show not)}
+     (if @scratchpad-show
+       "hide repl"
+       "show repl")]]
    ; eval
    (when @scratchpad-show
      [:div

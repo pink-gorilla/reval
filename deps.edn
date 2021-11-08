@@ -77,7 +77,7 @@
   {:extra-paths ["demo" ; for user code and web resources
                  "target/webly" ; to include the sci-bindings info
                  ]
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.70"
+   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.74"
                                         :exclusions [org.pinkgorilla/reval
                                                      org.pinkgorilla/ui-gorilla]}
                 org.pinkgorilla/ui-gorilla {:mvn/version "0.4.2"}}
@@ -87,16 +87,13 @@
                                   ; runtime
                                   :autoload-clj-ns [goldly.devtools
                                                     demo.init]
-                                  :autoload-cljs-dir  [; to load cljs files to repl state
-                                                       ; order is important
-                                                       ;"src/goldly/lib"
-                                                       ;"src/goldly/devtools"
-                                                       ]
+                                  :autoload-cljs-dir  []
                                   :routes {:app {"" :devtools
                                                  "devtools/pages" :pages
                                                  "devtools/scratchpad" :scratchpad
                                                  "devtools/viewer" :viewer
-                                                 "devtools/environment" :environment}
+                                                 "devtools/environment" :environment
+                                                 "devtools/theme" :theme}
                                            :api {"rdocument/ns" :rdocument/ns
                                                  "rdocument/files" :rdocument/files
                                                  ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
