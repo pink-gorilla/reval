@@ -63,6 +63,7 @@
         [:div (pr-str @cljs-er)])])
    ; hiccup
    [:p.text-xl.text-blue-500.mt-3.mb-3 "output"]
+   [:div#scratchadtest]
    [:div.w-full
     @scratchpad-hiccup]
    ; separator
