@@ -4,9 +4,9 @@
 
 ;http://localhost:8000/api/viewer/file/demo.playground.cljplot/1.txt
 
-(defn load-url [fmt url a arg-fetch]
-  (let [comparator? (or url arg-fetch)
-        comparator [url arg-fetch]]
+(defn load-url [fmt url a arg-fetch args-fetch]
+  (let [comparator? (or url arg-fetch args-fetch)
+        comparator [url arg-fetch args-fetch]]
     (if comparator?
       (when (not (= comparator (:comparator @a)))
         (info (str "loading:  " comparator))
@@ -16,7 +16,10 @@
           :edn (http/get-edn url a [:data])
           :clj (if arg-fetch
                  (run-a a [:data] url arg-fetch)
-                 (run-a a [:data] url)))
+                 (if args-fetch
+                   (apply run-a a [:data] url args-fetch)
+                   (run-a a [:data] url))))
+
         nil)
       (swap! a assoc :data nil))))
 
@@ -30,17 +33,18 @@
    [:p "args-render: " (pr-str args-render)]
    [:p "data: " data]])
 
-(defn url-loader [{:keys [url fmt arg-fetch args-render]}
+(defn url-loader [{:keys [url fmt arg-fetch args-fetch args-render]}
                   fun]
   (let [a (r/atom {:data nil
                    :url nil
                    :arg-fetch nil})]
-    (fn [{:keys [url fmt arg-fetch args-render]
+    (fn [{:keys [url fmt arg-fetch args-fetch args-render]
           :or {fmt :txt
                arg-fetch nil
+               args-fetch nil
                args-render []}}
          fun]
-      (load-url fmt url a arg-fetch)
+      (load-url fmt url a arg-fetch args-fetch)
       (if-let [d (:data @a)]
         [:div
          [error-boundary

@@ -76,7 +76,7 @@
   :goldly ; goldly compile (show reval in goldly, but with up to date reval!)
   {:extra-paths ["demo" ; for user code and web resources
                  "target/webly" ; to include the sci-bindings info
-                 ] 
+                 ]
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.3.70"
                                         :exclusions [org.pinkgorilla/reval
                                                      org.pinkgorilla/ui-gorilla]}
@@ -104,7 +104,8 @@
                          :devtools {:rdocument  {:storage-root "demo/rdocument/"
                                                  :url-root "/api/rdocument/file/"}
                                     :collections {:user [:clj "user/notebook/"]
-                                                  :demo [:clj "demo/notebook/"]}}}}}
+                                                  :demo [:clj "demo/notebook/"]
+                                                  :demo-cljs [:cljs "demo/notebook/"]}}}}}
 
 ;
   }}

@@ -81,20 +81,20 @@
 
 ;; COLLECTION UI
 
-(defn nb-item [ns]
+(defn nb-item [fmt ns]
   [:p.w-full.truncate ; .overflow-x-hidden
-   [link-dispatch [:bidi/goto :viewer :query-params {:ns ns}]
+   [link-dispatch [:bidi/goto :viewer :query-params {:ns ns :fmt (name fmt)}]
     (-> (str/split ns ".") last)
    ; ns
     ]])
 
-(defn nb-list [[name list]]
+(defn nb-list [[name [fmt list]]]
   (into
    [:div.w-full
     [:p.bg-red-300 name]
     (when show-viewer-debug-ui
-      [:p (pr-str list)])]
-   (map nb-item list)))
+      [:p (meta list) (pr-str list)])]
+   (map #(nb-item fmt %) list)))
 
 (defn notebook-collection [d]
   [:div.w-full.h-full.w-min-64
@@ -130,12 +130,18 @@
        notebook-collection]
       [:div
        (if-let [ns (:ns query-params)]
-         [url-loader #_{:fmt :edn
-                        :url  (rdoc-link ns "notebook.edn")}
-          {:fmt :clj
-           :url :nb/load
-           :arg-fetch ns}
-          notebook]
+         (let [fmt (or (:fmt query-params) :clj)
+               fmt (if (string? fmt)
+                     (keyword fmt)
+                     fmt)]
+
+           [url-loader #_{:fmt :edn
+                          :url  (rdoc-link ns "notebook.edn")}
+            {:fmt :clj
+             :url :nb/load
+             ;:arg-fetch ns
+             :args-fetch [ns fmt]}
+            notebook])
          [notebook nb-welcome])
        (when show-viewer-debug-ui
          [viewer-debug query-params])]]]))

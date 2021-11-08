@@ -35,14 +35,16 @@
        (map #(filename->ns res-path %))))
 
 (defn get-nss-list [fmt res-paths]
-  (->> (map #(get-ns-list fmt %) res-paths)
-       (apply concat [])
-       sort
-       vec))
+  (->
+   (->> (map #(get-ns-list fmt %) res-paths)
+        (apply concat [])
+        sort
+        vec)
+   (with-meta {:fmt fmt})))
 
 (defn get-collections [spec]
   (->> (map (fn [[k v]]
-              [k (get-nss-list (first v) (rest v))]) spec)
+              [k [(first v) (get-nss-list (first v) (rest v))]]) spec)
        (into {})))
 
 (comment
@@ -68,15 +70,20 @@
   (get-ns-list :clj "demo/notebook/")
   (get-ns-list :cljs "demo/notebook/")
 
-  (get-nss-list :cljs ["demo/notebook/"])
+  (-> (get-nss-list :clj ["demo/notebook/"])
+      meta)
+
+  (-> (get-nss-list :cljs ["demo/notebook/"])
+      meta)
 
   (get-collections
    {:demo [:clj "demo/notebook/"]
-    :user [:clj "demo/notebook_test/"]})
+    :user [:clj "user/notebook/"]})
 
-  (get-collections
-   {:user [:clj "user/notebook/"]
-    :demo [:clj "demo/notebook/"]})
+  (-> (get-collections
+       {:user [:clj "user/notebook/"]
+        :demo [:clj "demo/notebook/"]})
+      pr-str)
 
 ;
   )

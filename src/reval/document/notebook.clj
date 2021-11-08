@@ -22,47 +22,59 @@
       :clj (str name ".clj")
       :cljs (str name ".cljs"))))
 
-(defn load-src [ns]
-  (try
-    (->
-     (ns->filename ns :clj)
-     (io/resource)
-     slurp)
-    (catch Exception _
-      (str "(ns " ns ")
+(defn load-src
+  ([ns]
+   (load-src ns :clj))
+  ([ns fmt]
+   (try
+     (->
+      (ns->filename ns fmt)
+      (io/resource)
+      slurp)
+     (catch Exception _
+       (str "(ns " ns ")
             Namespace not found on classpath
-                 "))))
+                 ")))))
 
-(defn src->src-list [src]
-  (->>
-   (text->notebook :clj src)
-   :segments
-   (filter #(= (:type %) :code))
-   (map #(get-in % [:data :code]))))
+(defn src->src-list
+  ([src]
+   (src->src-list src :clj))
+  ([src fmt]
+   (->>
+    (text->notebook fmt src)
+    :segments
+    (filter #(= (:type %) :code))
+    (map #(get-in % [:data :code])))))
 
 (defn src-list->notebook [src-list]
   {:content (->> (map (fn [src]
                         {:code src}) src-list)
                  (into []))})
 
-(defn create-notebook [ns]
-  (rdm/delete-directory-ns ns)
-  (-> ns
-      load-src
-      src->src-list
-      src-list->notebook
-      (assoc :meta {:id (guuid)
-                    :eval-time "not evaluated"
-                    :ns ns})))
+(defn create-notebook
+  ([ns]
+   (create-notebook ns :clj))
+  ([ns fmt]
+   (rdm/delete-directory-ns ns)
+   (-> ns
+       (load-src fmt)
+       (src->src-list fmt)
+       src-list->notebook
+       (assoc :meta {:id (guuid)
+                     :eval-time "not evaluated"
+                     :ns ns}))))
 
 ;; persistence
 
-(defn load-notebook [ns]
-  (let [nb (rdm/loadr ns "notebook" :edn)]
-    (-> (if nb
-          nb
-          (create-notebook ns))
-        (with-meta {:render-as :p/notebook}))))
+(defn load-notebook
+  ([ns]
+   (load-notebook ns :clj))
+  ([ns fmt]
+   (let [nb (rdm/loadr ns "notebook" :edn)]
+     (-> (if nb
+           nb
+           (create-notebook ns fmt))
+         (with-meta {:render-as :p/notebook})))))
 
 (defn save-notebook [ns nb]
   (info "saving notebook: " ns)
