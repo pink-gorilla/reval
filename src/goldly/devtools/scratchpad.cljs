@@ -3,6 +3,7 @@
    [:blockquote.text-xl.italic.ml-10.text-red-600 "Scratchpad is the new REPL!"]
    [:h1.text-xl "your scratchpad is empty!"]
    [:p.mb-3 "you can send hiccup to the browser"]
+   [:p.mb-3 "to modify a dom node you can use id scratchpadtest"]
    [user/highlightjs "(goldly.scratchpad/show! [:p \"hello \"])"]])
 
 (def demo-hiccup
