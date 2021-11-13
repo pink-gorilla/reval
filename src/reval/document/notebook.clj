@@ -6,7 +6,6 @@
    [modular.helper.id :refer [guuid]]
    [modular.helper.date :refer [now-str]]
    [reval.type.converter :refer [value->hiccup]]
-   [reval.config :as c] ; this really is the reproduceabe document config
    [reval.document.manager :as rdm]
    [reval.document.classpath :refer [ns->dir]]
    [reval.document.src-parser :refer [text->notebook]]

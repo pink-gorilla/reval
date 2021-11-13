@@ -1,24 +1,24 @@
 (ns goldly.devtools
   (:require
    [taoensso.timbre  :refer [debug info warn error]]
-   [modular.config :refer [get-in-config]]
-   [goldly.service.core :as s]
-   [goldly.document-handler] ; side effect
+   [modular.config :refer [get-in-config set!]]
    [reval.document.collection :as nbcol]
    [reval.document.notebook :refer [load-notebook eval-notebook save-notebook]]
-   [reval.config :as reval-config]
    [reval.default] ; side effects
+   [goldly.service.core :as s]
+   [goldly.document-handler] ; side effect
+   [goldly.scratchpad-handler] ; side effect
    ))
 
 (info "goldly devtools loading..")
 
-(def default-devtools-config
+(def default-reval-config
   {:rdocument  {:storage-root "/tmp/rdocument/"
                 :url-root "/api/rdocument/file/"}
    :collections {:demo [:clj "demo/notebook/"]}})
 
 (defn get-config []
-  (let [user (get-in-config [:devtools])
+  (let [user (get-in-config [:reval])
         user-rdocument (:rdocument user)
         user-collections (:collections user)]
     (if user
@@ -28,16 +28,13 @@
        :collections (if user-collections
                       user-collections
                       (:collections default-devtools-config))}
-      (do (warn "no :devtools key in goldly-config. using default deftools settings")
+      (do (warn "no :devtools key in config. using default devtools settings")
           default-devtools-config))))
 
-(def devtools-config
-  (get-config))
-
-(reval-config/set-config! (:rdocument devtools-config))
+(set! :reval (get-config))
 
 (defn nb-collections []
-  (nbcol/get-collections (:collections devtools-config)))
+  (nbcol/get-collections (get-in-config [:reval :collections])))
 
 (s/add {:nb/collections nb-collections
         :nb/load  load-notebook

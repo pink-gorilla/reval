@@ -3,9 +3,9 @@
    [taoensso.timbre :refer [debug info warnf error]]
    [clojure.string :as str]
    [clojure.java.io :as io]
+   [modular.config :refer [get-in-config]]
    [modular.persist.protocol :as p]
-   [reval.document.classpath :refer [ns->dir]]
-   [reval.config :refer [storage-root url-root]]))
+   [reval.document.classpath :refer [ns->dir]]))
 
 ; get-filename and get-link may NOT contain the fmt parameter
 ; the name contains the extension. The reason is, that we have
@@ -17,6 +17,12 @@
 ; demo/rdocument/demo.notebook.apple/notebook.edn
 
 ;; URL side
+
+(defn storage-root []
+  (get-in-config [:reval :rdocument :storage-root]))
+
+(defn url-root []
+  (get-in-config [:reval :rdocument :url-root]))
 
 (defn get-link-ns [ns name]
   (str (url-root)  ns "/" name))

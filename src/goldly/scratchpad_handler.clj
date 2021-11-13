@@ -1,4 +1,4 @@
-(ns goldly.scratchpad.handler
+(ns goldly.scratchpad-handler
   (:require
    [taoensso.timbre :refer [trace debug info error]]
    [clojure.core.async :refer [go <! <!!]]

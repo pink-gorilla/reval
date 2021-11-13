@@ -3,6 +3,7 @@
    [taoensso.timbre :refer [info]]
    [clojure.core.async :refer [go chan >!]]
    [reval.type.converter :refer [value->hiccup]]
+   [webly.ws.msg-handler :refer [-event-msg-handler]]
    [webly.ws.core :refer [send-all! send-response connected-uids]]))
 
 (defn clear! []
