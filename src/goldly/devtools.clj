@@ -1,7 +1,7 @@
 (ns goldly.devtools
   (:require
    [taoensso.timbre  :refer [debug info warn error]]
-   [webly.config :refer [get-in-config]]
+   [modular.config :refer [get-in-config]]
    [goldly.service.core :as s]
    [goldly.document-handler] ; side effect
    [reval.document.collection :as nbcol]
