@@ -24,12 +24,12 @@
     (if user
       {:rdocument (if user-rdocument
                     user-rdocument
-                    (:rdocument default-devtools-config))
+                    (:rdocument default-reval-config))
        :collections (if user-collections
                       user-collections
-                      (:collections default-devtools-config))}
-      (do (warn "no :devtools key in config. using default devtools settings")
-          default-devtools-config))))
+                      (:collections default-reval-config))}
+      (do (warn "no :reval key in config. using default reval settings")
+          default-reval-config))))
 
 (set! :reval (get-config))
 
