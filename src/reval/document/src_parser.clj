@@ -4,7 +4,7 @@
    [taoensso.timbre :refer [trace debug debugf info infof warn warnf error errorf]]
    [rewrite-clj.parser :as p]
    [rewrite-clj.node :as n]
-   [reval.helper.id :refer [guuid]]))
+   [modular.helper.id :refer [guuid]]))
 
 (defn ->segment-code [kernel code]
   {:id (guuid)

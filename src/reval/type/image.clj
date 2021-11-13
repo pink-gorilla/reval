@@ -4,9 +4,9 @@
    [clojure.java.io :as io]
    [clojure.data.codec.base64 :as b64]
    [clojure.string :as string]
+   [modular.helper.id :refer [guuid-str]]
    [reval.type.protocol :refer [hiccup-convertable to-hiccup hiccup-convertable-reproduceable]]
-   [reval.document.manager :as rdm]
-   [reval.helper.id :refer [guuid-str]])
+   [reval.document.manager :as rdm])
   (:import
    [java.awt Image]
    [java.awt.image BufferedImage]

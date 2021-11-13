@@ -3,7 +3,7 @@
    [taoensso.timbre :refer [debug info warnf error]]
    [clojure.string :as str]
    [clojure.java.io :as io]
-   [reval.persist.protocol :as p]
+   [modular.persist.protocol :as p]
    [reval.document.classpath :refer [ns->dir]]
    [reval.config :refer [storage-root url-root]]))
 

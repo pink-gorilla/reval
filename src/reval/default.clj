@@ -11,11 +11,11 @@
    [reval.type.image] ; side-effects!
 
    ; storage formats
-   [reval.persist.unknown]
-   [reval.persist.edn]
-   [reval.persist.image]
-   [reval.persist.text]
-   [reval.persist.json]
+   [modular.persist.unknown]
+   [modular.persist.edn]
+   [modular.persist.image]
+   [modular.persist.text]
+   [modular.persist.json]
 
    ;  kernel 
    [reval.kernel.protocol]

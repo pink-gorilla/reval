@@ -1,7 +1,7 @@
 (ns reval.document.collection-test
   (:require
    [clojure.test :refer [deftest is]]
-   [reval.persist.protocol :refer [loadr]]
+   [modular.persist.protocol :refer [loadr]]
    [reval.document.collection :refer [get-collections]]
    [reval.test-init]))
 

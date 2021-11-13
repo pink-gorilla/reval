@@ -1,6 +1,6 @@
 (ns reval.kernel.protocol
   (:require
-   [reval.helper.id :refer [guuid]]
+   [modular.helper.id :refer [guuid]]
    #?(:clj [clojure.core.async :refer [>! chan close! go <!!]]
       :cljs [cljs.core.async  :refer [>! chan close!] :refer-macros [go]])))
 

@@ -4,9 +4,9 @@
    [ring.util.response :as res :refer [not-found file-response resource-response response]]
    [ring.middleware.content-type :refer [wrap-content-type]]
    [ring.middleware.not-modified :refer [wrap-not-modified]]
+   [modular.persist.protocol :as p]
    [webly.web.middleware :refer [wrap-api-handler]]
    [webly.web.handler :refer [add-ring-handler]]
-   [reval.persist.protocol :as p]
    [reval.document.manager :as dm]))
 
 ; url:

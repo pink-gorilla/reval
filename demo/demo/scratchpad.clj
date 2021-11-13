@@ -1,6 +1,6 @@
 (ns demo.scratchpad
   (:require
-   [reval.persist.protocol :refer [loadr]]
+   [modular.persist.protocol :refer [loadr]]
    [reval.type.converter :refer [value->hiccup]]
    [reval.kernel.clj-eval :refer [clj-eval-raw]] ; side effects
    [reval.ui :as ui]

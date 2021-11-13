@@ -3,7 +3,7 @@
    [clojure.core :refer [read-string load-string]]
    [clojure.core.async :refer [>! close! go <! <!! chan]]
    [taoensso.timbre :as timbre :refer [debugf info error]]
-   [reval.helper.id :refer [guuid]]
+   [modular.helper.id :refer [guuid]]
    [reval.kernel.protocol :refer [kernel-eval]]))
 
 (defn stack-frame

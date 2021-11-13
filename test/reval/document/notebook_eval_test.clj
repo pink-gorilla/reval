@@ -1,7 +1,6 @@
 (ns reval.document.notebook-eval-test
   (:require
    [clojure.test :refer [deftest is]]
-   ;[reval.persist.protocol :refer [loadr]]
    [reval.document.notebook :refer [eval-notebook load-notebook]]
    [reval.test-init]))
 

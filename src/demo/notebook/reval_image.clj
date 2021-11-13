@@ -1,8 +1,8 @@
 (ns demo.notebook.reval-image
   (:require
    [clojure.java.io :as io]
+   [modular.persist.protocol :refer [loadr]]
    [reval.type.protocol :refer [to-hiccup]]
-   [reval.persist.protocol :refer [loadr]]
    [reval.ui :refer [img-inline img]]))
 
 ;; this notebook comes from pink.gorilla/reval

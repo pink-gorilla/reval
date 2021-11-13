@@ -3,8 +3,8 @@
    [clojure.string :as str]
    [clojure.java.io :as io]
    [taoensso.timbre :refer [debug info warnf]]
-   [reval.helper.id :refer [guuid]]
-   [reval.helper.date :refer [now-str]]
+   [modular.helper.id :refer [guuid]]
+   [modular.helper.date :refer [now-str]]
    [reval.type.converter :refer [value->hiccup]]
    [reval.config :as c] ; this really is the reproduceabe document config
    [reval.document.manager :as rdm]
