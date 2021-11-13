@@ -1,7 +1,7 @@
 (ns goldly.devtools
   (:require
    [taoensso.timbre  :refer [debug info warn error]]
-   [modular.config :refer [get-in-config set!]]
+   [modular.config :as config :refer [get-in-config]]
    [reval.document.collection :as nbcol]
    [reval.document.notebook :refer [load-notebook eval-notebook save-notebook]]
    [reval.default] ; side effects
@@ -31,7 +31,7 @@
       (do (warn "no :reval key in config. using default reval settings")
           default-reval-config))))
 
-(set! :reval (get-config))
+(config/set! :reval (get-config))
 
 (defn nb-collections []
   (nbcol/get-collections (get-in-config [:reval :collections])))
