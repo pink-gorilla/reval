@@ -64,7 +64,7 @@
         [:div (pr-str @cljs-er)])])
    ; hiccup
    [:p.text-xl.text-blue-500.mt-3.mb-3 "output"]
-   [:div#scratchadtest]
+   [:div#scratchpadtest]
    [:div.w-full
     @scratchpad-hiccup]
    ; separator
@@ -98,4 +98,10 @@
    (process-scratchpad-op msg)
    nil))
 
-
+(rf/reg-event-fx
+ :scratchpad/get
+ (fn [{:keys [db]} [_ msg]]
+   (let [h (or @scratchpad-hiccup-raw [:div "empty scratchpad"])]
+     (info "scratchpad get:" msg)
+     (rf/dispatch [:goldly/send :scratchpad/state h]))
+   nil))

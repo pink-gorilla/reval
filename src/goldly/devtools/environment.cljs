@@ -61,11 +61,12 @@
 
 ;;
 
-(defn extension-list [exts]
+(defn extension-details [exts]
   [:div
    [:h2.text-2xl.text-blue-700.bg-blue-300 "extension details"]
    (into [:div.ml-5
-          (pr-str exts)]
+          ;(pr-str exts)
+          ]
          []
         ;(map ext exts)
          )])
@@ -94,7 +95,7 @@
 
     [url-loader {:fmt :clj
                  :url :goldly/extension-list}
-     extension-list]]])
+     extension-details]]])
 
 (defn environment-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen

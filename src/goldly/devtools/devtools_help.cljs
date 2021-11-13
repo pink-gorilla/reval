@@ -51,7 +51,7 @@
 (def apps-and-demo ["goldly-docs"
                     "demo-goldly"])
 
-(def build-tool ["webly" "goldly"])
+(def build-tool ["modular" "webly" "goldly"])
 
 (def goldly-extensions ["reval"
                         "ui-repl"
