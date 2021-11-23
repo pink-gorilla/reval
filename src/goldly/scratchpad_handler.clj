@@ -4,8 +4,8 @@
    [clojure.core.async :refer [go <! <!!]]
    [ring.util.response :as res]
    [ring.util.request :refer  [body-string]]
-   [webly.web.middleware :refer [wrap-api-handler]]
-   [webly.web.handler :refer [add-ring-handler]]
+   [modular.webserver.middleware.api :refer [wrap-api-handler]]
+   [modular.webserver.handler.registry :refer [add-ring-handler]]
    [goldly.scratchpad :as scratchpad]))
 
 (defn scratchpad-get-handler
