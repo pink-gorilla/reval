@@ -72,36 +72,34 @@
          )])
 
 (defn environment []
-  [site/main-with-header
-   [devtools-menu] 30
-   [:div
-    [url-loader {:fmt :clj
-                 :url :goldly/version}
-     goldly-version]
-    [url-loader {:fmt :clj
-                 :url :goldly/extension-summary}
-     extension-summary]
+  [:div
+   [url-loader {:fmt :clj
+                :url :goldly/version}
+    goldly-version]
+   [url-loader {:fmt :clj
+                :url :goldly/extension-summary}
+    extension-summary]
 
-    [keyword-list "hiccup-fh (functional hiccup list) " (pinkie/tags)]
-    [keyword-list "pages" (page/available)]
+   [keyword-list "hiccup-fh (functional hiccup list) " (pinkie/tags)]
+   [keyword-list "pages" (page/available)]
 
-    [url-loader {:fmt :clj
-                 :url :goldly/services}
-     (partial keyword-list "services")]
+   [url-loader {:fmt :clj
+                :url :goldly/services}
+    (partial keyword-list "services")]
 
-    [url-loader {:fmt :clj
-                 :url :goldly/sci-bindings}
-     sci-bindings]
+   [url-loader {:fmt :clj
+                :url :goldly/sci-bindings}
+    sci-bindings]
 
-    [url-loader {:fmt :clj
-                 :url :goldly/extension-list}
-     extension-details]]])
+   [url-loader {:fmt :clj
+                :url :goldly/extension-list}
+    extension-details]])
 
 (defn environment-page [{:keys [route-params query-params handler] :as route}]
-  [:div.bg-green-300.w-screen.h-screen
+  [:div.bg-green-300
    [environment]])
 
-(add-page environment-page :environment)
+(add-page-template environment-page :environment)
 
 ;  sci-bindings
 ; :goldly/get-extension-info get-extension-info

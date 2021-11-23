@@ -61,31 +61,35 @@
 
 (defn devtools-menu []
   [:div
-   [link-dispatch [:bidi/goto :devtools] "devtools help"]
-   [link-dispatch [:bidi/goto :viewer :query-params {}] "notebook viewer"]
+   [link-dispatch [:bidi/goto :viewer :query-params {}] "notebooks"]
    [link-dispatch [:bidi/goto :scratchpad] "scratchpad"]
-   [link-dispatch [:bidi/goto :environment] "environment"]
    [link-dispatch [:bidi/goto :theme] "theme"]
-   [link-dispatch [:bidi/goto :pages] "pages"]])
+   [link-dispatch [:bidi/goto :environment] "environment"]
+   [link-dispatch [:bidi/goto :pages] "pages"]
+   [link-dispatch [:bidi/goto :devtools] "devtools help"]])
 
-(def header
-  [{:brand "Your Application"
+(defn devtools-header []
+  [site/header-menu
+   {:brand "Application"
     :brand-link "/"
-    :items [{:text "goldly" :link "/goldly/about"}
-
-            {:text "status" :link "/goldly/status"}
-            {:text "theme" :link "/goldly/theme"}
-
-            {:text "repl" :link "/repl"}
-                                 ;{:text "notebooks" :link "/goldly/notebooks"}
-            {:text "nrepl" :link "/goldly/nrepl"}
-
-            {:text "snippets" :link "/system/snippet-registry"}
-            {:text "running systems" :link "/goldly/systems"}
-
-                 ;{:text "notebook" :link "/notebook-test"}
+    :items [{:text "notebooks" :dispatch [:bidi/goto :viewer :query-params {}]} ;  :link "/devtools/viewer"
+            {:text "scratchpad"  :dispatch [:bidi/goto :scratchpad]}  ; :link "/devtools/scratchpad"
+            {:text "theme"  :dispatch [:bidi/goto :theme]} ;  :link "/devtools/theme"
+            {:text "environment"  :dispatch  [:bidi/goto :environment]} ; :link "/devtools/environment"
+            {:text "pages"  :dispatch [:bidi/goto :pages]}  ; :link "/devtools/pages"
+            {:text "help"  :dispatch [:bidi/goto :devtools]}  ; :link "/devtools"
             {:text "feedback" :link "https://github.com/pink-gorilla/goldly/issues" :special? true}]}])
 
-[site/main-with-header
- [:div "header"] 30
- [site/sidebar-layout]]
+(defn add-page-template [page name]
+  (let [wrapped-page (fn [route]
+                       [site/main-with-header  ; .w-screen.h-screen
+                        [devtools-header]
+                        70
+                        [:div.bg-green-400.height-full
+                         [page route]]])]
+    (add-page wrapped-page name)))
+
+;; styling
+
+(defn h1 [t]
+  [:h1.text-xl.text-red-900.mt-5 t])

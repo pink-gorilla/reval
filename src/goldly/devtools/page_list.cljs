@@ -34,14 +34,11 @@
                    (keyword page)
                    page)]
   ;[:div.bg-green-300.w-screen.h-screen.overflow-scroll
-        [site/main-with-header
-         [devtools-menu] 30
-         [:div
-          [:span.text-xl.text-blue-500.text-bold.mr-4 "pages"]
-          [page-list p]
-          [page-show page route]]]))))
+        [:div
+         [:span.text-xl.text-blue-500.text-bold.mr-4 "pages"]
+         [page-list p]
+         [page-show page route]]))))
 
-(add-page page-list-page :pages)
-
+(add-page-template page-list-page :pages)
 
 

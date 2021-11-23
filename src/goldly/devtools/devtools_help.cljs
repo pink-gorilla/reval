@@ -82,9 +82,6 @@
    (into [:div]
          (map project list))])
 
-(defn h1 [t]
-  [:h1.text-xl.text-blue-900.mt-5 t])
-
 (defn devtools []
   [:div.m-5
    [:div.mb-5]
@@ -114,10 +111,8 @@
    [video-list "unsorted videos" videos]])
 
 (defn devtools-page [{:keys [route-params query-params handler] :as route}]
-  [:div.bg-green-300.w-screen.h-screen
-   [site/main-with-header
-    [devtools-menu] 30
-    [devtools]]])
+  [:div.bg-green-300 ; .w-screen.h-screen
+   [devtools]])
 
-(add-page devtools-page :devtools)
+(add-page-template devtools-page :devtools)
 

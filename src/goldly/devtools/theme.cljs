@@ -35,17 +35,16 @@
 (defn theme-info []
   (let [theme (rf/subscribe [:css/theme])
         css-links (rf/subscribe [:css/app-theme-links])]
-    [:div
-     [:p.mt-5.mb-5.text-purple-600.text-3xl "components"]
-     [show-theme @theme]
-     [:p.mt-5.mb-5.text-purple-600.text-3xl "loaded css"]
-     [show-css-links @css-links]]))
+    (fn []
+      [:div
+       [:p.mt-5.mb-5.text-purple-600.text-3xl "components"]
+       [show-theme @theme]
+       [:p.mt-5.mb-5.text-purple-600.text-3xl "loaded css"]
+       [show-css-links @css-links]])))
 
 (defn theme-page [{:keys [route-params query-params handler] :as route}]
-  [site/main-with-header
-   [devtools-menu] 30
-   [:div.container.mx-auto ; tailwind containers are not centered by default; mx-auto does this
-    [:span.text-xl.text-blue-500.text-bold.mr-4 "pages"]
-    [theme-info]]])
+  [:div.container.mx-auto ; tailwind containers are not centered by default; mx-auto does this
+   [:span.text-xl.text-blue-500.text-bold.mr-4 "pages"]
+   [theme-info]])
 
-(add-page theme-page :theme)
+(add-page-template theme-page :theme)

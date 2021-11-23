@@ -122,32 +122,30 @@
 
 (defn viewer [query-params]
   (fn [query-params]
-    [site/main-with-header
-     [devtools-menu] 30
-     [site/sidebar-layout
-      [url-loader {:fmt :clj
-                   :url :nb/collections}
-       notebook-collection]
-      [:div
-       (if-let [ns (:ns query-params)]
-         (let [fmt (or (:fmt query-params) :clj)
-               fmt (if (string? fmt)
-                     (keyword fmt)
-                     fmt)]
+    [site/sidebar-layout
+     [url-loader {:fmt :clj
+                  :url :nb/collections}
+      notebook-collection]
+     [:div
+      (if-let [ns (:ns query-params)]
+        (let [fmt (or (:fmt query-params) :clj)
+              fmt (if (string? fmt)
+                    (keyword fmt)
+                    fmt)]
 
-           [url-loader #_{:fmt :edn
-                          :url  (rdoc-link ns "notebook.edn")}
-            {:fmt :clj
-             :url :nb/load
+          [url-loader #_{:fmt :edn
+                         :url  (rdoc-link ns "notebook.edn")}
+           {:fmt :clj
+            :url :nb/load
              ;:arg-fetch ns
-             :args-fetch [ns fmt]}
-            notebook])
-         [notebook nb-welcome])
-       (when show-viewer-debug-ui
-         [viewer-debug query-params])]]]))
+            :args-fetch [ns fmt]}
+           notebook])
+        [notebook nb-welcome])
+      (when show-viewer-debug-ui
+        [viewer-debug query-params])]]))
 
 (defn viewer-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
    [viewer query-params]])
 
-(add-page viewer-page :viewer)
+(add-page-template viewer-page :viewer)

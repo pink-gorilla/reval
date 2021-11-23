@@ -43,7 +43,7 @@
     (reset! cljs-er er)))
 
 (defn scratchpad []
-  [:div.w-full.h-full.m-0.p-5
+  [:div.w-full.h-full.m-0.p-5  ;[:div.bg-green-300.w-screen.h-screen.overflow-scroll
    ; header
    [:div.pt-5
     [:span.text-xl.text-blue-500.text-bold.mr-4 "scratchpad"]
@@ -73,13 +73,7 @@
    [:p.text-xl.text-blue-500.mt-3.mb-3 "hiccup"]
    [:div.bg-gray-300.overflow-scroll.w-full (pr-str @scratchpad-hiccup-raw)]])
 
-(defn scratchpad-page [{:keys [route-params query-params handler] :as route}]
-  ;[:div.bg-green-300.w-screen.h-screen.overflow-scroll
-  [site/main-with-header
-   [devtools-menu] 30
-   [scratchpad]])
-
-(add-page scratchpad-page :scratchpad)
+(add-page-template scratchpad :scratchpad)
 
 ; {:op     :show :clear
 ;  :hiccup [:p "hi"]
