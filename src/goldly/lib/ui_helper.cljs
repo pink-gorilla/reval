@@ -59,15 +59,6 @@
 
 ;; site layout
 
-(defn devtools-menu []
-  [:div
-   [link-dispatch [:bidi/goto :viewer :query-params {}] "notebooks"]
-   [link-dispatch [:bidi/goto :scratchpad] "scratchpad"]
-   [link-dispatch [:bidi/goto :theme] "theme"]
-   [link-dispatch [:bidi/goto :environment] "environment"]
-   [link-dispatch [:bidi/goto :pages] "pages"]
-   [link-dispatch [:bidi/goto :devtools] "devtools help"]])
-
 (defn devtools-header []
   [site/header-menu
    {:brand "Application"
@@ -82,14 +73,15 @@
 
 (defn add-page-template [page name]
   (let [wrapped-page (fn [route]
-                       [site/main-with-header  ; .w-screen.h-screen
+                       [layout/header-main  ; .w-screen.h-screen
                         [devtools-header]
-                        70
-                        [:div.bg-green-400.height-full
-                         [page route]]])]
+                        [page route]])]
     (add-page wrapped-page name)))
 
 ;; styling
 
 (defn h1 [t]
   [:h1.text-xl.text-red-900.mt-5 t])
+
+(rf/dispatch [:css/set-theme-component :tailwind-full "light"])
+(rf/dispatch [:css/set-theme-component :tailwind-girouette false])

@@ -122,7 +122,7 @@
 
 (defn viewer [query-params]
   (fn [query-params]
-    [site/sidebar-layout
+    [layout/sidebar-main
      [url-loader {:fmt :clj
                   :url :nb/collections}
       notebook-collection]
