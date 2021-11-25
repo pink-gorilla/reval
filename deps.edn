@@ -1,6 +1,4 @@
-{:paths ["src"
-         "resources" ; extension , resources used in devtools ui
-         ]
+{:paths ["src"]
  :deps
  {org.clojure/clojure    {:mvn/version "1.10.3"}
   org.clojure/core.async {:mvn/version "1.3.618"}
@@ -89,9 +87,7 @@
                                                  }}}
                          :reval {:rdocument  {:storage-root "demo/rdocument/"
                                               :url-root "/api/rdocument/file/"}
-                                 :collections {:user [:clj "user/notebook/"]
-                                               :demo [:clj "demo/notebook/"]
-                                               :demo-cljs [:cljs "demo/notebook/"]}}}}}
+                                 }}}}
 
 ;
   }}
