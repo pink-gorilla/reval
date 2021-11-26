@@ -2,32 +2,13 @@
   (:require
    [clojure.string :as str]
    [clojure.java.io :as io]
-   [reval.document.classpath :refer [describe-url]]
-   [resauce.core :as rs]))
-
-(defn get-ns-files [res-path]
-  (->> (rs/resource-dir res-path)
-       (remove rs/directory?)
-       (map (partial describe-url res-path))))
-
-(defn split-ext [filename]
-  (let [m (re-matches #"(.*)\.(clj[sc]*)" filename)
-        [_ name ext] m]
-    [name ext]))
-
-(defn is-format? [fmt [_ ext]] ; name
-  (case ext
-    "cljs" (= fmt :cljs)
-    "clj" (= fmt :clj)
-    "cljc" true))
-
-(defn filename->ns [dir name]
-  (str
-   (str/replace dir #"/" ".")
-   (str/replace name #"_" "-")))
+   [modular.config :refer [get-in-config]]
+   [modular.resource.explore :refer [describe-files]]
+   [reval.document.classpath :refer [split-ext is-format? filename->ns]]
+   [reval.document.notebook :refer [eval-notebook]]))
 
 (defn get-ns-list [fmt res-path]
-  (->> (get-ns-files res-path)
+  (->> (describe-files res-path)
        (map :name)
        (map split-ext)
        (filter (partial is-format? fmt))
@@ -46,6 +27,19 @@
   (->> (map (fn [[k v]]
               [k [(first v) (get-nss-list (first v) (rest v))]]) spec)
        (into {})))
+
+(defn eval-collection [[name [t ns-list]]]
+  (doall
+   (map eval-notebook ns-list)))
+
+(defn eval-collections [colls]
+ ; {:demo [:clj []]
+ ;  :user [:clj ["test.notebook.apple"]]}
+  (doall
+   (map eval-collection colls)))
+
+(defn nb-collections []
+  (get-collections (get-in-config [:reval :collections])))
 
 (comment
 

@@ -7,19 +7,13 @@
    [modular.helper.date :refer [now-str]]
    [reval.type.converter :refer [value->hiccup]]
    [reval.document.manager :as rdm]
-   [reval.document.classpath :refer [ns->dir]]
+   [reval.document.classpath :refer [ns->dir ns->filename]]
    [reval.document.src-parser :refer [text->notebook]]
    [reval.kernel.clj-eval :refer [clj-eval]]
    [reval.default]  ; side effects to include all default converters
    ))
 
 ;; create
-
-(defn ns->filename [ns fmt]
-  (let [name (ns->dir ns)]
-    (case fmt
-      :clj (str name ".clj")
-      :cljs (str name ".cljs"))))
 
 (defn load-src
   ([ns]
