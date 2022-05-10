@@ -3,7 +3,7 @@
 (def demo-code "(* 6 (+ 7 7))")
 
 (defonce scratchpad-code
-  (r/atom 
+  (r/atom
    "(+ 7 7)
     (defn bad-ui []
       (throw {:type :custom-error}))
@@ -13,9 +13,7 @@
         ['user/bad-ui]
         {:R true})
 
-    "
-   
-   ))
+    "))
 
 (defonce cljs-er
   (r/atom nil))
@@ -41,11 +39,11 @@
     (reset! cljs-er nil)
     (run-a clj-er [:er] :viz-eval {:code code})))
 
-(defn repl-header []
+(defn repl-header [nbns fmt]
   [:div.pt-5
    [:span.text-xl.text-blue-500.text-bold.mr-4 "repl"]
    [:button.bg-gray-400.m-1 {:on-click #(reset! scratchpad-code demo-code)} "demo"]
-   [:span "ns: " "user"]
+   [:span "ns: " nbns "  format: " fmt]
    [:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
    [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]])
 
@@ -71,22 +69,49 @@
               min-height: 100%;
             }"])
 
-(defn repl []
-  [spaces/viewport
+(defn editor [ns fmt]
+  (let [loaded (r/atom [nil nil])
+        id (r/atom 1)]
+    (fn [ns fmt]
+      (let [comparator [ns fmt]]
+        (when (not (= comparator @loaded))
+          (println "loaded: " @loaded)
+          (reset! loaded comparator)
+          (run-cb {:fun :nb/load-src
+                   :args [ns (keyword fmt)]
+                   :timeout 1000
+                   :cb (fn [[s {:keys [result]}]]
+                         (println "code: " result)
+                         (reset! scratchpad-code result)
+                         (swap! id inc))}))
+        [:div.w-full.h-full.bg-white-200
+         [style-codemirror-fullscreen]
+         [codemirror @id scratchpad-code]]))))
+
+(defn repl [url-params]
+  (fn [{:keys [query-params]} url-params]
+    (let [{:keys [ns fmt]
+           :or {fmt "clj"
+                ns "user"}} query-params]
+      [spaces/viewport
     ;"top"
-   [spaces/top-resizeable {:size 50}
-    [repl-header]] ; 
-   [spaces/fill {:class "bg-green-200"}
-    [:div.w-full.h-full.bg-red-200
-     [spaces/left-resizeable {:size "40%"
-                              :class "bg-blue-500"}
+       [spaces/top-resizeable {:size 50}
+        [repl-header ns fmt]] ; 
+       [spaces/fill {:class "bg-green-200"}
+        [:div.w-full.h-full.bg-red-200
 
-      [:div.w-full.h-full.bg-white-200
-       [style-codemirror-fullscreen]
-       [codemirror 27 scratchpad-code]]]
+         [spaces/left-resizeable {:size "20%"
+                                  :class "bg-blue-500"}
+          [url-loader {:fmt :clj
+                       :url :nb/collections}
+           #(notebook-collection :repl %)]]
 
-     [spaces/fill {}
-      [repl-output]]]]])
+         [spaces/left-resizeable {:size "40%"
+                                  :class "bg-blue-500"}
+          [editor ns fmt]]
+
+         [spaces/fill {}
+          [repl-output]]]]])))
 
 (add-page repl :repl)
 

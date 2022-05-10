@@ -25,13 +25,10 @@
   {:extra-paths ["target/webly" ; to include the sci-bindings info
                  ]
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.513"}
-                org.pinkgorilla/viz-spec {:mvn/version "0.0.3"}
-                org.pinkgorilla/ui-repl {:mvn/version "0.0.43"}
-                org.pinkgorilla/ui-input {:mvn/version "0.0.19"} ; spaces
+                
                 org.pinkgorilla/ui-gorilla {:mvn/version "0.4.3"} ; needed by reval
                 org.pinkgorilla/ui-site {:mvn/version "0.0.17"}
-                org.pinkgorilla/ui-code {:mvn/version "0.0.28"}
-                org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}}
+                }
    :exec-fn goldly.app.build/goldly-build
    :exec-args {:profile "watch2"
                :services "reval/demo-services.edn"
@@ -42,13 +39,9 @@
   {:extra-paths ["target/webly" ; to include the sci-bindings info
                  "node_modules"]
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.513"}
-                org.pinkgorilla/viz-spec {:mvn/version "0.0.3"}
-                org.pinkgorilla/ui-repl {:mvn/version "0.0.43"}
-                org.pinkgorilla/ui-input {:mvn/version "0.0.19"} ; spaces
                 org.pinkgorilla/ui-gorilla {:mvn/version "0.4.3"} ; needed by reval
                 org.pinkgorilla/ui-site {:mvn/version "0.0.17"}
-                org.pinkgorilla/ui-code {:mvn/version "0.0.28"}
-                org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}}
+                }
    :exec-fn modular.system/start!
    :exec-args {:profile "watch2"
                :services "reval/demo-services.edn"

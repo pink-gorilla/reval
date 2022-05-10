@@ -20,32 +20,7 @@
      (when show-viewer-debug-ui
        [notebook-debug nb])]))
 
-(pinkie/register-tag :p/notebook notebook)
 
-;; COLLECTION UI
-
-(defn nb-item [fmt ns]
-  [:p.w-full.truncate ; .overflow-x-hidden
-   [link-dispatch [:bidi/goto :viewer :query-params {:ns ns :fmt (name fmt)}]
-    (-> (string/split ns ".") last)
-   ; ns
-    ]])
-
-(defn nb-list [[name [fmt list]]]
-  (into
-   [:div.w-full
-    [:p.bg-red-300 name]
-    (when show-viewer-debug-ui
-      [:p (meta list) (pr-str list)])]
-   (map #(nb-item fmt %) list)))
-
-(defn notebook-collection [d]
-  [:div.w-full.h-full.w-min-64
-   (into
-    [:div.flex.flex-col.items-stretch.bg-gray-50.h-full.w-full]
-    (map #(nb-list %) d))])
-
-(pinkie/register-tag :p/notebookcollection notebook-collection)
 
 ;; APP
 
@@ -72,14 +47,12 @@
                 fmt)
           c [url-loader {:fmt :clj
                          :url :nb/collections}
-             notebook-collection]
-          nb [url-loader #_{:fmt :edn
-                            :url  (rdoc-link ns "notebook.edn")}
-              {:fmt :clj
-               :url :nb/load
-             ;:arg-fetch ns
-               :args-fetch [ns fmt]}
-              notebook]]
+             #(notebook-collection :viewer %)]
+          nb [url-loader {:fmt :clj
+                          :url :nb/load
+                          ;:arg-fetch ns
+                          :args-fetch [ns fmt]}
+                  notebook]]
       [:div
        (if (< 500 (.-availWidth js/screen))
          ; big screen
@@ -99,6 +72,11 @@
 (defn viewer-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
    [viewer query-params]])
+
+
+
+
+
 
 ;(add-page-template viewer-page :viewer)
 (add-page viewer-page :viewer)

@@ -5,7 +5,7 @@
    [reval.type.converter :refer [value->hiccup]]
    [reval.kernel.clj-eval :refer [clj-eval-raw]]
    [reval.document.collection :as nbcol]
-   [reval.document.notebook :refer [load-notebook eval-notebook save-notebook]]
+   [reval.document.notebook :refer [load-src load-notebook eval-notebook save-notebook]]
    [reval.default] ; side effects
    [goldly.service.core :as s]
    [reval.document-handler] ; side effect
@@ -58,6 +58,7 @@
 
 (s/add {:viz-eval viz-eval
         :nb/collections nb-collections
+        :nb/load-src load-src
         :nb/load  load-notebook
         :nb/eval  eval-notebook
         :nb/save save-notebook})
