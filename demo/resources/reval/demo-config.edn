@@ -1,0 +1,16 @@
+{:goldly {:lazy  false
+                                  ; runtime
+          :autoload-cljs-dir  []
+          :routes {:app {"" :repl
+                         "devtools/repl" :repl
+                         "devtools/scratchpad" :scratchpad
+                         "devtools/viewer" :viewer}
+                   :api {"rdocument/ns" :rdocument/ns
+                         "rdocument/files" :rdocument/files
+                         ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
+                         }}}
+ 
+ :reval {:rdocument  {:storage-root "demo/rdocument/"
+                      :url-root "/api/rdocument/file/"}
+         :collections {:test [:clj "notebook/test/"]
+                       :study [:clj "notebook/study/"]}}}

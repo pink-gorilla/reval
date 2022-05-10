@@ -1,6 +1,6 @@
 ;; NOTEBOOK UI
 
-(def show-viewer-debug-ui true) ; true for debugging
+(def show-viewer-debug-ui false) ; true for debugging
 
 ;; notebook
 

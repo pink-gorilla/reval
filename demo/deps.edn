@@ -11,12 +11,9 @@
   {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
    :main-opts ["-m" "cljfmt.main" "fix" "--indents" "cljfmt.edn"]}
 
-
   ;; nrepl only
   :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}}
           :main-opts  ["-m" "nrepl.cmdline"]}
-
-
 
   ;; nb eval
   :nbeval {:extra-paths ["demo"]
@@ -37,22 +34,8 @@
                 org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}}
    :exec-fn goldly.app.build/goldly-build
    :exec-args {:profile "watch2"
-               :services "reval-demo-services.edn"
-               :config  ["webly/config.edn" "goldly/config.edn"
-                         {:goldly {:lazy  false
-                                  ; runtime
-                                   :autoload-cljs-dir  []
-                                   :routes {:app {"" :repl
-                                                  "devtools/repl" :repl
-                                                  "devtools/scratchpad" :scratchpad
-                                                  "devtools/viewer" :viewer}
-                                            :api {"rdocument/ns" :rdocument/ns
-                                                  "rdocument/files" :rdocument/files
-                                                  ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
-                                                  }}}
-                          :reval {:rdocument  {:storage-root "demo/rdocument/"
-                                               :url-root "/api/rdocument/file/"}}}]}}
-
+               :services "reval/demo-services.edn"
+               :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
 
 
   :goldly ; goldly compile (show reval in goldly, but with up to date reval!)
@@ -68,18 +51,7 @@
                 org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}}
    :exec-fn modular.system/start!
    :exec-args {:profile "watch2"
-               :services "reval-demo-services.edn"
-               :config  ["webly/config.edn" "goldly/config.edn"
-                         {:goldly {:lazy  false
-                                  ; runtime
-                                   :autoload-cljs-dir  []
-                                   :routes {:app {"" :repl
-                                                  "devtools/repl" :repl
-                                                  "devtools/scratchpad" :scratchpad
-                                                  "devtools/viewer" :viewer}
-                                            :api {"rdocument/ns" :rdocument/ns
-                                                  "rdocument/files" :rdocument/files
-                                                  ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
-                                                  }}}
-                          :reval {:rdocument  {:storage-root "demo/rdocument/"
-                                               :url-root "/api/rdocument/file/"}}}]}}}}
+               :services "reval/demo-services.edn"
+               :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
+   
+   }}

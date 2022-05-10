@@ -3,7 +3,19 @@
 (def demo-code "(* 6 (+ 7 7))")
 
 (defonce scratchpad-code
-  (r/atom "(+ 7 7)"))
+  (r/atom 
+   "(+ 7 7)
+    (defn bad-ui []
+      (throw {:type :custom-error}))
+    (with-meta 
+      [:p.text-blue-600.text-xl.text-bold \"hello\"
+        ['user/bongo {:a 3}]]
+        ['user/bad-ui]
+        {:R true})
+
+    "
+   
+   ))
 
 (defonce cljs-er
   (r/atom nil))

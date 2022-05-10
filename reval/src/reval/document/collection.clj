@@ -72,7 +72,7 @@
 
   (get-collections
    {:demo [:clj "demo/notebook/"]
-    :user [:clj "user/notebook/"]})
+    :user [:clj "notebook/"]})
 
   (-> (get-collections
        {:user [:clj "user/notebook/"]
