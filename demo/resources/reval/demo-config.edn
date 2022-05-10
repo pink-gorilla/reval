@@ -12,7 +12,7 @@
                          ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
                          }}}
  
- :reval {:rdocument  {:storage-root "demo/rdocument/"
+ :reval {:rdocument  {:storage-root "rdocument/"
                       :url-root "/api/rdocument/file/"}
          :collections {:test [:clj "notebook/test/"]
                        :study [:clj "notebook/study/"]}}}

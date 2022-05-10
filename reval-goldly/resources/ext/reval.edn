@@ -11,6 +11,7 @@
  :autoload-cljs-dir ["reval/lib"
                      "reval/lib2"
                      "reval/page"]
- :autoload-clj-ns [reval.services]
+ :autoload-clj-ns [reval.default
+                   reval.services]
  
  }
