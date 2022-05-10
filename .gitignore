@@ -27,3 +27,4 @@ goldly_bindings_generated.cljs
 rdocument/
 .clj-kondo
 target
+reval-goldly/resources/META-INF

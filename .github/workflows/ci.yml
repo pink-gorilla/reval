@@ -47,8 +47,11 @@ jobs:
         cd reval-goldly
         git config --global user.email "ci@pinkgorilla.org"
         git config --global user.name "CI/CD"
-        clojure -M:release --patch
-        git push --tags
+        clj -T:build-jar jar
+        clj -T:build-jar deploy
+      #  clojure -M:release --patch
+      #  git push --tags
+      #
       #  rm src/goldly_bindings_generated.cljs
       #  clojure -M:release tag --minor
       #  clojure -M:release pom
