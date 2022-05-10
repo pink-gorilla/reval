@@ -19,6 +19,14 @@
                    [rewrite_clj.node.fn FnNode]
                    [rewrite_clj.node.quote QuoteNode])))
 
+; stolen from:
+;https://github.com/mauricioszabo/duck-repled/blob/master/src/duck_repled/editor_helpers.cljc
+
+; paredit-backward
+; https://github.com/clj-commons/rewrite-clj/blob/main/src/rewrite_clj/zip/move.cljc
+; https://github.com/clj-commons/rewrite-clj/blob/main/src/rewrite_clj/zip/base.cljc
+
+
 (defn- reader-tag? [node]
   (when node
     (or (instance? ReaderMacroNode node)

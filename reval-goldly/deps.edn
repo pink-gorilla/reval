@@ -3,11 +3,12 @@
  {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   ; deps to ui extensions used in reval
   org.pinkgorilla/viz-spec {:mvn/version "0.0.3"}
-  org.pinkgorilla/ui-repl {:mvn/version "0.0.43"}
+  org.pinkgorilla/ui-repl {:mvn/version "0.0.43"} ; reagent
   org.pinkgorilla/ui-input {:mvn/version "0.0.19"} ; spaces
-
   org.pinkgorilla/ui-code {:mvn/version "0.0.28"}
-  org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}}
+  org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.4"}
+  org.pinkgorilla/ui-site {:mvn/version "0.0.17"} ; remove it?
+  }
 
  :aliases
  {;https://github.com/applied-science/deps-library

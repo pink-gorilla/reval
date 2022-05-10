@@ -1,4 +1,4 @@
-{:goldly {:lazy  false
+{:goldly {:lazy true
           ; runtime
           :autoload-cljs-dir  ["demo/goldly"
                                "goldly/lib" ; not sure why.
