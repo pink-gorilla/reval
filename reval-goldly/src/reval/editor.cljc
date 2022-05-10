@@ -43,7 +43,6 @@
        (take-while (complement move/end?))
        (filter #(in-range? (-> % zip/node meta) pos))))
 
-
 (defn- filter-forms [nodes]
   (when nodes
     (let [valid-tag? (comp #{:vector :list :map :set :quote} :tag)]
@@ -72,7 +71,6 @@
                     (meta (first nodes)))]
     (-> all-nodes (zip-base/edn {:track-position? true}))))
 
-
 (defn block-for
   "Gets the current block from the code (a string) to the current row and col (0-based)"
   [code [row col]]
@@ -86,8 +84,7 @@
       [[[(dec row) (dec col)] [(dec end-row) (- end-col 2)]]
        (node/string node-block)])))
 
-
 (comment
- (block-for "(+ 3 1)\n(* 3 4 5 \n   6 7)\n(println 55)" [1 5])  
+  (block-for "(+ 3 1)\n(* 3 4 5 \n   6 7)\n(println 55)" [1 5])
 ;
   )

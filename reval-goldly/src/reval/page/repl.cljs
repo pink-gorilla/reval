@@ -48,7 +48,7 @@
    [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]])
 
 (defn repl-output []
-  [:div.w-full.h-full
+  [:div.w-full.h-full.bg-gray-100
    [:div#repltarget]
    (when @cljs-er
      [:div
@@ -100,14 +100,14 @@
        [spaces/fill {:class "bg-green-200"}
         [:div.w-full.h-full.bg-red-200
 
-         [spaces/left-resizeable {:size "20%"
-                                  :class "bg-blue-500"}
+         [spaces/left-resizeable {:size "10%"
+                                  :class "bg-gray-100"}
           [url-loader {:fmt :clj
                        :url :nb/collections}
            #(notebook-collection :repl %)]]
 
          [spaces/left-resizeable {:size "40%"
-                                  :class "bg-blue-500"}
+                                  :class "bg-gray-100"}
           [editor ns fmt]]
 
          [spaces/fill {}

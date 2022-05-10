@@ -1,6 +1,8 @@
 {:goldly {:lazy  false
-                                  ; runtime
-          :autoload-cljs-dir  []
+          ; runtime
+          :autoload-cljs-dir  ["demo/goldly"
+                               "goldly/lib" ; not sure why.
+                               ]
           :routes {:app {"" :repl
                          "devtools/repl" :repl
                          "devtools/scratchpad" :scratchpad

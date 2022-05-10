@@ -32,8 +32,6 @@
       [:tbody
        (map-indexed stacktrace-line stacktrace)]])])
 
-(pinkie/register-tag :p/evalerr evalerr)
-
 ;; segment
 
 (defn segment-debug [segment]

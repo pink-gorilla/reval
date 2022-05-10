@@ -11,10 +11,10 @@
 ; need to search for something better.
 
 #_(deftest unknown-test
-  (let [r (unknown-type-record. 3)
-        hiccup  (-> r value->hiccup)
-        hiccup-unknown (unknown-type-view r)]
-    (is (= hiccup hiccup-unknown))))
+    (let [r (unknown-type-record. 3)
+          hiccup  (-> r value->hiccup)
+          hiccup-unknown (unknown-type-view r)]
+      (is (= hiccup hiccup-unknown))))
 
 (comment
   (-> (unknown-type-record. 3)

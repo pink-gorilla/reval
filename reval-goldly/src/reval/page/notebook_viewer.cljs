@@ -20,8 +20,6 @@
      (when show-viewer-debug-ui
        [notebook-debug nb])]))
 
-
-
 ;; APP
 
 (def nb-welcome
@@ -52,7 +50,7 @@
                           :url :nb/load
                           ;:arg-fetch ns
                           :args-fetch [ns fmt]}
-                  notebook]]
+              notebook]]
       [:div
        (if (< 500 (.-availWidth js/screen))
          ; big screen
@@ -72,11 +70,6 @@
 (defn viewer-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
    [viewer query-params]])
-
-
-
-
-
 
 ;(add-page-template viewer-page :viewer)
 (add-page viewer-page :viewer)

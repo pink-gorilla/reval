@@ -42,19 +42,16 @@
 
 (load-string "(+ 4 4) (* 4 4)")
 (try (load-string "(/ 4 0)")
-    (catch Exception e
+     (catch Exception e
       ;(println "ex: " e)
       ;(stacktrace e)
       ;(.getMessage e)
-      (.getCause e)
-      (class e)
-      (class (.getCause e))
+       (.getCause e)
+       (class e)
+       (class (.getCause e))
 
      ; type
-      )
-    )
-
-
+       ))
 (clj-eval-raw "(/ 4 0)")
 
 (defn clj-eval

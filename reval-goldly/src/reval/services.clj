@@ -29,12 +29,8 @@
   (viz-eval {:code "(/ 1 0)"})
   (clj-eval-raw "(/ 1 0)")
 
-
-  ;
-)
-
-
-
+;
+  )
 (info "reval loading..")
 
 (defn get-config []

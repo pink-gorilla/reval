@@ -28,10 +28,14 @@ jobs:
       with:
         cli: 1.10.3.929 # Clojure CLI based on tools.deps
     - name: clj-fmt
-      run: clojure -M:cljfmt
+      run: |
+        cd reval
+        clojure -M:cljfmt
       shell: bash
     - name: test-clj
-      run: clojure -M:test
+      run: |
+        cd reval
+        clojure -M:test
     - name: Release
       if: success()
       # if: github.event_name == 'push'
@@ -40,6 +44,7 @@ jobs:
         CLOJARS_PASSWORD: ${{ secrets.ReleasePassword }}
         CODECOV_TOKEN: ${{ secrets.CodecovToken }}
       run: |
+        cd reval-goldly
         git config --global user.email "ci@pinkgorilla.org"
         git config --global user.name "CI/CD"
         clojure -M:release --patch

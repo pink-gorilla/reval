@@ -19,12 +19,10 @@
     [:span {:style {:color "blue"}} "13"]
 
     "[7 8]"
-    [:span {:class "clj-vector"} 
-     [:span.font-bold.teal-700.mr-1 "["] 
-     [:span.items 
-      [:span {:style {:color "blue"}} "7"] 
-      [:span " "] 
-      [:span {:style {:color "blue"}} "8"]] 
-     [:span.font-bold.teal-700.ml-1 "]"]]
-
-    ))
+    [:span {:class "clj-vector"}
+     [:span.font-bold.teal-700.mr-1 "["]
+     [:span.items
+      [:span {:style {:color "blue"}} "7"]
+      [:span " "]
+      [:span {:style {:color "blue"}} "8"]]
+     [:span.font-bold.teal-700.ml-1 "]"]]))
