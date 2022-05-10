@@ -22,4 +22,4 @@
 [1 2 3]
 
 ^:R
-[:p/text "hello\nworld"]
+['user/text "hello\nworld"]

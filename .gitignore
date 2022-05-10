@@ -10,7 +10,7 @@ pom.xml.asc
 .DS_Store
 /out
 /node_modules
-.shadow-cljs/*
+.shadow-cljs
 .classpath
 .project
 .settings/*
@@ -20,8 +20,10 @@ pom.xml.asc
 node_modules
 package.json
 package-lock.json
-/karma.conf.js
+karma.conf.js
 shadow-cljs.edn
 .webly
 goldly_bindings_generated.cljs
 rdocument/
+.clj-kondo
+target

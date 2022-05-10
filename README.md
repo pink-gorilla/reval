@@ -8,8 +8,11 @@
 
 ## DEMO - Get Started
 - clone this repo
-- Run `clj -X:goldly-docs`. Open Browser on Port 8000
-- Open the repo in your preferred ide. Connect to nrepl on port 8000.
+- Run in directory demo:
+   `clj -X:goldly-build :profile '"npm-install"'`
+   `clj -X:goldly`
+  Open Browser on Port 8080
+- Open the repo in your preferred ide. Connect to nrepl on port 9100.
 - demo/demo/scratchpad.clj or Eval demo/demo/notebook.clj 
 
 ## scratchpad

@@ -1,0 +1,16 @@
+{:name "reval"
+ ; build time
+ :lazy false  ; we dont have any code, lazy fucks up size report
+ :cljs-namespace [reval.default reval.type.converter]
+ :cljs-bindings {'value->hiccup reval.type.converter/value->hiccup}
+ :cljs-ns-bindings {}
+ :pinkie {}
+ ; run time
+ :clj-require []
+ :autoload-cljs-dir ["goldly/lib" ; not sure why.
+                     "reval/lib"
+                     "reval/lib2"
+                     "reval/page"]
+ :autoload-clj-ns [reval.services]
+ 
+ }
