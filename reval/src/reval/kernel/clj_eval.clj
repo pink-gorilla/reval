@@ -38,7 +38,24 @@
   (try
     (with-out-str-data-map (load-string code))
     (catch Exception e
-      {:err (err e)})))
+      {:err (err (.getCause e))})))
+
+(load-string "(+ 4 4) (* 4 4)")
+(try (load-string "(/ 4 0)")
+    (catch Exception e
+      ;(println "ex: " e)
+      ;(stacktrace e)
+      ;(.getMessage e)
+      (.getCause e)
+      (class e)
+      (class (.getCause e))
+
+     ; type
+      )
+    )
+
+
+(clj-eval-raw "(/ 4 0)")
 
 (defn clj-eval
   "evaluate code in namespace ns

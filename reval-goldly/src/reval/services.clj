@@ -24,6 +24,17 @@
            (assoc :hiccup (value->hiccup value))
            (dissoc :value)))))
 
+(comment
+  (viz-eval {:code "(/ 1 3)"})
+  (viz-eval {:code "(/ 1 0)"})
+  (clj-eval-raw "(/ 1 0)")
+
+
+  ;
+)
+
+
+
 (info "reval loading..")
 
 (defn get-config []
@@ -52,7 +63,7 @@
         :nb/save save-notebook})
 
 (comment
-  devtools-config
+
   (nb-collections)
 
 ;  
