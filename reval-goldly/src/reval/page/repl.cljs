@@ -2,7 +2,9 @@
 
 (def demo-code "(* 6 (+ 7 7))")
 
-(defonce scratchpad-code
+(defonce editor-id (r/atom 1))
+
+(defonce repl-code
   (r/atom
    "(+ 7 7)
     (defn bad-ui []
@@ -15,6 +17,13 @@
 
     "))
 
+(defn print-position []
+  (let [id @editor-id]
+    (if-let [c (cm/get id)]
+       (-> (cm/cursor-position)
+           (info))    
+       (info (str "no codemirror with id found: " id)))))
+
 (defonce cljs-er
   (r/atom nil))
 
@@ -23,7 +32,7 @@
 
 (defn eval-cljs []
   (reset! clj-er {:er nil})
-  (let [code @scratchpad-code
+  (let [code @repl-code
         _ (println "eval cljs: " code)
         er (compile-sci code)
         er (if-let [result (:result er)]
@@ -33,7 +42,7 @@
     (reset! cljs-er er)))
 
 (defn eval-clj []
-  (let [code @scratchpad-code
+  (let [code @repl-code
         _ (println "eval clj: " code)]
     (reset! clj-er {:er nil})
     (reset! cljs-er nil)
@@ -42,10 +51,12 @@
 (defn repl-header [nbns fmt]
   [:div.pt-5
    [:span.text-xl.text-blue-500.text-bold.mr-4 "repl"]
-   [:button.bg-gray-400.m-1 {:on-click #(reset! scratchpad-code demo-code)} "demo"]
+   [:button.bg-gray-400.m-1 {:on-click #(reset! repl-code demo-code)} "demo"]
    [:span "ns: " nbns "  format: " fmt]
    [:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
-   [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]])
+   [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]
+   [:button.bg-gray-400.m-1 {:on-click print-position} "print-position"]
+   ])
 
 (defn repl-output []
   [:div.w-full.h-full.bg-gray-100
@@ -71,7 +82,8 @@
 
 (defn editor [ns fmt]
   (let [loaded (r/atom [nil nil])
-        id (r/atom 1)]
+        ;id (r/atom 1)
+        ]
     (fn [ns fmt]
       (let [comparator [ns fmt]]
         (when (not (= comparator @loaded))
@@ -82,11 +94,12 @@
                    :timeout 1000
                    :cb (fn [[s {:keys [result]}]]
                          (println "code: " result)
-                         (reset! scratchpad-code result)
-                         (swap! id inc))}))
+                         (reset! repl-code result)
+                         ;(swap! editor-id inc)
+                         )}))
         [:div.w-full.h-full.bg-white-200
          [style-codemirror-fullscreen]
-         [codemirror @id scratchpad-code]]))))
+         [codemirror @editor-id repl-code]]))))
 
 (defn repl [url-params]
   (fn [{:keys [query-params]} url-params]
