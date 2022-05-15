@@ -4,10 +4,8 @@
  :cljs-namespace [reval.default reval.type.converter]
  :cljs-bindings {'value->hiccup reval.type.converter/value->hiccup}
  :cljs-ns-bindings {}
- ;:pinkie {}
- 
+  
  ; run time
- ;:clj-require []
  :autoload-cljs-dir ["reval/lib"
                      "reval/lib2"
                      "reval/page"]

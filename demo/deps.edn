@@ -26,7 +26,7 @@
                  ]
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.515"}}
    :exec-fn goldly.app.build/goldly-build
-   :exec-args {:profile "watch2"
+   :exec-args {:profile "compile"
                :services "reval/demo-services.edn"
                :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
 
@@ -36,7 +36,7 @@
                  "node_modules"]
    :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.515"}}
    :exec-fn modular.system/start!
-   :exec-args {:profile "watch2"
+   :exec-args {:profile "jetty"
                :services "reval/demo-services.edn"
                :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
    
