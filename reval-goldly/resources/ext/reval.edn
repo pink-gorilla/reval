@@ -1,8 +1,10 @@
 {:name "reval"
  ; build 
  :lazy false
- :cljs-namespace [reval.default reval.type.converter]
- :cljs-bindings {'value->hiccup reval.type.converter/value->hiccup}
+ :cljs-namespace [reval.default reval.type.converter
+                  reval.editor]
+ :cljs-bindings {'value->hiccup reval.type.converter/value->hiccup
+                 'block-for reval.editor/block-for}
  :cljs-ns-bindings {}
  ; run 
  :autoload-cljs-dir ["reval/lib"

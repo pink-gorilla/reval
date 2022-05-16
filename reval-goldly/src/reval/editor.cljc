@@ -13,7 +13,8 @@
             #?(:cljs [rewrite-clj.node.reader-macro :refer [ReaderMacroNode DerefNode]])
             #?(:cljs [rewrite-clj.node.fn :refer [FnNode]])
             #?(:cljs [rewrite-clj.node.quote :refer [QuoteNode]])
-            #?(:cljs ["fs" :refer [readFileSync]]))
+            ;#?(:cljs ["fs" :refer [readFileSync]])
+            )
   #?(:clj (:import [rewrite_clj.node.uneval UnevalNode]
                    [rewrite_clj.node.reader_macro ReaderMacroNode DerefNode]
                    [rewrite_clj.node.fn FnNode]

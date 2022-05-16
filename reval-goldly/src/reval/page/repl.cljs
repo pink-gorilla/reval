@@ -2,8 +2,6 @@
 
 (def demo-code "(* 6 (+ 7 7))")
 
-(defonce editor-id (r/atom 1))
-
 (defonce repl-code
   (r/atom
    "(+ 7 7)
@@ -16,6 +14,47 @@
         {:R true})
 
     "))
+
+
+(defonce editor-id (r/atom 1))
+
+(defn cm-get-code []
+  (-> (cm/get @editor-id)
+      (cm/get-code)))
+
+(defn cm-set-code [code]
+  (let [c (cm/get @editor-id)]
+    (cm/set-code c code)
+    (cm/focus c)))
+
+
+
+
+
+(def cm-opts {:lineWrapping false})
+
+(defn style-codemirror-fullscreen []
+  ; height: auto; "400px" "100%"  height: auto;
+  ; auto will make the editor resize to fit its content (i
+  [:style ".my-codemirror > .CodeMirror { 
+              font-family: monospace;
+              height: 100%;
+              min-height: 100%;
+            }"])
+
+;(defn cm-editor-atom []
+;  [:div.w-full.h-full.bg-white-200
+;    [style-codemirror-fullscreen]
+;      [user/codemirror @editor-id repl-code]])
+
+
+(defn cm-editor []
+  [:<> [style-codemirror-fullscreen] ;cm/style-inline
+         [:div.my-codemirror
+           [user/codemirror-unbound @editor-id cm-opts]]
+   ])
+
+
 
 ;; results
 
@@ -34,13 +73,6 @@
   (reset! nb-er {:nb nil}))
 
 ;; eval cljs
-
-(defn print-position []
-  (let [id @editor-id]
-    (if-let [c (cm/get id)]
-      (-> (cm/cursor-position)
-          (info))
-      (info (str "no codemirror with id found: " id)))))
 
 (defn eval-cljs []
   (clear)
@@ -70,7 +102,49 @@
         _ (println "eval clj: " code)]
     (run-a nb-er [:nb] :nb/eval ns))) ;fmt
 
+;; EDITOR 
+
+(defn current-expression []
+  (let [id @editor-id]
+    (when-let [c (cm/get id)]
+      (let [p (cm/cursor-position c)
+            {:keys [line col]} p
+            code (cm-get-code)
+            ;code "(+ 3 1)\n(* 3 4 5 \n   6 7)\n(println 55)"
+            cur-exp (block-for code [line col])
+            code-exp (second cur-exp)
+            ]
+        ;cur-exp
+        code-exp
+        ))))
+
+(defn print-position []
+  (when-let [code-exp (current-expression)]
+    (info code-exp)
+    ))
+
+(defn eval-clj-segment [ns]
+  (clear)
+  (when-let [code (current-expression)]
+    (println "eval clj segment: " code)
+    (run-a clj-er [:er] :viz-eval {:code code :ns ns})))
+
+
+(def cur-ns (r/atom "ns"))
+
+(rf/reg-event-fx
+ :repl/eval-expression
+ (fn [cofx [_ data]]
+   (info (str "evaluating repl segment!" data))
+   ;(print-position)
+   (eval-clj-segment @cur-ns)
+   nil))
+
+
+;; HEADER
+
 (defn repl-header [nbns fmt]
+  (reset! cur-ns nbns)
   [:div.pt-5
    [:span.text-xl.text-blue-500.text-bold.mr-4 "repl"]
    [:button.bg-gray-400.m-1 {:on-click #(reset! repl-code demo-code)} "demo"]
@@ -78,9 +152,10 @@
    [:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
    [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]
    [:button.bg-gray-400.m-1 {:on-click #(eval-nb nbns fmt)} "nb eval"]
+   [:button.bg-gray-400.m-1 {:on-click #(eval-clj-segment nbns)} "eval cur expression"]
    [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]
    [:button.bg-red-400.m-1 #_{:on-click eval-clj} "save"]
-   [:button.bg-gray-400.m-1 {:on-click print-position} "print-position"]])
+   ])
 
 (defn repl-output []
   [:div.w-full.h-full.bg-gray-100
@@ -102,14 +177,7 @@
       ;(pr-str nb)
       [notebook nb]])])
 
-(defn style-codemirror-fullscreen []
-  ; height: auto; "400px" "100%"  height: auto;
-  ; auto will make the editor resize to fit its content (i
-  [:style ".my-codemirror > .CodeMirror { 
-              font-family: monospace;
-              height: 100%;
-              min-height: 100%;
-            }"])
+
 
 (defn editor [ns fmt]
   (let [loaded (r/atom [nil nil])
@@ -126,11 +194,11 @@
                    :cb (fn [[s {:keys [result]}]]
                          (println "code: " result)
                          (reset! repl-code result)
+                         (cm-set-code result)
                          ;(swap! editor-id inc)
                          )}))
-        [:div.w-full.h-full.bg-white-200
-         [style-codemirror-fullscreen]
-         [codemirror @editor-id repl-code]]))))
+        [cm-editor]
+        ))))
 
 (defn repl [url-params]
   (fn [{:keys [query-params]} url-params]

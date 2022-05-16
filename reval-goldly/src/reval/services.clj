@@ -3,7 +3,7 @@
    [taoensso.timbre  :refer [debug info warn error]]
    [modular.config :as config :refer [get-in-config]]
    [reval.type.converter :refer [value->hiccup]]
-   [reval.kernel.clj-eval :refer [clj-eval-raw]]
+   [reval.kernel.clj-eval :refer [clj-eval-raw clj-eval]]
    [reval.document.collection :as nbcol]
    [reval.document.notebook :refer [load-src load-notebook eval-notebook save-notebook]]
    [reval.default] ; side effects
@@ -17,12 +17,17 @@
    :collections {:demo [:clj "demo/notebook/"]}})
 
 (defn viz-eval [{:keys [code ns]}]
-  (let [{:keys [err value] :as er} (clj-eval-raw code)]
+  (let [{:keys [err value] :as er} 
+        ;(clj-eval-raw code)
+        (clj-eval {:code code :ns ns})
+        
+        ]
     (if err
       er
       (->  er
            (assoc :hiccup (value->hiccup value))
            (dissoc :value)))))
+
 
 (comment
   (viz-eval {:code "(/ 1 3)"})

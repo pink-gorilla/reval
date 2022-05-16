@@ -5,14 +5,36 @@
                                ]
           :routes {:app {"" :repl
                          "devtools/repl" :repl
-                         "devtools/scratchpad" :scratchpad
-                         }
+                         "devtools/scratchpad" :scratchpad}
                    :api {"rdocument/ns" :rdocument/ns
                          "rdocument/files" :rdocument/files
                          ["rdocument/file/" :ns "/" :name] :rdocument/file ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
                          }}}
- 
+
  :reval {:rdocument  {:storage-root "rdocument/"
                       :url-root "/api/rdocument/file/"}
          :collections {:test [:clj "notebook/test/"]
-                       :study [:clj "notebook/study/"]}}}
+                       :study [:clj "notebook/study/"]}}
+
+ :keybindings [{:kb "alt-g k",
+                :handler [:palette/show],
+                :desc "Keybindings dialog"}
+               {:kb "esc",
+                :handler [:modal/close],
+                :desc "Dialog Close"}
+               {:kb "alt-g t",
+                :handler [:reframe10x-toggle],
+                :desc "10x visibility toggle"}
+
+               ;{:kb "up"   :handler [:arrow-up]    :desc "Codemirror Key Up"} ; :scope :codemirror
+               ;{:kb "down" :handler [:arrow-down] :desc "Codemirror Key Down"} :scope :codemirror
+               {:kb "shift-enter" :handler [:codemirror-active/completion-apply]  :desc "applies auto completion"}
+               {:kb "ctrl-space"  :handler [:codemirror/completion-get]     :desc "Show possible auto-completions"}
+               ; {:spec "enter"    :handler [:completion/clear]          :key ::clear}
+               ; {:spec "ctrl"     :handler [:completion/show-all false] :scope :global :key ::show-all-hide}
+               {:kb "alt-g c"     :handler [:clojuredocs]               :desc "Look up the symbol under the cursor in ClojureDocs"}
+
+               ; eval
+               {:kb "alt-shift-enter"     :handler [:notebook/evaluate-all] :desc "Evaluate all segments."}
+               {:kb "ctrl-shift-enter" :handler [:notebook/evaluate-all]         :desc "Evaluate all segments"}
+               {:kb "ctrl-enter" :handler [:repl/eval-expression]               :desc "Evaluate the highlighted segment"}]}
