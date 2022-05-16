@@ -3,11 +3,11 @@
  {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   ; deps to ui extensions used in reval
   org.pinkgorilla/viz-spec {:mvn/version "0.0.3"}
-  org.pinkgorilla/ui-repl {:mvn/version "0.0.43"} ; reagent
-  org.pinkgorilla/ui-input {:mvn/version "0.0.20"} ; spaces
-  org.pinkgorilla/ui-codemirror {:mvn/version "0.0.30"}
+  org.pinkgorilla/ui-repl {:mvn/version "0.0.44"} ; reagent
+  org.pinkgorilla/ui-input {:mvn/version "0.0.21"} ; spaces
+  org.pinkgorilla/ui-codemirror {:mvn/version "0.0.31"}
   org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.5"}
-  org.pinkgorilla/ui-site {:mvn/version "0.0.17"} ; remove it?
+  org.pinkgorilla/ui-site {:mvn/version "0.0.18"} ; remove it?
   }
 
  :aliases
