@@ -22,7 +22,7 @@
    (map #(nb-item open-link fmt %) list)))
 
 (defn notebook-collection [open-link d]
-  [:div.w-full.h-full.w-min-64
+  [:div.w-full.h-full.w-min-64.max-h-full.overflow-y-auto
    (into
-    [:div.flex.flex-col.items-stretch.bg-gray-50.h-full.w-full]
+    [:div.flex.flex-col.items-stretch.bg-gray-50.h-full.w-full.max-h-full.overflow-y-auto]
     (map #(nb-list open-link %) d))])

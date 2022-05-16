@@ -40,6 +40,7 @@
               font-family: monospace;
               height: 100%;
               min-height: 100%;
+              max-height: 100%;
             }"])
 
 ;(defn cm-editor-atom []
@@ -213,7 +214,7 @@
         [:div.w-full.h-full.bg-red-200
 
          [spaces/left-resizeable {:size "10%"
-                                  :class "bg-gray-100"}
+                                  :class "bg-gray-100 max-h-full overflow-y-auto"}
           [url-loader {:fmt :clj
                        :url :nb/collections}
            #(notebook-collection :repl %)]]
