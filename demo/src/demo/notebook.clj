@@ -1,12 +1,12 @@
 (ns demo.notebook
   (:require
    [reval.document.notebook :refer [eval-notebook]]
-   [goldly.scratchpad :refer [show! show-as clear!]]
-   [demo.init] ; side effects
+   ;[scratchpad.core :refer [show! show-as clear!]]
+  ; [demo.init] ; side effects
    ))
 ;; checkout one notebook..
 
-(-> (eval-notebook "user.notebook.movies")
+(-> (eval-notebook "notebook.study.movies")
     meta)
 
 (-> (eval-notebook "user.notebook.movies")

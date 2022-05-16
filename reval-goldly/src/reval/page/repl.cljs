@@ -17,12 +17,7 @@
 
     "))
 
-(defn print-position []
-  (let [id @editor-id]
-    (if-let [c (cm/get id)]
-       (-> (cm/cursor-position)
-           (info))    
-       (info (str "no codemirror with id found: " id)))))
+;; results
 
 (defonce cljs-er
   (r/atom nil))
@@ -30,8 +25,25 @@
 (defonce clj-er
   (r/atom {:er nil}))
 
-(defn eval-cljs []
+(defonce nb-er
+  (r/atom {:nb nil}))
+
+(defn clear []
   (reset! clj-er {:er nil})
+  (reset! cljs-er nil)
+  (reset! nb-er {:nb nil}))
+
+;; eval cljs
+
+(defn print-position []
+  (let [id @editor-id]
+    (if-let [c (cm/get id)]
+      (-> (cm/cursor-position)
+          (info))
+      (info (str "no codemirror with id found: " id)))))
+
+(defn eval-cljs []
+  (clear)
   (let [code @repl-code
         _ (println "eval cljs: " code)
         er (compile-sci code)
@@ -42,11 +54,21 @@
     (reset! cljs-er er)))
 
 (defn eval-clj []
+  (clear)
   (let [code @repl-code
         _ (println "eval clj: " code)]
-    (reset! clj-er {:er nil})
-    (reset! cljs-er nil)
     (run-a clj-er [:er] :viz-eval {:code code})))
+
+;nb-eval
+
+(defn eval-nb [ns fmt]
+  (clear)
+  (let [fmt (keyword fmt) ;:clj
+        ;ns "demo.notebook.abc"
+        _  (println "format: " fmt " ns: " ns)
+        code @repl-code
+        _ (println "eval clj: " code)]
+    (run-a nb-er [:nb] :nb/eval ns))) ;fmt
 
 (defn repl-header [nbns fmt]
   [:div.pt-5
@@ -55,8 +77,10 @@
    [:span "ns: " nbns "  format: " fmt]
    [:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
    [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]
-   [:button.bg-gray-400.m-1 {:on-click print-position} "print-position"]
-   ])
+   [:button.bg-gray-400.m-1 {:on-click #(eval-nb nbns fmt)} "nb eval"]
+   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]
+   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "save"]
+   [:button.bg-gray-400.m-1 {:on-click print-position} "print-position"]])
 
 (defn repl-output []
   [:div.w-full.h-full.bg-gray-100
@@ -69,7 +93,14 @@
      [:div.overflow-scroll.h-full.w-full
       ;[:p (pr-str er)]
       ;[render-vizspec2 (:hiccup er)]
-      [segment er]])])
+      [segment er]])
+   (when-let [nb (:nb @nb-er)]
+     [:div.overflow-scroll.h-full.w-full
+      ;[:p (pr-str er)]
+      ;[render-vizspec2 (:hiccup er)]
+      ;[segment er]
+      ;(pr-str nb)
+      [notebook nb]])])
 
 (defn style-codemirror-fullscreen []
   ; height: auto; "400px" "100%"  height: auto;
