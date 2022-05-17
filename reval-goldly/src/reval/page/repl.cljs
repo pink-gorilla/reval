@@ -26,6 +26,14 @@
     (cm/set-code c code)
     (cm/focus c)))
 
+(defn save-code [path]
+  (let [code (cm-get-code)]
+    (run-cb {:fun :nb/save-code
+             :args [{:code code :path path}]
+             :timeout 1000
+             :cb (fn [[s {:keys [result]}]]
+                   (println "result: " result))})))
+
 (def cm-opts {:lineWrapping false})
 
 (defn style-codemirror-fullscreen []
@@ -68,7 +76,7 @@
 
 (defn eval-cljs []
   (clear)
-  (let [code @repl-code
+  (let [code (cm-get-code)
         _ (println "eval cljs: " code)
         er (compile-sci code)
         er (if-let [result (:result er)]
@@ -79,7 +87,7 @@
 
 (defn eval-clj []
   (clear)
-  (let [code @repl-code
+  (let [code (cm-get-code)
         _ (println "eval clj: " code)]
     (run-a clj-er [:er] :viz-eval {:code code})))
 
@@ -90,7 +98,7 @@
   (let [fmt (keyword fmt) ;:clj
         ;ns "demo.notebook.abc"
         _  (println "format: " fmt " ns: " ns)
-        code @repl-code
+        code (cm-get-code)
         _ (println "eval clj: " code)]
     (run-a nb-er [:nb] :nb/eval ns))) ;fmt
 
@@ -130,8 +138,11 @@
 
 ;; HEADER
 
-(defn repl-header [nbns fmt]
+(def cur-path (r/atom nil))
+
+(defn repl-header [nbns fmt path]
   (reset! cur-ns nbns)
+  (reset! cur-path path)
   [:div.pt-5
    [:span.text-xl.text-blue-500.text-bold.mr-4 "repl"]
    [:button.bg-gray-400.m-1 {:on-click #(reset! repl-code demo-code)} "demo"]
@@ -141,8 +152,8 @@
    [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]
    [:button.bg-gray-400.m-1 {:on-click #(eval-nb nbns fmt)} "nb eval"]
    [:button.bg-gray-400.m-1 {:on-click #(eval-clj-segment nbns)} "eval cur expression"]
-   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]
-   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "save"]])
+   [:button.bg-gray-400.m-1 {:on-click #(save-code path)} "save"]
+   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]])
 
 (defn repl-output []
   [:div.w-full.h-full.bg-gray-100
@@ -164,12 +175,12 @@
         ;(pr-str nb)
       [notebook nb])]])
 
-(defn editor [ns fmt]
+(defn editor [ns fmt path]
   (let [loaded (r/atom [nil nil])
         ;id (r/atom 1)
         ]
-    (fn [ns fmt]
-      (let [comparator [ns fmt]]
+    (fn [ns fmt path]
+      (let [comparator [ns fmt path]]
         (when (not (= comparator @loaded))
           (println "loaded: " @loaded)
           (reset! loaded comparator)
@@ -186,13 +197,13 @@
 
 (defn repl [url-params]
   (fn [{:keys [query-params]} url-params]
-    (let [{:keys [ns fmt]
+    (let [{:keys [ns fmt path]
            :or {fmt "clj"
                 ns "user"}} query-params]
       [spaces/viewport
     ;"top"
        [spaces/top-resizeable {:size 50}
-        [repl-header ns fmt]] ; 
+        [repl-header ns fmt path]] ; 
        [spaces/fill {:class "bg-green-200"}
         [:div.w-full.h-full.bg-red-200
 
@@ -204,7 +215,7 @@
 
          [spaces/left-resizeable {:size "40%"
                                   :class "bg-gray-100"}
-          [editor ns fmt]]
+          [editor ns fmt path]]
 
          [spaces/fill {}
           [repl-output]]]]])))

@@ -11,6 +11,10 @@
    [reval.document-handler] ; side effect
    ))
 
+(defn save-code [{:keys [path code]}]
+  (info "saving code to: " path)
+  (spit path code))
+
 (def default-reval-config
   {:rdocument  {:storage-root "/tmp/rdocument/"
                 :url-root "/api/rdocument/file/"}
@@ -57,7 +61,10 @@
 
 (s/add {:viz-eval viz-eval
         :nb/collections nb-collections
+        ; used in repl:
         :nb/load-src load-src
+        :nb/save-code save-code
+
         :nb/load  load-notebook
         :nb/eval  eval-notebook
         :nb/save save-notebook})
