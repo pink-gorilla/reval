@@ -6,7 +6,7 @@
   org.pinkgorilla/ui-repl {:mvn/version "0.0.44"} ; reagent
   org.pinkgorilla/ui-input {:mvn/version "0.0.21"} ; spaces
   org.pinkgorilla/ui-codemirror {:mvn/version "0.0.31"}
-  org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.6"}
+  org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.7"}
   org.pinkgorilla/ui-site {:mvn/version "0.0.18"} ; remove it?
   }
 

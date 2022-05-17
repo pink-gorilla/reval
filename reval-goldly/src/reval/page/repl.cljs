@@ -15,7 +15,6 @@
 
     "))
 
-
 (defonce editor-id (r/atom 1))
 
 (defn cm-get-code []
@@ -26,10 +25,6 @@
   (let [c (cm/get @editor-id)]
     (cm/set-code c code)
     (cm/focus c)))
-
-
-
-
 
 (def cm-opts {:lineWrapping false})
 
@@ -48,14 +43,10 @@
 ;    [style-codemirror-fullscreen]
 ;      [user/codemirror @editor-id repl-code]])
 
-
 (defn cm-editor []
   [:<> [style-codemirror-fullscreen] ;cm/style-inline
-         [:div.my-codemirror.w-full.h-full
-           [user/codemirror-unbound @editor-id cm-opts]]
-   ])
-
-
+   [:div.my-codemirror.w-full.h-full
+    [user/codemirror-unbound @editor-id cm-opts]]])
 
 ;; results
 
@@ -113,23 +104,19 @@
             code (cm-get-code)
             ;code "(+ 3 1)\n(* 3 4 5 \n   6 7)\n(println 55)"
             cur-exp (block-for code [line col])
-            code-exp (second cur-exp)
-            ]
+            code-exp (second cur-exp)]
         ;cur-exp
-        code-exp
-        ))))
+        code-exp))))
 
 (defn print-position []
   (when-let [code-exp (current-expression)]
-    (info code-exp)
-    ))
+    (info code-exp)))
 
 (defn eval-clj-segment [ns]
   (clear)
   (when-let [code (current-expression)]
     (println "eval clj segment: " code)
     (run-a clj-er [:er] :viz-eval {:code code :ns ns})))
-
 
 (def cur-ns (r/atom "ns"))
 
@@ -140,7 +127,6 @@
    ;(print-position)
    (eval-clj-segment @cur-ns)
    nil))
-
 
 ;; HEADER
 
@@ -156,30 +142,27 @@
    [:button.bg-gray-400.m-1 {:on-click #(eval-nb nbns fmt)} "nb eval"]
    [:button.bg-gray-400.m-1 {:on-click #(eval-clj-segment nbns)} "eval cur expression"]
    [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]
-   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "save"]
-   ])
+   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "save"]])
 
 (defn repl-output []
   [:div.w-full.h-full.bg-gray-100
    [:div#repltarget]
    [:div.overflow-scroll.h-full.w-full
-     (when @cljs-er
-         (if-let [err (get-in @cljs-er [:error :err])]
-           [:p.text-red-500 err]
-           #_[:p (pr-str @cljs-er)]
-           [render-vizspec2 (:hiccup @cljs-er)]))
-     (when-let [er (:er @clj-er)]
+    (when @cljs-er
+      (if-let [err (get-in @cljs-er [:error :err])]
+        [:p.text-red-500 err]
+        #_[:p (pr-str @cljs-er)]
+        [render-vizspec2 (:hiccup @cljs-er)]))
+    (when-let [er (:er @clj-er)]
         ;[:p (pr-str er)]
         ;[render-vizspec2 (:hiccup er)]
-        [segment er])
-     (when-let [nb (:nb @nb-er)]
+      [segment er])
+    (when-let [nb (:nb @nb-er)]
         ;[:p (pr-str er)]
         ;[render-vizspec2 (:hiccup er)]
         ;[segment er]
         ;(pr-str nb)
-        [notebook nb])]])
-
-
+      [notebook nb])]])
 
 (defn editor [ns fmt]
   (let [loaded (r/atom [nil nil])
@@ -199,8 +182,7 @@
                          (cm-set-code result)
                          ;(swap! editor-id inc)
                          )}))
-        [cm-editor]
-        ))))
+        [cm-editor]))))
 
 (defn repl [url-params]
   (fn [{:keys [query-params]} url-params]

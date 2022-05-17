@@ -13,8 +13,11 @@
 
  :reval {:rdocument  {:storage-root "rdocument/"
                       :url-root "/api/rdocument/file/"}
-         :collections {:test [:clj "notebook/test/"]
-                       :study [:clj "notebook/study/"]}}
+         :collections {:test27 [:clj "notebook/test27/"]
+                       :study [:clj "notebook/study/"]
+                       :big-list [:clj "notebook/big_list/"]
+                       :demo [:clj "demo/notebook/"] ; embedded notebooks in jars.
+                       }}
 
  :keybindings [{:kb "alt-g k",
                 :handler [:palette/show],

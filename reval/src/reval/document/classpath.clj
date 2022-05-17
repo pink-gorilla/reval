@@ -21,11 +21,18 @@
     "clj" (= fmt :clj)
     "cljc" true))
 
+(defn ext-is-format? [fmt ext]
+  (case ext
+    "cljs" (= fmt :cljs)
+    "clj" (= fmt :clj)
+    "cljc" true))
+
 (defn ns->filename [ns fmt]
   (let [name (ns->dir ns)]
     (case fmt
       :clj (str name ".clj")
-      :cljs (str name ".cljs"))))
+      :cljs (str name ".cljs")
+      :cljc (str name ".cljc"))))
 
 (defn filename->ns [dir name]
   (str

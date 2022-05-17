@@ -1,4 +1,4 @@
-(ns notebook.test.text)
+(ns notebook.test27.text)
 
 ; seqs and maps are not implemented
 ; the question is what is an efficient show way that is also nice.

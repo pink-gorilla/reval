@@ -17,17 +17,15 @@
    :collections {:demo [:clj "demo/notebook/"]}})
 
 (defn viz-eval [{:keys [code ns]}]
-  (let [{:keys [err value] :as er} 
+  (let [{:keys [err value] :as er}
         ;(clj-eval-raw code)
-        (clj-eval {:code code :ns ns})
-        
-        ]
+        (clj-eval {:code code :ns ns})]
+
     (if err
       er
       (->  er
            (assoc :hiccup (value->hiccup value))
            (dissoc :value)))))
-
 
 (comment
   (viz-eval {:code "(/ 1 3)"})
