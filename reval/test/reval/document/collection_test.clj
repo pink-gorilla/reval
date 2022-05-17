@@ -7,7 +7,19 @@
 
 (deftest collection-overview-test
   (is (= (get-collections
-          {:demo [:clj "demo/notebook/"]
-           :user [:clj "test/notebook/"]})
-         {:demo [:clj []]
-          :user [:clj ["test.notebook.apple"]]})))
+          {:demo [:clj "demo/notebook/"]})
+         {:demo [:clj []]}))
+
+  ;{:user [:clj [{:nbns "test.notebook.apple",
+  ;               :ext "clj",
+  ;                     ;:path "/home/florian/repo/gorilla/reval/reval/test/test/notebook/apple.clj"
+  ;               }]]}
+  (is (= (-> (get-collections {:user [:clj "test/notebook/"]})
+             :user
+             second
+             first
+             (dissoc :path))
+         {:nbns "test.notebook.apple"
+          :ext "clj"
+         ;:path "/home/florian/repo/gorilla/reval/reval/test/test/notebook/apple.clj"
+          })))
