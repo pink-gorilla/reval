@@ -51,7 +51,7 @@
 
 (defn cm-editor []
   [:<> [style-codemirror-fullscreen] ;cm/style-inline
-         [:div.my-codemirror
+         [:div.my-codemirror.w-full.h-full
            [user/codemirror-unbound @editor-id cm-opts]]
    ])
 
@@ -150,6 +150,7 @@
    [:span.text-xl.text-blue-500.text-bold.mr-4 "repl"]
    [:button.bg-gray-400.m-1 {:on-click #(reset! repl-code demo-code)} "demo"]
    [:span "ns: " nbns "  format: " fmt]
+   [:button.bg-gray-400.m-1 {:on-click clear} "clear output"]
    [:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
    [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]
    [:button.bg-gray-400.m-1 {:on-click #(eval-nb nbns fmt)} "nb eval"]
@@ -161,22 +162,22 @@
 (defn repl-output []
   [:div.w-full.h-full.bg-gray-100
    [:div#repltarget]
-   (when @cljs-er
-     [:div
-      [:p (pr-str @cljs-er)]
-      [render-vizspec2 (:hiccup @cljs-er)]])
-   (when-let [er (:er @clj-er)]
-     [:div.overflow-scroll.h-full.w-full
-      ;[:p (pr-str er)]
-      ;[render-vizspec2 (:hiccup er)]
-      [segment er]])
-   (when-let [nb (:nb @nb-er)]
-     [:div.overflow-scroll.h-full.w-full
-      ;[:p (pr-str er)]
-      ;[render-vizspec2 (:hiccup er)]
-      ;[segment er]
-      ;(pr-str nb)
-      [notebook nb]])])
+   [:div.overflow-scroll.h-full.w-full
+     (when @cljs-er
+         (if-let [err (get-in @cljs-er [:error :err])]
+           [:p.text-red-500 err]
+           #_[:p (pr-str @cljs-er)]
+           [render-vizspec2 (:hiccup @cljs-er)]))
+     (when-let [er (:er @clj-er)]
+        ;[:p (pr-str er)]
+        ;[render-vizspec2 (:hiccup er)]
+        [segment er])
+     (when-let [nb (:nb @nb-er)]
+        ;[:p (pr-str er)]
+        ;[render-vizspec2 (:hiccup er)]
+        ;[segment er]
+        ;(pr-str nb)
+        [notebook nb])]])
 
 
 
