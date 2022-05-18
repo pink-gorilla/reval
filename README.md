@@ -8,10 +8,10 @@
 
 ## DEMO - Get Started
 - clone this repo
-- Run in directory demo:
+- Run in directory *demo*:
    `clj -X:goldly-build :profile '"npm-install"'`
    `clj -X:goldly-build :profile '"compile2"'`
-   `clj -X:goldly`
+   `clj -X:goldly-run`
   Open Browser on Port 8080
 - Open the repo in your preferred ide. Connect to nrepl on port 9100.
 - demo/demo/scratchpad.clj or Eval demo/demo/notebook.clj 
@@ -19,22 +19,6 @@
 ## scratchpad
 - you can send vizualisations of your clj expressions to the scratchpad 
 - `->scratchpad` sends the vizualisation to the browser.
-
-## Use it in your project
-- add a dependency to pinkgorilla/goldly-docs.
-- create a goldly config similar to `demo/goldly-reval.edn`
-- Add this *alias* to your deps.edn
-
-```
- :goldly-docs
-  {:extra-paths ["demo" "test"] ; to show static files (not auto generated ones)
-   :extra-deps {org.pinkgorilla/goldly-docs {:mvn/version "RELEASE"}}
-   :exec-fn goldly-server.app/goldly-server-run!
-   :exec-args {:profile "jetty"
-               :config "demo/goldly-reval.edn"}}
-```
-
-Now you can use your custom project in the same way as before, but get vizualisations.
 
 ## configuration
 
@@ -76,6 +60,7 @@ By default storage root is "/tmp/rdocument/".
 
   ``` 
 ## why use a notebook ?
+
 - clj cannot be evaled in the browser
 - eval takes time
 - eval might need extra dependencies or data 

@@ -1,3 +1,10 @@
+(ns reval.goldly.url-loader
+  (:require
+   [rf]
+   [user :refer [info run-a error-boundary]]
+   [http]
+   [string]))
+
 (def show-loader-debug-ui false)
 
 ; (get-edn "/r/repl/bongo.edn" state [:data])

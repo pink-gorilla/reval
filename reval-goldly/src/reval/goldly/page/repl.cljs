@@ -1,3 +1,15 @@
+(ns reval.goldly.page.repl
+  (:require
+   [r]
+   [cm]
+   [user :refer [run-cb run-a compile-sci value->hiccup add-page block-for info send! println]]
+   [layout]
+   [reval.goldly.url-loader :refer [url-loader]]
+   [reval.goldly.vizspec :refer [render-vizspec2]]
+   [reval.goldly.notebook.collection :refer [notebook-collection]]
+   [reval.goldly.notebook.clj-result :refer [segment notebook]]))
+
+; 
 ; eval
 
 (def demo-code "(* 6 (+ 7 7))")

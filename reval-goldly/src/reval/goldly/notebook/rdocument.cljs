@@ -1,3 +1,7 @@
+(ns reval.goldly.notebook.rdocument
+  (:require
+   [reval.goldly.ui-helper :refer [text2]]
+   [reval.goldly.url-loader :refer [url-loader]]))
 
 ;; render functions 
 

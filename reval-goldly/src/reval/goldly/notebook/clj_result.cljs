@@ -1,3 +1,10 @@
+(ns reval.goldly.notebook.clj-result
+  (:require
+   [rf]
+   [string]
+   [reval.goldly.ui-helper :refer [text2]]
+   [reval.goldly.vizspec :refer [render-vizspec2]]))
+
 (def show-stacktrace true)
 (def show-segment-debug-ui false) ; true for debugging
 ;; ervalerr

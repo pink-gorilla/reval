@@ -1,3 +1,8 @@
+(ns reval.goldly.notebook.collection
+  (:require
+   [rf]
+   [string]))
+
 ;; COLLECTION UI
 
 (def show-collection-debug-ui false)

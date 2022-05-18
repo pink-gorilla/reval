@@ -1,3 +1,11 @@
+(ns reval.goldly.page.notebook-viewer
+  (:require
+   [layout]
+   [user :refer [add-page]]
+   [reval.goldly.url-loader :refer [url-loader]]
+   [reval.goldly.notebook.collection :refer [notebook-collection]]
+   [reval.goldly.notebook.clj-result :refer [notebook]]))
+
 ;; NOTEBOOK UI
 
 (def show-viewer-debug-ui false) ; true for debugging

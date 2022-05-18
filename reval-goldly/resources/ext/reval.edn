@@ -7,9 +7,9 @@
                  'block-for reval.editor/block-for}
  :cljs-ns-bindings {}
  ; run 
- :autoload-cljs-dir ["reval/lib"
-                     "reval/lib2"
-                     "reval/page"]
+ :autoload-cljs-dir ["reval/goldly"
+                     "reval/goldly/notebook"
+                     "reval/goldly/page"]
  :autoload-clj-ns [reval.default
                    reval.services]
  
