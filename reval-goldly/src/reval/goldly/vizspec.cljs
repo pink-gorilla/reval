@@ -2,7 +2,7 @@
   (:require
    [rf]
    [user :refer [resolve-symbol-sci println]]
-   [pinkie]))
+   [viz]))
 
 (defn safe-resolve-renderer [s]
   (try
@@ -16,7 +16,7 @@
   ;(println "first item in vec:" (first h) "type: " (type (first h)))
   ;(println "render fn:" (get-symbol-value (first h)))
   ;(println "now showing..")
-  (let [h-fn (pinkie/show safe-resolve-renderer h)]
+  (let [h-fn (viz/show safe-resolve-renderer h)]
     ;(println "rendered spec: " (pr-str h-fn))
     h-fn))
 
