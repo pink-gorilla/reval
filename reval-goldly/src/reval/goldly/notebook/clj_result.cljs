@@ -2,8 +2,8 @@
   (:require
    [rf]
    [string]
-   [reval.goldly.ui-helper :refer [text2]]
-   [reval.goldly.vizspec :refer [render-vizspec2]]))
+   [reval.goldly.ui-helper]
+   [reval.goldly.vizspec]))
 
 (def show-stacktrace true)
 (def show-segment-debug-ui false) ; true for debugging
@@ -55,10 +55,10 @@
        [evalerr err])
      (when (not (string/blank? out))
        [:div.bg-blue-200
-        [text2 out]])
+        [reval.goldly.ui-helper/text2 out]])
      (when hiccup
        [:div.mt-1.mb-1
-        (render-vizspec2 hiccup)])
+        (reval.goldly.vizspec/render-vizspec2 hiccup)])
      (when show-segment-debug-ui
        [segment-debug segment])]))
 
