@@ -1,5 +1,7 @@
 (ns reval.kernel.clj-eval
   (:require
+   [clojure.string :as string]
+   [taoensso.timbre :refer [debug info warnf error]]
    [clojure.core :refer [read-string load-string]]
    [clojure.core.async :refer [>! close! go <! <!! chan]]
    [modular.helper.id :refer [guuid]]
@@ -60,20 +62,32 @@
    returns the result of the last form in code.
    (it would be very easy to return all results as well)"
   [{:keys [id code ns]
-    :or {id (guuid)
-         ns (str *ns*)}}]
-  (let [ns-s (if (string? ns)
-               (symbol ns)
-               ns)
-        er (clj-eval-raw (str "(ns " ns-s " ) "
-                              "[ [" code "] (str *ns*)" "]"))
-        {:keys [value]} er
-        [value-new ns-after] value]
-    (merge er
-           {:code code
-            :id id
-            :ns ns-after
-            :value (last value-new)})))
+    :or {id (guuid)}}]
+  (let [code-ns (if (and ns (not (string/blank? ns)))
+                  (str "(ns " ns " ) ")
+                  "nil")
+        _ (error "code-to-set-ns: " code-ns)
+        code-with-ns (str code-ns " [ " code " (str *ns*) ]")
+        _ (error "full code: " code-with-ns)
+        er-code (clj-eval-raw code-with-ns)
+        _ (error "er-code: " er-code)
+        ; [[nil] "notebook.study.movies"]
+        {:keys [value]} er-code
+        ns-after (last value)
+        values-new (drop-last value)
+        last-value (last values-new)
+        ;er-code (clj-eval-raw code)
+        ;er-ns-after (clj-eval-raw "*ns*")
+        ;ns-after  (-> er-ns-after :value str) ; (str *ns*)
+        r (merge er-code
+                 {:id id
+                  :code code
+                  :ns ns-after}
+                 {:value last-value
+                  :code code})]
+
+    (info "eval-result: " r)
+    r))
 
 (defmethod kernel-eval :clj [seg]
   ; no logging in here. 

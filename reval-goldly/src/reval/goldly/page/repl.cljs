@@ -2,7 +2,7 @@
   (:require
    [r]
    [cm]
-   [user :refer [run-cb run-a compile-sci value->hiccup add-page block-for info send! println]]
+   [user :refer [run-cb run-a compile-sci compile-sci-async value->hiccup add-page block-for info send! println]]
    [layout]
    [reval.goldly.url-loader :refer [url-loader]]
    [reval.goldly.vizspec :refer [render-vizspec2]]
@@ -26,6 +26,8 @@
         {:R true})
 
     "))
+
+(defonce cur-ns (r/atom "user"))
 
 (defonce editor-id (r/atom 1))
 
@@ -86,22 +88,49 @@
 
 ;; eval cljs
 
-(defn eval-cljs []
-  (clear)
-  (let [code (cm-get-code)
-        _ (println "eval cljs: " code)
-        er (compile-sci code)
-        er (if-let [result (:result er)]
-             (assoc er :hiccup (value->hiccup result))
-             er)]
-    (println "cljs eval result:" er)
-    (reset! cljs-er er)))
+#_(defn eval-cljs []
+    (clear)
+    (let [code (cm-get-code)
+          _ (println "eval cljs: " code)
+          er (compile-sci code)
+          er (if-let [result (:result er)]
+               (assoc er :hiccup (value->hiccup result))
+               er)]
+      (println "cljs eval result:" er)
+      (reset! cljs-er er)))
 
-(defn eval-clj []
+(defn eval-cljs [{:keys [code ns]}]
+  (let [er-p (compile-sci-async code)]
+    (.then
+     (:result er-p)
+     (fn [er]
+       (println "cljs er: " er)
+       (when [er]
+         (println "cljs eval result:" er)
+         (let [er-h {:hiccup (value->hiccup er)}]
+           (reset! cljs-er er-h))
+         ;(reset! cur-ns (:ns er))
+         )))))
+(defn eval-clj [opts]
+   ;(run-a clj-er [:er] :viz-eval opts)
+  (run-cb {:fun :viz-eval
+           :args [opts]
+           :timeout 1000
+           :cb (fn [[s {:keys [result]}]]
+                 (let [{:keys [ns]} result]
+                   (println "clj-eval result: " result)
+                   (reset! clj-er {:er result})
+                   (println "setting ns to: " ns)
+                   (reset! cur-ns ns)))}))
+
+(defn eval-all [fmt]
   (clear)
   (let [code (cm-get-code)
-        _ (println "eval clj: " code)]
-    (run-a clj-er [:er] :viz-eval {:code code})))
+        opts {:code code :ns nil}]
+    (case fmt
+      "cljs" (eval-cljs opts)
+      "clj" (eval-clj opts)
+      (info (str "can not eval. format unknown: " fmt)))))
 
 ;nb-eval
 
@@ -132,20 +161,25 @@
   (when-let [code-exp (current-expression)]
     (info code-exp)))
 
-(defn eval-clj-segment [ns]
+(defn eval-segment [fmt]
   (clear)
   (when-let [code (current-expression)]
-    (println "eval clj segment: " code)
-    (run-a clj-er [:er] :viz-eval {:code code :ns ns})))
+    (let [opts {:code code :ns @cur-ns}]
+      (println "eval segment: " code)
+      (case fmt
+        "cljs" (eval-cljs opts)
+        "clj" (eval-clj opts)
+        (info (str "can not eval. format unknown: " fmt))))))
 
 (def cur-ns (r/atom "ns"))
+(def cur-fmt (r/atom "fmt"))
 
 (rf/reg-event-fx
  :repl/eval-expression
  (fn [cofx [_ data]]
    (info (str "evaluating repl segment!" data))
    ;(print-position)
-   (eval-clj-segment @cur-ns)
+   (eval-segment @cur-fmt)
    nil))
 
 ;; HEADER
@@ -154,18 +188,22 @@
 
 (defn repl-header [nbns fmt path]
   (reset! cur-ns nbns)
+  (reset! cur-fmt fmt)
   (reset! cur-path path)
   [:div.pt-5
    [:span.text-xl.text-blue-500.text-bold.mr-4 "repl"]
    [:button.bg-gray-400.m-1 {:on-click #(reset! repl-code demo-code)} "demo"]
    [:span "ns: " nbns "  format: " fmt]
-   [:button.bg-gray-400.m-1 {:on-click clear} "clear output"]
-   [:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
-   [:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]
+   ;[:button.bg-gray-400.m-1 {:on-click eval-cljs} "eval cljs"]
+   ;[:button.bg-gray-400.m-1 {:on-click eval-clj} "eval clj"]
+   [:button.bg-gray-400.m-1 {:on-click #(eval-all fmt)} "eval all"]
+   [:button.bg-gray-400.m-1 {:on-click #(eval-segment fmt)} "eval current"]
    [:button.bg-gray-400.m-1 {:on-click #(eval-nb nbns fmt)} "nb eval"]
-   [:button.bg-gray-400.m-1 {:on-click #(eval-clj-segment nbns)} "eval cur expression"]
    [:button.bg-gray-400.m-1 {:on-click #(save-code path)} "save"]
-   [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]])
+   [:div.bg-blue-300.inline-block
+    ; output
+    [:button.bg-gray-400.m-1 {:on-click clear} "clear output"]
+    [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]]])
 
 (defn repl-output []
   [:div.w-full.h-full.bg-gray-100
