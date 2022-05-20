@@ -1,7 +1,7 @@
 (ns reval.goldly.url-loader
   (:require
    [rf]
-   [user :refer [info run-a error-boundary]]
+   [user]
    [http]
    [string]))
 
@@ -16,16 +16,16 @@
         comparator [url arg-fetch args-fetch]]
     (if comparator?
       (when (not (= comparator (:comparator @a)))
-        (info (str "loading:  " comparator))
+        ;(info (str "loading:  " comparator))
         (swap! a assoc :comparator comparator)
         (case fmt
           :txt (http/get-str url a [:data])
           :edn (http/get-edn url a [:data])
           :clj (if arg-fetch
-                 (run-a a [:data] url arg-fetch)
+                 (user/run-a a [:data] url arg-fetch)
                  (if args-fetch
-                   (apply run-a a [:data] url args-fetch)
-                   (run-a a [:data] url))))
+                   (apply user/run-a a [:data] url args-fetch)
+                   (user/run-a a [:data] url))))
 
         nil)
       (swap! a assoc :data nil))))
@@ -54,7 +54,7 @@
       (load-url fmt url a arg-fetch args-fetch)
       (if-let [d (:data @a)]
         [:div
-         [error-boundary
+         [user/error-boundary
           (if (empty? args-render)
             (fun d)
             (apply fun d args-render))]

@@ -1,10 +1,10 @@
 (ns reval.goldly.page.notebook-viewer
   (:require
    [layout]
-   [user :refer [add-page]]
-   [reval.goldly.url-loader :refer [url-loader]]
-   [reval.goldly.notebook.collection :refer [notebook-collection]]
-   [reval.goldly.notebook.clj-result :refer [notebook]]))
+   [user]
+   [reval.goldly.url-loader]
+   [reval.goldly.notebook.collection]
+   [reval.goldly.notebook.clj-result]))
 
 ;; NOTEBOOK UI
 
@@ -33,14 +33,14 @@
     (let [fmt (if (string? fmt)
                 (keyword fmt)
                 fmt)
-          c [url-loader {:fmt :clj
+          c [reval.goldly.url-loader/url-loader {:fmt :clj
                          :url :nb/collections}
-             #(notebook-collection :viewer %)]
-          nb [url-loader {:fmt :clj
+             #(reval.goldly.notebook.collection/notebook-collection :viewer %)]
+          nb [reval.goldly.url-loader/url-loader {:fmt :clj
                           :url :nb/load
                           ;:arg-fetch ns
                           :args-fetch [ns fmt]}
-              notebook]]
+              reval.goldly.notebook.clj-result/notebook]]
       [:div
        (if (< 500 (.-availWidth js/screen))
          ; big screen
@@ -48,7 +48,7 @@
           c
           (if ns
             nb
-            [notebook nb-welcome])]
+            [reval.goldly.notebook.clj-result/notebook nb-welcome])]
          ; small screen
          (if ns
            nb
@@ -62,4 +62,4 @@
    [viewer query-params]])
 
 ;(add-page-template viewer-page :viewer)
-(add-page viewer-page :viewer)
+(user/add-page viewer-page :viewer)
