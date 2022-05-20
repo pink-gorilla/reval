@@ -101,16 +101,18 @@
 
 (defn eval-cljs [{:keys [code ns]}]
   (let [er-p (compile-sci-async code)]
-    (.then
-     (:result er-p)
-     (fn [er]
-       (println "cljs er: " er)
-       (when [er]
-         (println "cljs eval result:" er)
-         (let [er-h {:hiccup (value->hiccup er)}]
-           (reset! cljs-er er-h))
+    (.catch er-p (fn [err]
+                   (println "eval failed: " err)))
+    (.then er-p
+           (fn [er]
+             (println "cljs er: " er)
+             (when [er]
+               (println "cljs eval result:" er)
+               (let [er-h {:hiccup (value->hiccup er)}]
+                 (reset! cljs-er er-h))
          ;(reset! cur-ns (:ns er))
-         )))))
+               )))))
+
 (defn eval-clj [opts]
    ;(run-a clj-er [:er] :viz-eval opts)
   (run-cb {:fun :viz-eval
