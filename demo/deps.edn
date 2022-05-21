@@ -21,23 +21,15 @@
 
   ; demo ui
 
-  :goldly-build 
-  {:extra-paths ["target/webly" ; to include the sci-bindings info
-                 ]
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.530"}}
-   :exec-fn goldly.app.build/goldly-build
-   :exec-args {:profile "compile2"
-               :services "reval/demo-services.edn"
-               :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
-
-
-  :goldly-run 
+  :goldly
   {:extra-paths ["target/webly" ; to include the sci-bindings info
                  "node_modules"]
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.530"}}
+   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.542"}}
    :exec-fn modular.system/start!
    :exec-args {:profile "jetty"
                :services "reval/demo-services.edn"
                :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
-   
-   }}
+
+  :build
+  {:exec-fn goldly.app.build/goldly-build
+   :exec-args {:profile "compile2"}}}}

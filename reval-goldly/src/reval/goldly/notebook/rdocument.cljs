@@ -16,5 +16,5 @@
    ;test if text2 works
    ;[text2 {:class "bg-blue-300 text-red-500"} "asdf\nasdf\n"]
    [reval.goldly.url-loader/url-loader {:url url
-                :args args}
+                                        :args args}
     text-data]])

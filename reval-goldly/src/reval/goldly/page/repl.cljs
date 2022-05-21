@@ -1,13 +1,19 @@
 (ns reval.goldly.page.repl
   (:require
    [r]
+   [rf]
    [cm]
    [user]
    [layout]
-   [reval.goldly.url-loader]
-   [reval.goldly.vizspec]
-   [reval.goldly.notebook.collection]
-   [reval.goldly.notebook.clj-result]))
+   [ws]
+   [goldly :refer [error-view]]
+   [service]
+   [page]
+   [reval :refer [value->hiccup block-for]]
+   [reval.goldly.url-loader :refer [url-loader]]
+   [reval.goldly.vizspec :refer [render-vizspec2]]
+   [reval.goldly.notebook.collection :refer [notebook-collection]]
+   [reval.goldly.notebook.clj-result :refer [segment notebook]]))
 
 ; 
 ; eval
@@ -42,12 +48,12 @@
 
 (defn save-code [path]
   (let [code (cm-get-code)]
-    (user/run-cb {:fun :nb/save-code
-             :args [{:code code :path path}]
-             :timeout 1000
-             :cb (fn [[s {:keys [result]}]]
+    (service/run-cb {:fun :nb/save-code
+                     :args [{:code code :path path}]
+                     :timeout 1000
+                     :cb (fn [[s {:keys [result]}]]
                    ;(println "result: " result)
-                   )})))
+                           )})))
 
 (def cm-opts {:lineWrapping false})
 
@@ -102,30 +108,28 @@
 
 (defn eval-cljs [{:keys [code ns]}]
   (let [er-p (user/compile-sci-async code)]
-    (.catch er-p (fn [err]
+    (-> er-p
+        (.then
+         (fn [er]
+           (when [er]
+             (let [er-h {:hiccup (value->hiccup er)}]
+               (reset! cljs-er er-h)))))
+        (.catch (fn [e]
                    ;(println "eval failed: " err)
-                   ))
-    (.then er-p
-           (fn [er]
-             ;(println "cljs er: " er)
-             (when [er]
-               ;(println "cljs eval result:" er)
-               (let [er-h {:hiccup (user/value->hiccup er)}]
-                 (reset! cljs-er er-h))
-         ;(reset! cur-ns (:ns er))
-               )))))
+                  (when-let [sci-err (goldly/exception->error e)]
+                    (reset! cljs-er sci-err)))))))
 
 (defn eval-clj [opts]
    ;(run-a clj-er [:er] :viz-eval opts)
-  (user/run-cb {:fun :viz-eval
-           :args [opts]
-           :timeout 1000
-           :cb (fn [[s {:keys [result]}]]
-                 (let [{:keys [ns]} result]
+  (service/run-cb {:fun :viz-eval
+                   :args [opts]
+                   :timeout 1000
+                   :cb (fn [[s {:keys [result]}]]
+                         (let [{:keys [ns]} result]
                    ;(println "clj-eval result: " result)
-                   (reset! clj-er {:er result})
+                           (reset! clj-er {:er result})
                    ;(println "setting ns to: " ns)
-                   (reset! cur-ns ns)))}))
+                           (reset! cur-ns ns)))}))
 
 (defn eval-all [fmt]
   (clear)
@@ -147,7 +151,7 @@
         code (cm-get-code)
         ;_ (println "eval clj: " code)
         ]
-    (user/run-a nb-er [:nb] :nb/eval ns))) ;fmt
+    (service/run-a nb-er [:nb] :nb/eval ns))) ;fmt
 
 ;; EDITOR 
 
@@ -158,7 +162,7 @@
             {:keys [line col]} p
             code (cm-get-code)
             ;code "(+ 3 1)\n(* 3 4 5 \n   6 7)\n(println 55)"
-            cur-exp (user/block-for code [line col])
+            cur-exp (block-for code [line col])
             code-exp (second cur-exp)]
         ;cur-exp
         code-exp))))
@@ -218,20 +222,20 @@
    [:div#repltarget]
    [:div.overflow-scroll.h-full.w-full
     (when @cljs-er
-      (if-let [err (get-in @cljs-er [:error :err])]
-        [:p.text-red-500 err]
+      (if (:err @cljs-er)
+        [error-view @cur-ns @cljs-er] ;[:p.text-red-500 err]
         #_[:p (pr-str @cljs-er)]
-        [reval.goldly.vizspec/render-vizspec2 (:hiccup @cljs-er)]))
+        [render-vizspec2 (:hiccup @cljs-er)]))
     (when-let [er (:er @clj-er)]
         ;[:p (pr-str er)]
-        ;[reval.goldly.vizspec/render-vizspec2 (:hiccup er)]
-      [reval.goldly.notebook.clj-result/segment er])
+        ;[render-vizspec2 (:hiccup er)]
+      [segment er])
     (when-let [nb (:nb @nb-er)]
         ;[:p (pr-str er)]
-        ;[reval.goldly.vizspec/render-vizspec2 (:hiccup er)]
+        ;[render-vizspec2 (:hiccup er)]
         ;[segment er]
         ;(pr-str nb)
-      [reval.goldly.notebook.clj-result/notebook nb])]])
+      [notebook nb])]])
 
 (defn editor [ns fmt path]
   (let [loaded (r/atom [nil nil])
@@ -242,15 +246,15 @@
         (when (not (= comparator @loaded))
           ;(println "loaded: " @loaded)
           (reset! loaded comparator)
-          (user/run-cb {:fun :nb/load-src
-                   :args [ns (keyword fmt)]
-                   :timeout 1000
-                   :cb (fn [[s {:keys [result]}]]
+          (service/run-cb {:fun :nb/load-src
+                           :args [ns (keyword fmt)]
+                           :timeout 1000
+                           :cb (fn [[s {:keys [result]}]]
                          ;(println "code: " result)
-                         (reset! repl-code result)
-                         (cm-set-code result)
+                                 (reset! repl-code result)
+                                 (cm-set-code result)
                          ;(swap! editor-id inc)
-                         )}))
+                                 )}))
         [cm-editor]))))
 
 (defn repl [url-params]
@@ -267,9 +271,9 @@
 
          [spaces/left-resizeable {:size "10%"
                                   :class "bg-gray-100 max-h-full overflow-y-auto"}
-          [reval.goldly.url-loader/url-loader {:fmt :clj
+          [url-loader {:fmt :clj
                        :url :nb/collections}
-           #(reval.goldly.notebook.collection/notebook-collection :repl %)]]
+           #(notebook-collection :repl %)]]
 
          [spaces/left-resizeable {:size "40%"
                                   :class "bg-gray-100"}
@@ -278,7 +282,7 @@
          [spaces/fill {}
           [repl-output]]]]])))
 
-(user/add-page repl :repl)
+(page/add repl :repl)
 
 ; {:op     :show :clear
 ;  :hiccup [:p "hi"]
@@ -289,7 +293,7 @@
   (let [eval-result (user/compile-sci code)]
      ;(rf/dispatch [:goldly/send :scratchpad/evalresult {:code code :result eval-result}])
      ;(run-cb {:fun :scratchpad/evalresult :args {:code code :result eval-result}})
-    (user/send! [:scratchpad/evalresult {:code code :result eval-result}] (fn [& _]) 2000)))
+    (ws/send! [:scratchpad/evalresult {:code code :result eval-result}] (fn [& _]) 2000)))
 
 (defn process-repl-op [{:keys [op hiccup code] :as msg}]
   (case op

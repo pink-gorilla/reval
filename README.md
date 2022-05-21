@@ -9,16 +9,17 @@
 ## DEMO - Get Started
 - clone this repo
 - Run in directory *demo*:
-   `clj -X:goldly-build :profile '"npm-install"'`
-   `clj -X:goldly-build :profile '"compile2"'`
-   `clj -X:goldly-run`
+   `clj -X:goldly:build :profile '"npm-install"'`
+   `clj -X:goldly:build :profile '"compile2"'`
+   `clj -X:goldly`
   Open Browser on Port 8080
-- Open the repo in your preferred ide. Connect to nrepl on port 9100.
-- demo/demo/scratchpad.clj or Eval demo/demo/notebook.clj 
+
 
 ## scratchpad
 - you can send vizualisations of your clj expressions to the scratchpad 
 - `->scratchpad` sends the vizualisation to the browser.
+- Open the repo in your preferred ide. Connect to nrepl on port 9100.
+- demo/demo/scratchpad.clj or Eval demo/demo/notebook.clj 
 
 ## configuration
 

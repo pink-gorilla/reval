@@ -177,6 +177,16 @@
       :separator " "}
      self)))
 
+(extend-type clojure.lang.LongRange
+  hiccup-convertable
+  (to-hiccup [self]
+    (list->hiccup
+     {:class "clj-list"
+      :open "("
+      :close ")"
+      :separator " "}
+     self)))
+
 (extend-type clojure.lang.IPersistentSet
   hiccup-convertable
   (to-hiccup [self]

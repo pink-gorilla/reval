@@ -1,10 +1,11 @@
 (ns reval.goldly.page.notebook-viewer
   (:require
-   [layout]
+   [spaces]
    [user]
-   [reval.goldly.url-loader]
-   [reval.goldly.notebook.collection]
-   [reval.goldly.notebook.clj-result]))
+   [page]
+   [reval.goldly.url-loader :refer [url-loader]]
+   [reval.goldly.notebook.collection :refer [notebook-collection]]
+   [reval.goldly.notebook.clj-result :refer [notebook]]))
 
 ;; NOTEBOOK UI
 
@@ -26,40 +27,32 @@
    [:p (pr-str query-params)]
    [:p "ns: " (:ns query-params)]])
 
+;(if (< 500 (.-availWidth js/screen)) ; big screen
+;(when show-viewer-debug-ui
+;  [viewer-debug query-params])
+
 (defn viewer [query-params]
   (fn [{:keys [ns fmt]
         :or {fmt :clj}
         :as query-params}]
     (let [fmt (if (string? fmt)
                 (keyword fmt)
-                fmt)
-          c [reval.goldly.url-loader/url-loader {:fmt :clj
-                         :url :nb/collections}
-             #(reval.goldly.notebook.collection/notebook-collection :viewer %)]
-          nb [reval.goldly.url-loader/url-loader {:fmt :clj
-                          :url :nb/load
-                          ;:arg-fetch ns
-                          :args-fetch [ns fmt]}
-              reval.goldly.notebook.clj-result/notebook]]
-      [:div
-       (if (< 500 (.-availWidth js/screen))
-         ; big screen
-         [layout/sidebar-main
-          c
-          (if ns
-            nb
-            [reval.goldly.notebook.clj-result/notebook nb-welcome])]
-         ; small screen
-         (if ns
-           nb
-           c))
-
-       (when show-viewer-debug-ui
-         [viewer-debug query-params])])))
+                fmt)]
+      [spaces/viewport
+       [spaces/left-resizeable {:size "10%"
+                                :class "bg-gray-100 max-h-full overflow-y-auto"}
+        [url-loader {:fmt :clj
+                     :url :nb/collections}
+         #(notebook-collection :viewer %)]]
+       [spaces/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
+        [url-loader {:fmt :clj
+                     :url :nb/load
+                     :args-fetch [ns fmt]}
+         notebook]]])))
 
 (defn viewer-page [{:keys [route-params query-params handler] :as route}]
   [:div.bg-green-300.w-screen.h-screen
    [viewer query-params]])
 
 ;(add-page-template viewer-page :viewer)
-(user/add-page viewer-page :viewer)
+(page/add viewer-page :viewer)
