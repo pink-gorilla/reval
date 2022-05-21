@@ -3,7 +3,7 @@
  {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   ; deps to ui extensions used in reval
   org.pinkgorilla/scratchpad {:mvn/version "0.0.10"} ; scratchpad
-  org.pinkgorilla/ui-repl {:mvn/version "0.0.49"} ; reagent
+  org.pinkgorilla/ui-repl {:mvn/version "0.0.50"} ; reagent
   org.pinkgorilla/ui-input {:mvn/version "0.0.21"} ; spaces
   org.pinkgorilla/ui-codemirror {:mvn/version "0.0.32"}
   org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.8"}
