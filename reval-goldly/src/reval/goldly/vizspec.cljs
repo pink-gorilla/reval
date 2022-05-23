@@ -1,6 +1,5 @@
 (ns reval.goldly.vizspec
   (:require
-   [rf]
    [user]
    [viz]))
 

@@ -1,7 +1,9 @@
 (ns reval.goldly.url-loader
   (:require
-   [rf]
+   [reagent.core :as r]
+   [re-frame.core :as rf]
    [user]
+   [goldly.service :as service]
    [http]
    [string]))
 
@@ -22,10 +24,10 @@
           :txt (http/get-str url a [:data])
           :edn (http/get-edn url a [:data])
           :clj (if arg-fetch
-                 (user/run-a a [:data] url arg-fetch)
+                 (service/run-a a [:data] url arg-fetch)
                  (if args-fetch
-                   (apply user/run-a a [:data] url args-fetch)
-                   (user/run-a a [:data] url))))
+                   (apply service/run-a a [:data] url args-fetch)
+                   (service/run-a a [:data] url))))
 
         nil)
       (swap! a assoc :data nil))))

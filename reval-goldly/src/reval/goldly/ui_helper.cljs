@@ -1,6 +1,6 @@
 (ns reval.goldly.ui-helper
   (:require
-   [rf]
+   [re-frame.core :as rf]
    [string]))
 
 (defn link-fn [fun text]

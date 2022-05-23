@@ -2,7 +2,7 @@
   (:require
    [spaces]
    [user]
-   [page]
+   [goldly.page :as page]
    [reval.goldly.url-loader :refer [url-loader]]
    [reval.goldly.notebook.collection :refer [notebook-collection]]
    [reval.goldly.notebook.clj-result :refer [notebook]]))
