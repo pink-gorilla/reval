@@ -5,7 +5,7 @@
    [reval.ui :refer [img-inline img]]))
 
 ;; this notebook shows how you buffered images in clj
-;; can be rendererd to a reproducible notebook.
+;; can be renderered to a reproducible notebook.
 ;; load-img is just a helper function
 
 (def iname "resources/public/sun.png")

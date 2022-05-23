@@ -1,5 +1,5 @@
 (ns reval.type.cljs
-  "converts clojurrdvtipz values to hiccup representation"
+  "converts clojurescript values to hiccup representation"
   (:require
    [reval.type.protocol :refer [hiccup-convertable #_to-hiccup]]
    [reval.type.ui.simplevalue :refer [simplevalue->hiccup]]
@@ -86,6 +86,16 @@
   (to-hiccup [self]
     (list->hiccup
      {:class "clj-lazy-seq"
+      :open  "("
+      :close ")"
+      :separator " "}
+     self)))
+
+(extend-type cljs.core/IntegerRange
+  hiccup-convertable
+  (to-hiccup [self]
+    (list->hiccup
+     {:class "clj-int-range"
       :open  "("
       :close ")"
       :separator " "}

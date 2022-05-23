@@ -1,9 +1,9 @@
 (ns reval.goldly.notebook.clj-result
   (:require
-   [rf]
    [string]
-   [reval.goldly.ui-helper]
-   [reval.goldly.vizspec]))
+   [ui.highlightjs :refer [highlightjs]]
+   [reval.goldly.ui-helper :refer [text2]]
+   [reval.goldly.vizspec :refer [render-vizspec2]]))
 
 (def show-stacktrace true)
 (def show-segment-debug-ui false) ; true for debugging
@@ -50,15 +50,15 @@
   (let [scode (:code segment)]
     [:div.flex.flex-col
      (when scode
-       [user/highlightjs scode])
+       [highlightjs scode])
      (when err
        [evalerr err])
      (when (not (string/blank? out))
        [:div.bg-blue-200
-        [reval.goldly.ui-helper/text2 out]])
+        [text2 out]])
      (when hiccup
        [:div.mt-1.mb-1
-        (reval.goldly.vizspec/render-vizspec2 hiccup)])
+        (render-vizspec2 hiccup)])
      (when show-segment-debug-ui
        [segment-debug segment])]))
 

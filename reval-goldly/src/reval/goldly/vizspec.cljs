@@ -1,11 +1,11 @@
 (ns reval.goldly.vizspec
   (:require
-   [user]
+   [goldly.sci :refer [resolve-symbol-sci]]
    [viz]))
 
 (defn safe-resolve-renderer [s]
   (try
-    (user/resolve-symbol-sci s)
+    (resolve-symbol-sci s)
     (catch :default e
       ;(println "renderer not found: " s)
       nil)))

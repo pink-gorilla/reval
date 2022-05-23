@@ -1,6 +1,6 @@
 (ns reval.goldly.notebook.collection
   (:require
-   [rf]
+   [re-frame.core :as rf]
    [string]))
 
 ;; COLLECTION UI

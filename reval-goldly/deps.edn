@@ -2,11 +2,11 @@
  :deps
  {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   ; deps to ui extensions used in reval
-  org.pinkgorilla/scratchpad {:mvn/version "0.0.10"} ; scratchpad
-  org.pinkgorilla/ui-repl {:mvn/version "0.0.50"} ; reagent
+  org.pinkgorilla/scratchpad {:mvn/version "0.0.11"} ; scratchpad
+  org.pinkgorilla/ui-repl {:mvn/version "0.0.52"} ; reagent
   org.pinkgorilla/ui-input {:mvn/version "0.0.21"} ; spaces
-  org.pinkgorilla/ui-codemirror {:mvn/version "0.0.32"}
-  org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.8"}
+  org.pinkgorilla/ui-codemirror {:mvn/version "0.0.33"}
+  org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.9"}
   org.pinkgorilla/ui-site {:mvn/version "0.0.18"} ; remove it?
   }
 

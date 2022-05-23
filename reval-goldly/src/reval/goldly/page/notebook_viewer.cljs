@@ -1,7 +1,6 @@
 (ns reval.goldly.page.notebook-viewer
   (:require
    [spaces]
-   [user]
    [goldly.page :as page]
    [reval.goldly.url-loader :refer [url-loader]]
    [reval.goldly.notebook.collection :refer [notebook-collection]]

@@ -13,9 +13,11 @@
 
    "clj-char" {:color "dimgrey"}
    "clj-string" {:color "grey"}
+
    "clj-int" {:color "blue"}
    "clj-long" {:color "blue"}
    "clj-bigint" {:color "blue"}
+
    "clj-float" {:color "darkgreen"}
    "clj-double" {:color "darkgreen"}
    "clj-bigdecimal" {:color "darkgreen"}

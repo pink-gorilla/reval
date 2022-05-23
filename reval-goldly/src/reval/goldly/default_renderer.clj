@@ -2,8 +2,8 @@
   (:require
    [scicloj.kindly.goldly :refer [add-renderer]]))
 
-(add-renderer :kind/vega 'user/vega)
-(add-renderer :kind/vega-lite 'user/vega-lite)
-(add-renderer :kind/code 'user/highlightjs)
+(add-renderer :kind/vega 'ui.vega/vega)
+(add-renderer :kind/vegalite 'ui.vega/vegalite)
+(add-renderer :kind/code 'ui.highlightjs/highlightjs)
 
 

@@ -3,10 +3,11 @@
    [reagent.core :as r]
    [re-frame.core :as rf]
    [cm]
-   [user]
+   [ui.codemirror :refer [codemirror-unbound]]
    [layout]
    [modular.ws.core :as ws]
    [goldly :refer [error-view]]
+   [goldly.sci :refer [compile-sci-async compile-sci]]
    [goldly.service :as service]
    [goldly.page :as page]
    [reval :refer [value->hiccup block-for]]
@@ -70,12 +71,12 @@
 ;(defn cm-editor-atom []
 ;  [:div.w-full.h-full.bg-white-200
 ;    [style-codemirror-fullscreen]
-;      [user/codemirror @editor-id repl-code]])
+;      [ui.codemirror/codemirror @editor-id repl-code]])
 
 (defn cm-editor []
   [:<> [style-codemirror-fullscreen] ;cm/style-inline
    [:div.my-codemirror.w-full.h-full
-    [user/codemirror-unbound @editor-id cm-opts]]])
+    [codemirror-unbound @editor-id cm-opts]]])
 
 ;; results
 
@@ -99,7 +100,7 @@
     (clear)
     (let [code (cm-get-code)
           _ (println "eval cljs: " code)
-          er (user/compile-sci code)
+          er (goldly.sci/compile-sci code)
           er (if-let [result (:result er)]
                (assoc er :hiccup (value->hiccup result))
                er)]
@@ -107,7 +108,7 @@
       (reset! cljs-er er)))
 
 (defn eval-cljs [{:keys [code ns]}]
-  (let [er-p (user/compile-sci-async code)]
+  (let [er-p (compile-sci-async code)]
     (-> er-p
         (.then
          (fn [er]
@@ -290,7 +291,7 @@
 
 (defn remote-eval [code]
   ;(println "remote eval: " code)
-  (let [eval-result (user/compile-sci code)]
+  (let [eval-result (compile-sci code)]
      ;(rf/dispatch [:goldly/send :scratchpad/evalresult {:code code :result eval-result}])
      ;(run-cb {:fun :scratchpad/evalresult :args {:code code :result eval-result}})
     (ws/send! [:scratchpad/evalresult {:code code :result eval-result}] (fn [& _]) 2000)))
