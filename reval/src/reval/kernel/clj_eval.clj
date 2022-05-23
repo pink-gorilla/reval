@@ -66,11 +66,11 @@
   (let [code-ns (if (and ns (not (string/blank? ns)))
                   (str "(ns " ns " ) ")
                   "nil")
-        _ (error "code-to-set-ns: " code-ns)
+       ; _ (error "code-to-set-ns: " code-ns)
         code-with-ns (str code-ns " [ " code " (str *ns*) ]")
-        _ (error "full code: " code-with-ns)
+       ; _ (error "full code: " code-with-ns)
         er-code (clj-eval-raw code-with-ns)
-        _ (error "er-code: " er-code)
+       ; _ (error "er-code: " er-code)
         ; [[nil] "notebook.study.movies"]
         {:keys [value]} er-code
         ns-after (last value)
@@ -86,7 +86,7 @@
                  {:value last-value
                   :code code})]
 
-    (info "eval-result: " r)
+    ;(info "eval-result: " r)
     r))
 
 (defmethod kernel-eval :clj [seg]

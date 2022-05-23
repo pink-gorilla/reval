@@ -13,4 +13,6 @@
                      "reval/goldly/notebook"
                      "reval/goldly/page"]
  :autoload-clj-ns [reval.default
-                   reval.services]}
+                   reval.services
+                   reval.goldly.default-renderer
+                   ]}

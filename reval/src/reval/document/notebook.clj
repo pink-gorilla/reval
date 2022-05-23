@@ -25,9 +25,7 @@
       (io/resource)
       slurp)
      (catch Exception _
-       (str "(ns " ns ")
-            Namespace not found on classpath
-                 ")))))
+       (str "(ns " ns ")\n ; This namespace does not exist as a local file!\n")))))
 
 (defn src->src-list
   ([src]
