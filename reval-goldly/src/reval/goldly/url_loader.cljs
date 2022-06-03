@@ -1,11 +1,9 @@
 (ns reval.goldly.url-loader
   (:require
    [reagent.core :as r]
-   [re-frame.core :as rf]
    [user]
    [goldly.service :as service]
-   [http]
-   [string]))
+   [http]))
 
 (def show-loader-debug-ui false)
 
@@ -42,8 +40,8 @@
    [:p "args-render: " (pr-str args-render)]
    [:p "data: " data]])
 
-(defn url-loader [{:keys [url fmt arg-fetch args-fetch args-render]}
-                  fun]
+(defn url-loader [{:keys [_url _fmt _arg-fetch _args-fetch _args-render]}
+                  _fun]
   (let [a (r/atom {:data nil
                    :url nil
                    :arg-fetch nil})]

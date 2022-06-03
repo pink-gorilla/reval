@@ -1,13 +1,13 @@
 (ns reval.goldly.notebook.collection
   (:require
-   [re-frame.core :as rf]
-   [string]))
+   [clojure.string :refer [split]]
+   [re-frame.core :as rf]))
 
 ;; COLLECTION UI
 
 (def show-collection-debug-ui false)
 
-(defn nb-item [open-link fmt {:keys [nbns ext path]}]
+(defn nb-item [open-link fmt {:keys [nbns _ext path]}]
   [:a
    [:p.w-full.truncate.bg-blue-200.hover:bg-blue-300.border.border-solid.border-blue-300.p-1.cursor-pointer
    ; trunctate does the text magic
@@ -15,7 +15,7 @@
    ;[:a ;.m-1
     {:class (if path "text-blue-500" "text-yellow-500")
      :on-click #(rf/dispatch [:bidi/goto open-link :query-params {:ns nbns :fmt (name fmt) :path path}])}
-    (-> (string/split nbns ".") last)
+    (-> (split nbns ".") last)
     ;]
     ]])
 

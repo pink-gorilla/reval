@@ -30,10 +30,9 @@
 ;(when show-viewer-debug-ui
 ;  [viewer-debug query-params])
 
-(defn viewer [query-params]
+(defn viewer [_query-params]
   (fn [{:keys [ns fmt]
-        :or {fmt :clj}
-        :as query-params}]
+        :or {fmt :clj}}]
     (let [fmt (if (string? fmt)
                 (keyword fmt)
                 fmt)]
@@ -49,7 +48,7 @@
                      :args-fetch [ns fmt]}
          notebook]]])))
 
-(defn viewer-page [{:keys [route-params query-params handler] :as route}]
+(defn viewer-page [{:keys [_route-params query-params _handler] :as _route}]
   [:div.bg-green-300.w-screen.h-screen
    [viewer query-params]])
 

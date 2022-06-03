@@ -1,6 +1,6 @@
 (ns reval.goldly.notebook.clj-result
   (:require
-   [string]
+   [clojure.string :refer [blank?]]
    [ui.highlightjs :refer [highlightjs]]
    [reval.goldly.ui-helper :refer [text2]]
    [reval.goldly.vizspec :refer [render-vizspec2]]))
@@ -9,7 +9,7 @@
 (def show-segment-debug-ui false) ; true for debugging
 ;; ervalerr
 
-(defn stacktrace-line [idx {:keys [name file line class method
+(defn stacktrace-line [idx {:keys [_name file line _class method
                                    ;type   flags ns fn
                                    ]}]
   (let [;tooling? (contains? flags :tooling)
@@ -46,14 +46,14 @@
    [:p.font-bold "segment debug ui"]
    (pr-str segment)])
 
-(defn segment [{:keys [src err out hiccup] :as segment}]
+(defn segment [{:keys [_src err out hiccup] :as segment}]
   (let [scode (:code segment)]
     [:div.flex.flex-col
      (when scode
        [highlightjs scode])
      (when err
        [evalerr err])
-     (when (not (string/blank? out))
+     (when (not (blank? out))
        [:div.bg-blue-200
         [text2 out]])
      (when hiccup

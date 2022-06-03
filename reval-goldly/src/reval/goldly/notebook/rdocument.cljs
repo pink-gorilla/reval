@@ -5,7 +5,7 @@
 
 ;; render functions 
 
-(defn img [url args]
+(defn img [url _args]
   [:img.p-4 {:src url}])
 
 (defn text-data [data args]

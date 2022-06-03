@@ -5,6 +5,7 @@
    [cm]
    [ui.codemirror :refer [codemirror-unbound]]
    [layout]
+   [spaces]
    [modular.ws.core :as ws]
    [goldly :refer [error-view]]
    [goldly.sci :refer [compile-sci-async compile-sci]]
@@ -35,7 +36,6 @@
     "))
 
 (defonce cur-ns (r/atom "user"))
-
 (defonce editor-id (r/atom 1))
 
 (defn cm-get-code []
@@ -52,7 +52,7 @@
     (service/run-cb {:fun :nb/save-code
                      :args [{:code code :path path}]
                      :timeout 1000
-                     :cb (fn [[s {:keys [result]}]]
+                     :cb (fn [[_s {:keys [_result]}]]
                    ;(println "result: " result)
                            )})))
 
@@ -107,7 +107,7 @@
       ;(println "cljs eval result:" er)
       (reset! cljs-er er)))
 
-(defn eval-cljs [{:keys [code ns]}]
+(defn eval-cljs [{:keys [code _ns]}]
   (let [er-p (compile-sci-async code)]
     (-> er-p
         (.then
@@ -144,12 +144,12 @@
 
 ;nb-eval
 
-(defn eval-nb [ns fmt]
+(defn eval-nb [ns _fmt]
   (clear)
-  (let [fmt (keyword fmt) ;:clj
+  (let [;fmt (keyword fmt) ;:clj
         ;ns "demo.notebook.abc"
         ;_  (println "format: " fmt " ns: " ns)
-        code (cm-get-code)
+        ;code (cm-get-code)
         ;_ (println "eval clj: " code)
         ]
     (service/run-a nb-er [:nb] :nb/eval ns))) ;fmt
@@ -169,7 +169,7 @@
         code-exp))))
 
 (defn print-position []
-  (when-let [code-exp (current-expression)]
+  (when-let [_code-exp (current-expression)]
     ;(info code-exp)
     ))
 
@@ -184,12 +184,12 @@
         ;(info (str "can not eval. format unknown: " fmt))
         ))))
 
-(def cur-ns (r/atom "ns"))
+
 (def cur-fmt (r/atom "fmt"))
 
 (rf/reg-event-fx
  :repl/eval-expression
- (fn [cofx [_ data]]
+ (fn [_cofx [_ _data]]
    ;(info (str "evaluating repl segment!" data))
    ;(print-position)
    (eval-segment @cur-fmt)
@@ -238,7 +238,7 @@
         ;(pr-str nb)
       [notebook nb])]])
 
-(defn editor [ns fmt path]
+(defn editor [_ns _fmt _path]
   (let [loaded (r/atom [nil nil])
         ;id (r/atom 1)
         ]
@@ -258,8 +258,8 @@
                                  )}))
         [cm-editor]))))
 
-(defn repl [url-params]
-  (fn [{:keys [query-params]} url-params]
+(defn repl [_url-params]
+  (fn [{:keys [query-params]}]
     (let [{:keys [ns fmt path]
            :or {fmt "clj"
                 ns "user"}} query-params]
@@ -296,7 +296,7 @@
      ;(run-cb {:fun :scratchpad/evalresult :args {:code code :result eval-result}})
     (ws/send! [:scratchpad/evalresult {:code code :result eval-result}] (fn [& _]) 2000)))
 
-(defn process-repl-op [{:keys [op hiccup code] :as msg}]
+(defn process-repl-op [{:keys [op _hiccup code] :as _msg}]
   (case op
     ;:clear (clear-scratchpad)
     ;:show  (show-hiccup hiccup)
@@ -306,7 +306,7 @@
 
 (rf/reg-event-fx
  :repl/msg
- (fn [{:keys [db]} [_ msg]]
+ (fn [{:keys [_db]} [_ msg]]
    ;(println "repl msg received: " msg)
    (process-repl-op msg)
    nil))

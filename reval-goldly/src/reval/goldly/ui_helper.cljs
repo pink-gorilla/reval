@@ -1,7 +1,7 @@
 (ns reval.goldly.ui-helper
   (:require
    [re-frame.core :as rf]
-   [string]))
+   [clojure.string :refer [split]]))
 
 (defn link-fn [fun text]
   [:a.bg-blue-600.cursor-pointer.hover:bg-red-700.m-1
@@ -22,7 +22,7 @@
   ([t]
    (text2 {} t))
   ([opts t]
-   (let [lines (string/split t #"\n")]
+   (let [lines (split t #"\n")]
      (into
       [:div (merge {:class "textbox text-lg"} opts)]
       (map line-with-br lines)))))

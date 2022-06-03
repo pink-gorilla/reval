@@ -6,7 +6,7 @@
 (defn safe-resolve-renderer [s]
   (try
     (resolve-symbol-sci s)
-    (catch :default e
+    (catch :default _e
       ;(println "renderer not found: " s)
       nil)))
 
