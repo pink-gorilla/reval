@@ -1,7 +1,7 @@
 (ns reval.goldly.url-loader
   (:require
    [reagent.core :as r]
-   [user]
+   [ui.pinkie :refer [error-boundary]]
    [goldly.service :as service]
    [http]))
 
@@ -54,7 +54,7 @@
       (load-url fmt url a arg-fetch args-fetch)
       (if-let [d (:data @a)]
         [:div
-         [user/error-boundary
+         [error-boundary
           (if (empty? args-render)
             (fun d)
             (apply fun d args-render))]

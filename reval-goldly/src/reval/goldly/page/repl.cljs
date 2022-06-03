@@ -183,8 +183,6 @@
         "clj" (eval-clj opts)
         ;(info (str "can not eval. format unknown: " fmt))
         ))))
-
-
 (def cur-fmt (r/atom "fmt"))
 
 (rf/reg-event-fx
