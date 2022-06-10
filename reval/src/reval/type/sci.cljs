@@ -7,13 +7,13 @@
    [reval.type.ui.list :refer [list->hiccup map->hiccup]]))
 
 #_(extend-type sci.impl.vars/SciVar
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-symbol")))
+    hiccup-convertable
+    (to-hiccup [self]
+      (simplevalue->hiccup self "clj-symbol")))
 
 #_(extend-type sci.impl.vars.SciNamespace
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-namespace")))
+    hiccup-convertable
+    (to-hiccup [self]
+      (simplevalue->hiccup self "clj-namespace")))
 
 
