@@ -4,7 +4,7 @@
   ; deps to ui extensions used in reval
   org.pinkgorilla/scratchpad {:mvn/version "0.0.12"} ; scratchpad
   org.pinkgorilla/ui-repl {:mvn/version "0.0.54"} ; reagent
-  org.pinkgorilla/ui-input {:mvn/version "0.0.21"} ; spaces
+  org.pinkgorilla/ui-input {:mvn/version "0.0.22"} ; spaces
   org.pinkgorilla/ui-codemirror {:mvn/version "0.0.34"}
   org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.9"}
   org.pinkgorilla/ui-site {:mvn/version "0.0.19"} ; remove it?
