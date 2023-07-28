@@ -1,9 +1,10 @@
 (ns demo.notebook
   (:require
-   [reval.document.notebook :refer [eval-notebook]]
+   [reval.document.notebook :refer [eval-notebook load-notebook]]
    ;[scratchpad.core :refer [show! show-as clear!]]
   ; [demo.init] ; side effects
    ))
+
 ;; checkout one notebook..
 
 (-> (eval-notebook "notebook.study.movies")
@@ -15,6 +16,17 @@
 
 (->> (eval-notebook "user.notebook.movies")
      (show-as :p/notebook))
+
+(load-notebook "user.notebook.movies")
+
+(-> (load-notebook "user.bongo.xyr")
+    println)
+
+(-> (load-notebook "")
+    println)
+
+(-> (load-notebook nil)
+    println)
 
 ;; eval an notebook that does not exist:
 

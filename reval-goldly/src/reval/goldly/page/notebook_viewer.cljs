@@ -40,11 +40,11 @@
        [spaces/left-resizeable {:size "20%"
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
-                     :url :nb/collections}
+                     :url 'reval.services/nb-collections}
          #(notebook-collection :viewer %)]]
        [spaces/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
-                     :url :nb/load
+                     :url 'reval.document.notebook/load-notebook
                      :args-fetch [ns fmt]}
          notebook]]])))
 

@@ -46,14 +46,17 @@
   ([ns]
    (create-notebook ns :clj))
   ([ns fmt]
-   (rdm/delete-directory-ns ns)
-   (-> ns
-       (load-src fmt)
+   (when ns
+     (rdm/delete-directory-ns ns))
+   (let [src (if ns
+               (load-src ns fmt)
+               "")]
+   (-> src
        (src->src-list fmt)
        src-list->notebook
        (assoc :meta {:id (guuid)
                      :eval-time "not evaluated"
-                     :ns ns}))))
+                     :ns ns})))))
 
 ;; persistence
 
@@ -61,7 +64,9 @@
   ([ns]
    (load-notebook ns :clj))
   ([ns fmt]
-   (let [nb (rdm/loadr ns "notebook" :edn)]
+   (let [nb (if ns
+              (rdm/loadr ns "notebook" :edn)
+              nil)]
      (-> (if nb
            nb
            (create-notebook ns fmt))

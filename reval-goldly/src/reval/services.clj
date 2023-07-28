@@ -59,15 +59,16 @@
 (defn nb-collections []
   (nbcol/get-collections (get-in-config [:reval :collections])))
 
-(s/add {:viz-eval viz-eval
-        :nb/collections nb-collections
+(s/add {'reval.services/viz-eval viz-eval ; :viz-eval
+        'reval.services/nb-collections  nb-collections ;  :nb/collections
         ; used in repl:
-        :nb/load-src load-src
-        :nb/save-code save-code
+        'reval.document.notebook/load-src reval.document.notebook/load-src ;:nb/load-src
+        'reval.services/save-code save-code ; :nb/save-code
 
-        :nb/load  load-notebook
-        :nb/eval  eval-notebook
-        :nb/save save-notebook})
+        'reval.document.notebook/load-notebook reval.document.notebook/load-notebook ; :nb/load
+        'reval.document.notebook/eval-notebook reval.document.notebook/eval-notebook ;  :nb/eval
+        'reval.document.notebook/save-notebook reval.document.notebook/save-notebook ; :nb/save
+     })
 
 (comment
 

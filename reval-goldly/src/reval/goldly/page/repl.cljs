@@ -49,7 +49,7 @@
 
 (defn save-code [path]
   (let [code (cm-get-code)]
-    (service/run-cb {:fun :nb/save-code
+    (service/run-cb {:fun 'reval.services/save-code
                      :args [{:code code :path path}]
                      :timeout 1000
                      :cb (fn [[_s {:keys [_result]}]]
@@ -122,7 +122,7 @@
 
 (defn eval-clj [opts]
    ;(run-a clj-er [:er] :viz-eval opts)
-  (service/run-cb {:fun :viz-eval
+  (service/run-cb {:fun 'reval.services/viz-eval
                    :args [opts]
                    :timeout 60000
                    :cb (fn [[s {:keys [result]}]]
@@ -152,7 +152,7 @@
         ;code (cm-get-code)
         ;_ (println "eval clj: " code)
         ]
-    (service/run-a nb-er [:nb] :nb/eval ns))) ;fmt
+    (service/run-a nb-er [:nb] 'reval.document.notebook/eval-notebook ns))) ;fmt
 
 ;; EDITOR 
 
@@ -245,7 +245,7 @@
         (when (not (= comparator @loaded))
           ;(println "loaded: " @loaded)
           (reset! loaded comparator)
-          (service/run-cb {:fun :nb/load-src
+          (service/run-cb {:fun 'reval.document.notebook/load-src
                            :args [ns (keyword fmt)]
                            :timeout 1000
                            :cb (fn [[s {:keys [result]}]]
@@ -271,7 +271,8 @@
          [spaces/left-resizeable {:size "10%"
                                   :class "bg-gray-100 max-h-full overflow-y-auto"}
           [url-loader {:fmt :clj
-                       :url :nb/collections}
+                       :url 'reval.services/nb-collections
+                       :args []}
            #(notebook-collection :repl %)]]
 
          [spaces/left-resizeable {:size "60%"
