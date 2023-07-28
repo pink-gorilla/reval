@@ -68,7 +68,7 @@
         'reval.document.notebook/load-notebook reval.document.notebook/load-notebook ; :nb/load
         'reval.document.notebook/eval-notebook reval.document.notebook/eval-notebook ;  :nb/eval
         'reval.document.notebook/save-notebook reval.document.notebook/save-notebook ; :nb/save
-     })
+        })
 
 (comment
 

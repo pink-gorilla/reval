@@ -51,12 +51,12 @@
    (let [src (if ns
                (load-src ns fmt)
                "")]
-   (-> src
-       (src->src-list fmt)
-       src-list->notebook
-       (assoc :meta {:id (guuid)
-                     :eval-time "not evaluated"
-                     :ns ns})))))
+     (-> src
+         (src->src-list fmt)
+         src-list->notebook
+         (assoc :meta {:id (guuid)
+                       :eval-time "not evaluated"
+                       :ns ns})))))
 
 ;; persistence
 
