@@ -9,7 +9,7 @@
    [reval.default] ; side effects
    [goldly.service.core :as s]
    [reval.document-handler] ; side effect
-   ))
+   [scratchpad.core]))
 
 (defn save-code [{:keys [path code]}]
   (info "saving code to: " path)
@@ -69,6 +69,17 @@
         'reval.document.notebook/eval-notebook reval.document.notebook/eval-notebook ;  :nb/eval
         'reval.document.notebook/save-notebook reval.document.notebook/save-notebook ; :nb/save
         })
+(defn log [x]
+  (spit "event.log" (str x \newline) :append true))
+
+(defn to-scratchpad [x]
+  (info "sending to scratchpad..")
+  (let [viz (value->hiccup x)]
+    (scratchpad.core/show! viz)))
+
+;; add log function to tap
+; (add-tap log)
+(add-tap to-scratchpad)
 
 (comment
 

@@ -1,4 +1,4 @@
-(ns demo.collection
+(ns demo.nrepl.collection
   (:require
    [modular.config :as config]
    [reval.document.notebook :refer [eval-notebook]]
