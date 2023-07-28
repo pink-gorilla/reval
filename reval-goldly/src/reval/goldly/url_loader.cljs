@@ -2,7 +2,7 @@
   (:require
    [reagent.core :as r]
    [ui.pinkie :refer [error-boundary]]
-   [goldly.service :as service]
+   [goldly.service.core :as service]
    [http]))
 
 (def show-loader-debug-ui false)

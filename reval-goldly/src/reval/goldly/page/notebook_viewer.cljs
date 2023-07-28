@@ -3,8 +3,8 @@
    [spaces]
    [goldly.page :as page]
    [reval.goldly.url-loader :refer [url-loader]]
-   [reval.goldly.notebook.collection :refer [notebook-collection]]
-   [reval.goldly.notebook.clj-result :refer [notebook]]))
+   [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
+   [reval.goldly.notebook-ui.clj-result :refer [notebook]]))
 
 ;; NOTEBOOK UI
 
@@ -37,7 +37,7 @@
                 (keyword fmt)
                 fmt)]
       [spaces/viewport
-       [spaces/left-resizeable {:size "10%"
+       [spaces/left-resizeable {:size "20%"
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url :nb/collections}

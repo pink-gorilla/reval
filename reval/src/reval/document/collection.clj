@@ -15,7 +15,9 @@
 
 (defn convert-ns [res-path {:keys [name path] :as entry}]
   (let [[name-only ext] (split-ext name)
-        nbns (filename->ns res-path name-only)]
+        nbns (if (and name-only ext)
+               (filename->ns res-path name-only)
+               :not-code)]
     (if path
       {:nbns nbns
        :ext ext

@@ -22,10 +22,11 @@
     "cljc" true))
 
 (defn ext-is-format? [fmt ext]
-  (case ext
-    "cljs" (= fmt :cljs)
-    "clj" (= fmt :clj)
-    "cljc" true))
+  (when ext
+    (case ext
+      "cljs" (= fmt :cljs)
+      "clj" (= fmt :clj)
+      "cljc" true)))
 
 (defn ns->filename [ns fmt]
   (let [name (ns->dir ns)]
@@ -40,6 +41,9 @@
    (str/replace name #"_" "-")))
 
 (comment
+
+  (split-ext "demo/notebook.clj")
+  (split-ext "demo/notebook.clj#")
 
   (-> "demo/notebook"
       (clojure.java.io/resource)

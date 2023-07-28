@@ -3,7 +3,7 @@
  {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   ; deps to ui extensions used in reval
   org.pinkgorilla/scratchpad {:mvn/version "0.0.12"} ; scratchpad
-  org.pinkgorilla/ui-repl {:mvn/version "0.0.54"} ; reagent
+  org.pinkgorilla/ui-repl {:mvn/version "0.0.57"} ; reagent
   org.pinkgorilla/ui-input {:mvn/version "0.0.22"} ; spaces
   org.pinkgorilla/ui-codemirror {:mvn/version "0.0.34"}
   org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.9"}
@@ -59,7 +59,7 @@
           io.github.seancorfield/build-clj {:git/tag "v0.5.4" :git/sha "bc9c0cc"}
                      ;rewrite-clj/rewrite-clj {:mvn/version "1.0.699-alpha"}
           babashka/fs {:mvn/version "0.0.5"}
-          org.pinkgorilla/modular {:mvn/version "0.0.31"} ; modular.date
+          org.pinkgorilla/modular {:mvn/version "0.0.33"} ; modular.date
           }
    :ns-default build
    :jvm-opts ["-Dmaven.wagon.rto=90000"]}

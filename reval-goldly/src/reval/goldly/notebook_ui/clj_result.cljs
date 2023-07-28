@@ -1,4 +1,4 @@
-(ns reval.goldly.notebook.clj-result
+(ns reval.goldly.notebook-ui.clj-result
   (:require
    [clojure.string :refer [blank?]]
    [ui.highlightjs :refer [highlightjs]]

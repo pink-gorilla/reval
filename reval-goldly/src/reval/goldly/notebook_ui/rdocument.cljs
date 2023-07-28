@@ -1,4 +1,4 @@
-(ns reval.goldly.notebook.rdocument
+(ns reval.goldly.notebook-ui.rdocument
   (:require
    [reval.goldly.ui-helper :refer [text2]]
    [reval.goldly.url-loader :refer [url-loader]]))

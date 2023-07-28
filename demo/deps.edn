@@ -12,8 +12,13 @@
    :main-opts ["-m" "cljfmt.main" "fix" "--indents" "cljfmt.edn"]}
 
   ;; nrepl only
-  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "0.8.3"}}
-          :main-opts  ["-m" "nrepl.cmdline"]}
+  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "1.0.0"}
+                       cider/cider-nrepl {:mvn/version "0.28.5"}
+                       }
+          :main-opts  ["-m" "nrepl.cmdline"
+                       "--middleware" "[cider.nrepl/cider-middleware]"
+                       "--port" "9100"
+                       ]}
 
   ;; nb eval
   :nbeval {:extra-paths ["demo"]
@@ -24,7 +29,10 @@
   :goldly
   {:extra-paths ["target/webly" ; to include the sci-bindings info
                  "node_modules"]
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.554"}}
+   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.566"}
+                nrepl/nrepl {:mvn/version "1.0.0"}
+                cider/cider-nrepl {:mvn/version  "0.28.5" #_"0.32.0"}
+                }
    :exec-fn modular.system/start!
    :exec-args {:profile "jetty"
                :services "reval/demo-services.edn"

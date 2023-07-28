@@ -9,13 +9,13 @@
    [modular.ws.core :as ws]
    [goldly :refer [error-view]]
    [goldly.sci :refer [compile-sci-async compile-sci]]
-   [goldly.service :as service]
+   [goldly.service.core :as service]
    [goldly.page :as page]
    [reval :refer [value->hiccup block-for]]
    [reval.goldly.url-loader :refer [url-loader]]
    [reval.goldly.vizspec :refer [render-vizspec2]]
-   [reval.goldly.notebook.collection :refer [notebook-collection]]
-   [reval.goldly.notebook.clj-result :refer [segment notebook]]))
+   [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
+   [reval.goldly.notebook-ui.clj-result :refer [segment notebook]]))
 
 ; 
 ; eval
@@ -112,8 +112,8 @@
     (-> er-p
         (.then
          (fn [er]
-           (when [er]
-             (let [er-h {:hiccup (value->hiccup er)}]
+           (when [er] ; {:id :code :value :err :out :ns}
+             (let [er-h (assoc er :hiccup (value->hiccup (:value er)))]
                (reset! cljs-er er-h)))))
         (.catch (fn [e]
                    ;(println "eval failed: " err)
@@ -124,7 +124,7 @@
    ;(run-a clj-er [:er] :viz-eval opts)
   (service/run-cb {:fun :viz-eval
                    :args [opts]
-                   :timeout 1000
+                   :timeout 60000
                    :cb (fn [[s {:keys [result]}]]
                          (let [{:keys [ns]} result]
                    ;(println "clj-eval result: " result)
@@ -274,7 +274,7 @@
                        :url :nb/collections}
            #(notebook-collection :repl %)]]
 
-         [spaces/left-resizeable {:size "40%"
+         [spaces/left-resizeable {:size "60%"
                                   :class "bg-gray-100"}
           [editor ns fmt path]]
 

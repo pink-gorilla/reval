@@ -9,9 +9,11 @@
 ## DEMO - Get Started
 - clone this repo
 - Run in directory *demo*:
-   `clj -X:goldly:build :profile '"npm-install"'`
-   `clj -X:goldly:build :profile '"compile2"'`
-   `clj -X:goldly`
+```
+    clj -X:goldly:build :profile '"npm-install"'
+    clj -X:goldly:build :profile '"compile2"'
+    clj -X:goldly
+```
   Open Browser on Port 8080
 
 
