@@ -2,4 +2,5 @@
 
 (defn greet [{:keys [name]} & args]
   [:div
-   [:p "Hello, " name]])
+   [:p "Hello, " 
+    [:span {:class "text-bold text-blue-500 text-xl"} name]]])

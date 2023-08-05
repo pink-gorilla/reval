@@ -15,3 +15,6 @@
 
 (defn add3 [v]
   (+ 3 v))
+
+
+(println "a\nb\nc\ndd\r\nddd")

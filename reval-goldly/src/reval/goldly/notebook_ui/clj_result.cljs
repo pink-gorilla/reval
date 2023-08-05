@@ -3,7 +3,9 @@
    [clojure.string :refer [blank?]]
    [ui.highlightjs :refer [highlightjs]]
    [reval.goldly.ui-helper :refer [text2]]
-   [reval.goldly.viz.show :refer [show-data]]))
+   [reval.goldly.viz.show :refer [show-data]]
+   [goldly :refer [error-view]]
+   ))
 
 (def show-stacktrace true)
 (def show-segment-debug-ui false) ; true for debugging
@@ -39,6 +41,10 @@
       [:tbody
        (map-indexed stacktrace-line stacktrace)]])])
 
+
+(defn evalerr-sci [err-sci]
+  [error-view "" err-sci])
+
 ;; segment
 
 (defn segment-debug [segment]
@@ -46,13 +52,24 @@
    [:p.font-bold "segment debug ui"]
    (pr-str segment)])
 
-(defn segment [{:keys [_src err out data render-fn] :as segment}]
+;{:id nil,
+; :code "(def a 34)",
+; :out "",
+; :ns "reval.goldly.page.repl",
+; :render-fn reval.goldly.viz.render-fn/reagent,
+; :data [:span {:style {:color "steelblue"}}
+;        "#'reval.goldly.page.repl/a"]}
+
+(defn segment [{:keys [_id _ns _src err err-sci out data render-fn] :as segment}]
   (let [scode (:code segment)]
     [:div.flex.flex-col
+     ;(pr-str segment)
      (when scode
        [highlightjs scode])
      (when err
        [evalerr err])
+     (when err-sci
+        [evalerr-sci err-sci])
      (when (not (blank? out))
        [:div.bg-blue-200
         [text2 out]])
@@ -81,3 +98,10 @@
            (map segment content))
      (when show-notebook-debug-ui
        [notebook-debug nb])]))
+
+(defn empty-notebook []
+  {:meta {}
+   :content []})
+
+(defn add-segment [notebook segment]
+  (update notebook :content concat [segment]))
