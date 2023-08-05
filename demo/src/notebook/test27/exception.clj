@@ -1,4 +1,4 @@
-(ns notebook.test27.exception)
+(ns notebook.test.exception)
 
 ; throw an exception !
 
@@ -12,3 +12,15 @@
 ; nb-eval needs to be able to continue after
 ; one exception.
 (+ 5 5 5 5 5 5)
+
+(with-meta {:name "Wolfgang"}
+  {:render-fn 'notebook.test27.greeter/greet})
+
+(with-meta
+  ['notebook.test27.greeter/greet {:name "Wolfgang"}]
+  {:hiccup true})
+
+; TODO-FIXME - this should work - problem in escaping.
+(with-meta
+  [:p.text-red-500.text-bold "Hello, Hiccup!"]
+  {:hiccup true})

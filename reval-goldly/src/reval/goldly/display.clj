@@ -1,4 +1,4 @@
-(ns reval.goldly.vizspec)
+(ns reval.goldly.display)
 
 (defn render-value-with [escaped-sci-cljs-render-fn]
   (fn [v]

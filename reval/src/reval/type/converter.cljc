@@ -15,7 +15,7 @@
 #?(:clj
    (defn value-type->hiccup [v]
      (try
-       (to-hiccup v)
+       (with-meta (to-hiccup v) {:hiccup true})
        (catch Exception _
          (unknown-type-view v))))
 
@@ -26,22 +26,3 @@
        (catch :default e ; js/Exception _
          (unknown-type-view v)))))
 
-(defn value->hiccup
-  "converts a eval result to hiccup.
-   this implementation is used as default in ns-eval
-   can be used in nrepl nrepl middleware."
-  [v]
-  (if v
-    (let [m (meta v)]
-      (cond
-        (contains? m :R) v
-        (contains? m :fh) v ; another name for :R
-        (contains? m :hidden) [:div.no-hiccup]
-        (contains? m :render-as) [(:render-as m) v]
-        :else (value-type->hiccup v)))
-    nil-view))
-
-(comment
-  (value->hiccup 3)
-;  
-  )

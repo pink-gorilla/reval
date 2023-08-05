@@ -73,7 +73,9 @@
        ; _ (error "er-code: " er-code)
         ; [[nil] "notebook.study.movies"]
         {:keys [value]} er-code
-        ns-after (last value)
+        ns-after (if (:err er-code)
+                   ns  ; on compile exception the ns does not change
+                   (last value))
         values-new (drop-last value)
         last-value (last values-new)
         ;er-code (clj-eval-raw code)

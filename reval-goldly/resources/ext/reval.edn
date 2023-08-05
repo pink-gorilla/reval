@@ -4,12 +4,10 @@
  :cljs-namespace [reval.default ; load protocols for cljs and sci
                   reval.type.converter
                   reval.editor]
- :cljs-ns-bindings {'reval {'value->hiccup reval.type.converter/value->hiccup
-                            'block-for reval.editor/block-for}}
+ :cljs-ns-bindings {'reval.type.converter {'value-type->hiccup reval.type.converter/value-type->hiccup}
+                    'reval.editor {'block-for reval.editor/block-for}
+                   }
  ; run 
- :autoload-cljs-dir [;"reval/goldly"
-                     ;"reval/goldly/notebook_ui"
-                     "reval/goldly/page"
-                     ]
+ :autoload-cljs-dir ["reval/goldly/page"]
  :autoload-clj-ns [reval.default
                    reval.services]}

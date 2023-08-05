@@ -2,7 +2,8 @@
   (:require
    [taoensso.timbre  :refer [debug info warn error]]
    [modular.config :as config :refer [get-in-config]]
-   [reval.type.converter :refer [value->hiccup]]
+   [reval.viz.data :refer [value->data]]
+   [reval.viz.eval :refer [viz-eval]]
    [reval.kernel.clj-eval :refer [clj-eval-raw clj-eval]]
    [reval.document.collection :as nbcol]
    [reval.document.notebook :refer [load-src load-notebook eval-notebook save-notebook]]
@@ -20,24 +21,6 @@
                 :url-root "/api/rdocument/file/"}
    :collections {:demo [:clj "demo/notebook/"]}})
 
-(defn viz-eval [{:keys [code ns]}]
-  (let [{:keys [err value] :as er}
-        ;(clj-eval-raw code)
-        (clj-eval {:code code :ns ns})]
-
-    (if err
-      er
-      (->  er
-           (assoc :hiccup (value->hiccup value))
-           (dissoc :value)))))
-
-(comment
-  (viz-eval {:code "(/ 1 3)"})
-  (viz-eval {:code "(/ 1 0)"})
-  (clj-eval-raw "(/ 1 0)")
-
-;
-  )
 (info "reval loading..")
 
 (defn get-config []
@@ -59,7 +42,7 @@
 (defn nb-collections []
   (nbcol/get-collections (get-in-config [:reval :collections])))
 
-(s/add {'reval.services/viz-eval viz-eval ; :viz-eval
+(s/add {'reval.viz.eval/viz-eval viz-eval ; :viz-eval
         'reval.services/nb-collections  nb-collections ;  :nb/collections
         ; used in repl:
         'reval.document.notebook/load-src reval.document.notebook/load-src ;:nb/load-src
@@ -74,7 +57,7 @@
 
 (defn to-scratchpad [x]
   (info "sending to scratchpad..")
-  (let [viz (value->hiccup x)]
+  (let [viz (value->data x)]
     (scratchpad.core/show! viz)))
 
 ;; add log function to tap

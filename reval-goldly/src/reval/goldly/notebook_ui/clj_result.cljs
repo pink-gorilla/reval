@@ -3,7 +3,7 @@
    [clojure.string :refer [blank?]]
    [ui.highlightjs :refer [highlightjs]]
    [reval.goldly.ui-helper :refer [text2]]
-   [reval.goldly.vizspec :refer [render-vizspec2]]))
+   [reval.goldly.viz.show :refer [show-data]]))
 
 (def show-stacktrace true)
 (def show-segment-debug-ui false) ; true for debugging
@@ -46,7 +46,7 @@
    [:p.font-bold "segment debug ui"]
    (pr-str segment)])
 
-(defn segment [{:keys [_src err out hiccup] :as segment}]
+(defn segment [{:keys [_src err out data render-fn] :as segment}]
   (let [scode (:code segment)]
     [:div.flex.flex-col
      (when scode
@@ -56,9 +56,9 @@
      (when (not (blank? out))
        [:div.bg-blue-200
         [text2 out]])
-     (when hiccup
+     (when render-fn
        [:div.mt-1.mb-1
-        (render-vizspec2 hiccup)])
+        [show-data render-fn data]])
      (when show-segment-debug-ui
        [segment-debug segment])]))
 

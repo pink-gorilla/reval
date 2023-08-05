@@ -1,5 +1,6 @@
 (ns reval.goldly.page.repl
   (:require
+   [clojure.string :as str]
    [reagent.core :as r]
    [re-frame.core :as rf]
    [cm]
@@ -11,9 +12,11 @@
    [goldly.sci :refer [compile-sci-async compile-sci]]
    [goldly.service.core :as service]
    [goldly.page :as page]
-   [reval :refer [value->hiccup block-for]]
+   [reval.editor :refer [block-for]]
+   [reval.goldly.viz.show :refer [show-data]]
+   [reval.goldly.viz.data :refer [value->data]]
    [reval.goldly.url-loader :refer [url-loader]]
-   [reval.goldly.vizspec :refer [render-vizspec2]]
+   [reval.goldly.ui-helper :refer [text2]]
    [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
    [reval.goldly.notebook-ui.clj-result :refer [segment notebook]]))
 
@@ -113,7 +116,9 @@
         (.then
          (fn [er]
            (when [er] ; {:id :code :value :err :out :ns}
-             (let [er-h (assoc er :hiccup (value->hiccup (:value er)))]
+             (let [er-h (-> er
+                            (dissoc :value)
+                            (merge (value->data (:value er))))]
                (reset! cljs-er er-h)))))
         (.catch (fn [e]
                    ;(println "eval failed: " err)
@@ -122,7 +127,7 @@
 
 (defn eval-clj [opts]
    ;(run-a clj-er [:er] :viz-eval opts)
-  (service/run-cb {:fun 'reval.services/viz-eval
+  (service/run-cb {:fun 'reval.viz.eval/viz-eval
                    :args [opts]
                    :timeout 60000
                    :cb (fn [[s {:keys [result]}]]
@@ -221,10 +226,17 @@
    [:div#repltarget]
    [:div.overflow-scroll.h-full.w-full
     (when @cljs-er
-      (if (:err @cljs-er)
-        [error-view @cur-ns @cljs-er] ;[:p.text-red-500 err]
-        #_[:p (pr-str @cljs-er)]
-        [render-vizspec2 (:hiccup @cljs-er)]))
+      [:div
+       (if (:err @cljs-er)
+         [error-view @cur-ns @cljs-er] ;[:p.text-red-500 err]
+         #_[:p (pr-str @cljs-er)]
+         (let [s (:render-fn @cljs-er)
+               data (:data @cljs-er)]
+           [:div [show-data s data]]))
+       (when-let [out (:out @cljs-er)]
+         (when (not (str/blank? out))
+           [:div.bg-blue-200
+            [text2 out]]))])
     (when-let [er (:er @clj-er)]
         ;[:p (pr-str er)]
         ;[render-vizspec2 (:hiccup er)]

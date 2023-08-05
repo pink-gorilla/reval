@@ -5,7 +5,7 @@
    [taoensso.timbre :refer [debug info warnf]]
    [modular.helper.id :refer [guuid]]
    [modular.helper.date :refer [now-str]]
-   [reval.type.converter :refer [value->hiccup]]
+   [reval.viz.data :refer [value->data]]
    [reval.document.manager :as rdm]
    [reval.document.classpath :refer [ns->dir ns->filename]]
    [reval.document.src-parser :refer [text->notebook]]
@@ -79,10 +79,10 @@
 ; eval
 
 (defn eval-result->hiccup [{:keys [value] :as eval-result}]
-  (when-let [hiccup (value->hiccup value)]
+  (when-let [data (value->data value)]
     (-> eval-result
-        (assoc :hiccup hiccup)
-        (dissoc :value))))
+        (dissoc :value)
+        (merge  data))))
 
 (defn eval-ns-raw
   "evaluates a clj namespace.
