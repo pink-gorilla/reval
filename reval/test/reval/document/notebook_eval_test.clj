@@ -14,10 +14,10 @@
         segments (:content nb)]
     (is (= (get-in nb [:meta :ns]) "test.notebook.apple"))
     (is (= (count segments) 6))
-    (is (= (-> (get segments 0) :hiccup)
+    (is (= (-> (get segments 0) :data)
            ; (ns ) evaluates to nil.
            [:div.p-2.clj-nil [:p "nil"]]))
-    (is (= (-> (get segments 1) :hiccup)
+    (is (= (-> (get segments 1) :data)
            ; (+ 1 1) evaluates to 2
            [:span {:style {:color "blue"}} "2"]))
     (is (= (-> (get segments 3) :out)

@@ -9,7 +9,7 @@
   (-> {:code src}
       clj-eval
       eval-result->hiccup
-      :hiccup))
+      :data))
 
 (deftest test-eval-clj
   (are [code hiccup]

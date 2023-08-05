@@ -2,7 +2,7 @@
   (:require
    [clojure.test :refer [deftest is]]
    [reval.type.protocol :refer [to-hiccup]]
-   [reval.type.converter :refer [value->hiccup unknown-type-view]]
+   [reval.type.converter :refer [unknown-type-view]]
    [reval.test-init]))
 
 (defrecord unknown-type-record [a])
