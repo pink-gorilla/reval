@@ -1,4 +1,6 @@
-(ns notebook.test.text)
+(ns notebook.test.text
+  (:require
+    [reval.goldly.display :as display]))
 
 ; seqs and maps are not implemented
 ; the question is what is an efficient show way that is also nice.
@@ -22,3 +24,16 @@
   {:render-fn-escaped 'notebook.test27.greeter/greet})
 
 (println "a\nb\nc\nddddd")
+
+(display/render-fn
+ 'notebook.test27.greeter/greet
+ {:name "Dschingis Kahn"})
+
+(display/reagent
+ ['notebook.test27.greeter/greet
+  {:name "Dschingis Kahn"}])
+
+(display/hiccup
+ [:h1.text-green-600 "Just Hickup"])
+
+

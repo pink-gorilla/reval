@@ -18,3 +18,12 @@
 
 
 (println "a\nb\nc\ndd\r\nddd")
+
+(-> (with-out-str 
+     (println "a\nb\nc\ndd\r\nddd"))
+    text2)
+  )
+
+(require '[reval.goldly.ui-helper :refer [text2]])
+
+(-> "a\nb\nc" text2 )

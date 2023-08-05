@@ -31,10 +31,10 @@
 (display/hiccup
  ['bongistan.superstar/kabumm 42])
 
-(display/hiccup
+(display/reagent
  ['ui.highlightjs/highlightjs "(println 123)"])
 
-(display/hiccup
+(display/reagent
  ['notebook.test27.greeter/greet {:name "Wolfgang"}])
 
 (display/render-fn
@@ -43,5 +43,29 @@
 (display/render-fn
  'ui.highlightjs/highlightjs
  "(println 123)")
+
+
+(display/render-fn
+ 'notebook.test27.greeter/greet
+ {:name "Dschingis Kahn"})
+
+(display/reagent
+ ['notebook.test27.greeter/greet
+  {:name "Dschingis Kahn"}])
+
+(display/hiccup
+ [:h1.text-green-600 "Just Hickup"])
+
+
+
+
+
+
+
+
+
+
+
+
 
 
