@@ -29,7 +29,7 @@
   :goldly
   {:extra-paths ["target/webly" ; to include the sci-bindings info
                  "node_modules"]
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.574"}
+   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.575"}
                 nrepl/nrepl {:mvn/version "1.0.0"}
                 cider/cider-nrepl {:mvn/version  "0.28.5" #_"0.32.0"}
                 }
