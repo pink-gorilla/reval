@@ -28,7 +28,7 @@
 (reset! state :perfect)
 
 ; render-fn not found -> has to show error
-(display/hiccup
+(display/reagent
  ['bongistan.superstar/kabumm 42])
 
 (display/reagent
