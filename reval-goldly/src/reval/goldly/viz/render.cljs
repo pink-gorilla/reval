@@ -27,7 +27,7 @@
   (if-let [fun (resolve s)]
     fun
     (let [load-atom (r/atom {:status :loading})
-          libspec [(namespace s)]
+          libspec [(-> s namespace symbol)]
           require-p (require-async libspec)]
       (log "get-render-fn requiring libspec: " libspec)
       (.then require-p (fn [d]
