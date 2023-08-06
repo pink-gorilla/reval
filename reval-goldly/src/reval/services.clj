@@ -9,7 +9,7 @@
    [reval.document.notebook :refer [load-src load-notebook eval-notebook save-notebook]]
    [reval.default] ; side effects
    [goldly.service.core :as s]
-   [modular.permission.service :refer [add-permissioned-services]]
+   [goldly.service.expose :refer [start-services]]
    [reval.document-handler] ; side effect
    [scratchpad.core]))
 
