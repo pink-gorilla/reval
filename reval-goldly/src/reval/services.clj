@@ -43,16 +43,6 @@
 (defn nb-collections []
   (nbcol/get-collections (get-in-config [:reval :collections])))
 
-#_(s/add {'reval.viz.eval/viz-eval viz-eval ; :viz-eval
-        'reval.services/nb-collections  nb-collections ;  :nb/collections
-        ; used in repl:
-        'reval.document.notebook/load-src reval.document.notebook/load-src ;:nb/load-src
-        'reval.services/save-code save-code ; :nb/save-code
-        'reval.document.notebook/load-notebook reval.document.notebook/load-notebook ; :nb/load
-        'reval.document.notebook/eval-notebook reval.document.notebook/eval-notebook ;  :nb/eval
-        'reval.document.notebook/save-notebook reval.document.notebook/save-notebook ; :nb/save
-        })
-
 (start-services
   {:name "reval"
    :permission #{:dev}
@@ -64,24 +54,17 @@
              'reval.document.notebook/load-notebook
              'reval.document.notebook/eval-notebook
              'reval.document.notebook/save-notebook]})
+            
 
-              
-
-(defn log [x]
-  (spit "event.log" (str x \newline) :append true))
-
-(defn to-scratchpad [x]
-  (info "sending to scratchpad..")
-  (let [viz (value->data x)]
-    (scratchpad.core/show! viz)))
-
-;; add log function to tap
-; (add-tap log)
-(add-tap to-scratchpad)
 
 (comment
 
-  (nb-collections)
+   (+ 5 5)
+   (nb-collections)
+
+   (-> 3
+       value->data
+       keys)
 
 ;  
   )
