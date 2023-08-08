@@ -7,7 +7,6 @@
    [goldly.sci :refer [compile-sci-async compile-sci]]
    [goldly.service.core :as service]))
 
-
 ; {:op     :show :clear
 ;  :hiccup [:p "hi"]
 ;  :ns     demo.playground.cljplot

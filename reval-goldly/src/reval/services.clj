@@ -44,27 +44,25 @@
   (nbcol/get-collections (get-in-config [:reval :collections])))
 
 (start-services
-  {:name "reval"
-   :permission #{:dev}
-   :symbols ['reval.viz.eval/viz-eval
-             'reval.services/nb-collections
+ {:name "reval"
+  :permission #{:dev}
+  :symbols ['reval.viz.eval/viz-eval
+            'reval.services/nb-collections
              ; used in repl:
-             'reval.document.notebook/load-src
-             'reval.services/save-code
-             'reval.document.notebook/load-notebook
-             'reval.document.notebook/eval-notebook
-             'reval.document.notebook/save-notebook]})
-            
-
+            'reval.document.notebook/load-src
+            'reval.services/save-code
+            'reval.document.notebook/load-notebook
+            'reval.document.notebook/eval-notebook
+            'reval.document.notebook/save-notebook]})
 
 (comment
 
-   (+ 5 5)
-   (nb-collections)
+  (+ 5 5)
+  (nb-collections)
 
-   (-> 3
-       value->data
-       keys)
+  (-> 3
+      value->data
+      keys)
 
 ;  
   )

@@ -4,8 +4,7 @@
    [ui.highlightjs :refer [highlightjs]]
    [reval.goldly.ui-helper :refer [text2]]
    [reval.goldly.viz.show :refer [show-data]]
-   [goldly :refer [error-view]]
-   ))
+   [goldly :refer [error-view]]))
 
 (def show-stacktrace true)
 (def show-segment-debug-ui false) ; true for debugging
@@ -41,7 +40,6 @@
       [:tbody
        (map-indexed stacktrace-line stacktrace)]])])
 
-
 (defn evalerr-sci [err-sci]
   [error-view "" err-sci])
 
@@ -69,7 +67,7 @@
      (when err
        [evalerr err])
      (when err-sci
-        [evalerr-sci err-sci])
+       [evalerr-sci err-sci])
      (when (not (blank? out))
        [:div.bg-blue-200
         [text2 out]])

@@ -17,8 +17,7 @@
    [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
    [reval.goldly.notebook-ui.clj-result :refer [segment notebook add-segment empty-notebook]]
    [reval.goldly.notebook-ui.editor :as editor]
-    [reval.goldly.notebook-ui.eval :as eval]
-   ))
+   [reval.goldly.notebook-ui.eval :as eval]))
 
 (defonce repl-code (r/atom ""))
 
@@ -29,14 +28,12 @@
 
 (defonce nb-er
   (r/atom {:nb nil})
-  (r/atom {:nb (empty-notebook)})
-  )
+  (r/atom {:nb (empty-notebook)}))
 
 (defn clear []
   (reset! clj-er nil)
   ;(reset! nb-er {:nb nil})
-  (reset! nb-er {:nb (empty-notebook)})
-  )
+  (reset! nb-er {:nb (empty-notebook)}))
 
 ;; eval cljs
 
@@ -45,8 +42,7 @@
   ;(let [x (-> er :out js->clj first)]
   ;  (.log js/console "out2: " x))
   ;(reset! clj-er er)
-  (swap! nb-er update :nb add-segment er)
-  )
+  (swap! nb-er update :nb add-segment er))
 
 (defn eval-all [fmt]
   (clear)
@@ -61,7 +57,7 @@
 (defn eval-segment [fmt]
   ;(clear)
   (when-let [code (editor/current-expression)]
-    (let [opts {:code code }] ; :ns @cur-ns
+    (let [opts {:code code}] ; :ns @cur-ns
       ;(println "eval segment: " code)
       (case fmt
         "cljs" (eval/eval-cljs on-evalresult opts)
@@ -80,7 +76,6 @@
         ;_ (println "eval clj: " code)
         ]
     (service/run-a nb-er [:nb] 'reval.document.notebook/eval-notebook ns))) ;fmt
-
 
 (def cur-fmt (r/atom "fmt"))
 
