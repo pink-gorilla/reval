@@ -1,35 +1,35 @@
 (ns reval.goldly.page.eval-remote
   (:require
-   [clojure.string :as str]
-   [reagent.core :as r]
    [re-frame.core :as rf]
    [modular.ws.core :as ws]
-   [goldly.sci :refer [compile-sci-async compile-sci]]
-   [goldly.service.core :as service]))
+   [goldly.sci :refer [compile-sci-async]]))
 
-; {:op     :show :clear
-;  :hiccup [:p "hi"]
-;  :ns     demo.playground.cljplot
+(defn send-result! [r]
+  (try
+    (ws/send! [:cljs/result r])
+    (catch js/Exception e
+      (ws/send! [:cljs/result (merge (dissoc r :error :result)
+                                     {:error :exception})]))))
 
-(defn remote-eval [code]
-  ;(println "remote eval: " code)
-  (let [eval-result (compile-sci code)]
-     ;(rf/dispatch [:goldly/send :scratchpad/evalresult {:code code :result eval-result}])
-     ;(run-cb {:fun :scratchpad/evalresult :args {:code code :result eval-result}})
-    (ws/send! [:scratchpad/evalresult {:code code :result eval-result}] (fn [& _]) 2000)))
+(defn sci-error [e]
+  (let [data (ex-data e)]
+    (if-let [message (or (:message data) (.-message e))]
+      message
+      "unknown sci error")))
 
-(defn process-repl-op [{:keys [op _hiccup code] :as _msg}]
-  (case op
-    ;:clear (clear-scratchpad)
-    ;:show  (show-hiccup hiccup)
-    :eval (remote-eval code)
-    ;(println "unknown op:" op)
-    ))
+(defn remote-eval [{:keys [code _ns]}]
+  (let [eval-result-promise (compile-sci-async code)]
+    (-> eval-result-promise
+        (.then  (fn [r]
+                  (send-result! {:code code :result r})))
+        (.catch (fn [e]
+                  (println "eval error: " e)
+                  (send-result! {:code code :error (sci-error e)}))))))
 
 (rf/reg-event-fx
- :repl/msg
- (fn [{:keys [_db]} [_ msg]]
+ :cljs/eval
+ (fn [{:keys [_db]} [_ code]]
    ;(println "repl msg received: " msg)
-   (process-repl-op msg)
+   (remote-eval code)
    nil))
 

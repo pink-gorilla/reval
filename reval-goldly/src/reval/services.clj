@@ -11,7 +11,7 @@
    [goldly.service.core :as s]
    [goldly.service.expose :refer [start-services]]
    [reval.document-handler] ; side effect
-   [scratchpad.core]))
+   ))
 
 (defn save-code [{:keys [path code]}]
   (info "saving code to: " path)
