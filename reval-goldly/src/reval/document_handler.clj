@@ -58,8 +58,11 @@
     (debug "resources for notebook " ns ": " filename-list)
     (response {:data filename-list})))
 
-(add-ring-handler :rdocument/ns (wrap-api-handler get-ns-list))
-(add-ring-handler :rdocument/files (wrap-api-handler get-ns-files))
+(def wrapped-get-ns-list (wrap-api-handler get-ns-list))
+(def wrapped-get-ns-files (wrap-api-handler get-ns-files))
+
+(add-ring-handler :rdocument/ns wrapped-get-ns-list)
+(add-ring-handler :rdocument/files wrapped-get-ns-files)
 
 (comment
 

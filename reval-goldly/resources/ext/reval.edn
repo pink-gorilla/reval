@@ -10,4 +10,11 @@
  ; run 
  :autoload-cljs-dir ["reval/goldly/page"]
  :autoload-clj-ns [reval.default
-                   reval.services]}
+                   reval.services]
+ :api-routes {"rdocument/ns" 'reval.document-handler/wrapped-get-ns-list ; :rdocument/ns 
+              "rdocument/files" 'reval.document-handler/wrapped-get-ns-files ; :rdocument/files 
+              ["rdocument/file/" :ns "/" :name] 'reval.document-handler/wrapped-ns-file-handler ; :rdocument/file 
+              ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
+              }
+ 
+ }
