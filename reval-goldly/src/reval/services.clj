@@ -10,7 +10,6 @@
    [reval.default] ; side effects
    [goldly.service.core :as s]
    [goldly.service.expose :refer [start-services]]
-   [reval.document-handler] ; side effect
    ))
 
 (defn save-code [{:keys [path code]}]
