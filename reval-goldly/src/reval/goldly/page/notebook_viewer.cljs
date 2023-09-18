@@ -1,7 +1,6 @@
 (ns reval.goldly.page.notebook-viewer
   (:require
    [spaces]
-   [goldly.page :as page]
    [reval.goldly.url-loader :refer [url-loader]]
    [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
    [reval.goldly.notebook-ui.clj-result :refer [notebook]]))
@@ -52,5 +51,4 @@
   [:div.bg-green-300.w-screen.h-screen
    [viewer query-params]])
 
-;(add-page-template viewer-page :viewer)
-(page/add viewer-page :viewer)
+

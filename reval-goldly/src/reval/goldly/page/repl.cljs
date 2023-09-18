@@ -9,7 +9,6 @@
    [goldly :refer [error-view]]
    [goldly.sci :refer [compile-sci-async compile-sci]]
    [goldly.service.core :as service]
-   [goldly.page :as page]
    [reval.goldly.viz.show :refer [show-data]]
    [reval.goldly.viz.data :refer [value->data]]
    [reval.goldly.url-loader :refer [url-loader]]
@@ -162,4 +161,4 @@
          [spaces/fill {}
           [repl-output]]]]])))
 
-(page/add repl :repl)
+

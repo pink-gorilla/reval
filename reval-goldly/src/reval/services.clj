@@ -9,8 +9,7 @@
    [reval.document.notebook :refer [load-src load-notebook eval-notebook save-notebook]]
    [reval.default] ; side effects
    [goldly.service.core :as s]
-   [goldly.service.expose :refer [start-services]]
-   ))
+   [goldly.service.expose :refer [start-services]]))
 
 (defn save-code [{:keys [path code]}]
   (info "saving code to: " path)
