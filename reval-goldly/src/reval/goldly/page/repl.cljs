@@ -152,7 +152,7 @@
           [url-loader {:fmt :clj
                        :url 'reval.services/nb-collections
                        :args []}
-           #(notebook-collection :repl %)]]
+           #(notebook-collection 'reval.goldly.page.repl/repl %)]]
 
          [spaces/left-resizeable {:size "60%"
                                   :class "bg-gray-100"}

@@ -40,7 +40,7 @@
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.services/nb-collections}
-         #(notebook-collection :viewer %)]]
+         #(notebook-collection 'reval.goldly.page.notebook-viewer/viewer-page %)]]
        [spaces/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.document.notebook/load-notebook
