@@ -5,19 +5,15 @@
                   reval.type.converter
                   reval.editor]
  :cljs-ns-bindings {'reval.type.converter {'value-type->hiccup reval.type.converter/value-type->hiccup}
-                    'reval.editor {'block-for reval.editor/block-for}
-                   }
+                    'reval.editor {'block-for reval.editor/block-for}}
  ; run 
- ;:autoload-cljs-dir ["reval/goldly/page"]
  :autoload-clj-ns [reval.default
                    reval.services]
- :api-routes {"rdocument/ns" reval.document-handler/wrapped-get-ns-list ; :rdocument/ns 
-              "rdocument/files" reval.document-handler/wrapped-get-ns-files ; :rdocument/files 
-              ["rdocument/file/" :ns "/" :name] reval.document-handler/wrapped-ns-file-handler ; :rdocument/file 
-              ; http://localhost:8000/api/viewer/file/demo.playground.cljplot/vega-spec.edn
-              }
- :cljs-routes  {"devtools/repl" reval.goldly.page.repl/repl
-                "devtools/viewer" reval.goldly.page.notebook-viewer/viewer-page}
+ :api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list
+                            "files" reval.document-handler/wrapped-get-ns-files 
+                            ["file/" :ns "/" :name] reval.document-handler/wrapped-ns-file-handler}}
+ :cljs-routes  {"reval/" {"repl" reval.goldly.page.repl/repl
+                          "viewer" reval.goldly.page.notebook-viewer/viewer-page}}
  :sci-cljs-ns [reval.goldly.display
                reval.goldly.ui-helper
                reval.goldly.url-loader
