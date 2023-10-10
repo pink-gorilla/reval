@@ -6,7 +6,6 @@
    [ring.middleware.not-modified :refer [wrap-not-modified]]
    [modular.persist.protocol :as p]
    [modular.webserver.middleware.api :refer [wrap-api-handler]]
-   [modular.webserver.handler.registry :refer [add-ring-handler]]
    [reval.document.manager :as dm]))
 
 ; url:
@@ -35,8 +34,6 @@
       (wrap-content-type) ; options
       (wrap-not-modified)))
 
-(add-ring-handler :rdocument/file wrapped-ns-file-handler)
-
 ;; rest
 
 (defn get-ns-list
@@ -61,8 +58,6 @@
 (def wrapped-get-ns-list (wrap-api-handler get-ns-list))
 (def wrapped-get-ns-files (wrap-api-handler get-ns-files))
 
-(add-ring-handler :rdocument/ns wrapped-get-ns-list)
-(add-ring-handler :rdocument/files wrapped-get-ns-files)
 
 (comment
 
