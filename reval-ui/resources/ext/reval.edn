@@ -19,12 +19,12 @@
 
  :clj-services {:name "reval"
                 :permission #{:dev}
-                :symbols ['reval.viz.eval/viz-eval
-                          'reval.document.collection/nb-collections
-                          'reval.goldly.save/save-code
-                           ; used in repl:
-                          'reval.document.notebook/load-src
-                          'reval.document.notebook/load-notebook
-                          'reval.document.notebook/eval-notebook
-                          'reval.document.notebook/save-notebook]}}
+                :symbols [reval.viz.eval/viz-eval
+                          reval.document.collection/nb-collections
+                          reval.goldly.save/save-code
+                          ; used in repl:
+                          reval.document.notebook/load-src
+                          reval.document.notebook/load-notebook
+                          reval.document.notebook/eval-notebook
+                          reval.document.notebook/save-notebook]}}
 

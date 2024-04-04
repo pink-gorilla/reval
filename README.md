@@ -8,8 +8,9 @@
 
 ## DEMO - Get Started
 - clone this repo
-- Run in directory *demo*:
 ```
+    cd demo
+    clj -X:nbeval
     clj -X:webly:npm-install
     clj -X:webly:compile2
     clj -X:run
