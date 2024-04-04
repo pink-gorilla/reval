@@ -1,6 +1,7 @@
 (ns reval.goldly.viz.render
   (:require
    [reagent.core :as r]
+   [promesa.core :as p]
    [webly.spa.resolve :refer [get-resolver]]))
 
 (defn log [& args]
@@ -22,24 +23,26 @@
           :loaded (into [fun] args)
           [loading-ui s])))))
 
+(defn update-atom [load-a p]
+  (-> p
+      (.then (fn [f]
+               (log "get-render-fn resolved fun: " f)
+               (if f
+                 (swap! load-a assoc :status :loaded :fun f)
+                 (swap! load-a assoc :status :error))))
+      (.catch (fn [d]
+                (log "get-render-fn: require result failure!")
+                (swap! load-a assoc :status :error)))))
 
-; similar to pinkie
+
 (defn get-render-fn [s]
-  (if-let [fun (resolve s)]
-    fun
-    (let [load-atom (r/atom {:status :loading})
-          resolve-fn (get-resolver)
-          resolve-p (resolve-fn s)]
-
-      (.then resolve-p (fn [f]
-                         (log "get-render-fn resolved fun: " s)
-                         (if f
-                           (swap! load-atom assoc :status :loaded :data :d :fun f)
-                           (swap! load-atom assoc :status :error))))
-      (.catch resolve-p (fn [d]
-                          (log "get-render-fn: require result failure!")
-                          (swap! load-atom assoc :status :error)))
-      (create-loader-ui load-atom s))))
+  (let [load-a (r/atom {:status :loading})
+        resolve-fn (get-resolver)
+        fun (resolve-fn s)]
+    (if (p/promise? fun)
+      (update-atom load-a fun)
+      (swap! load-a assoc :status :loaded :fun fun))
+    (create-loader-ui load-a s)))
 
 
 
