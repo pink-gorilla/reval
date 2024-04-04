@@ -1,0 +1,30 @@
+{:name "reval"
+ ; build 
+ :lazy true
+ :cljs-namespace [reval.type.cljs ; side-effects; load protocols for cljs and sci
+                  reval.type.converter
+                  reval.editor
+                  reval.goldly.page.notebook-viewer
+                  ]
+ :cljs-ns-bindings {'reval.type.converter {'value-type->hiccup reval.type.converter/value-type->hiccup}
+                    'reval.editor {'block-for reval.editor/block-for}
+                    'reval.goldly.page.notebook-viewer {'viewer-page reval.goldly.page.notebook-viewer/viewer-page}
+                    }
+ ; run 
+ :api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list
+                            "files" reval.document-handler/wrapped-get-ns-files
+                            ["file/" :ns "/" :name] reval.document-handler/wrapped-ns-file-handler}}
+ :cljs-routes  {"reval/" {;"repl" reval.goldly.page.repl/repl
+                          "viewer" reval.goldly.page.notebook-viewer/viewer-page}}
+
+ :clj-services {:name "reval"
+                :permission #{:dev}
+                :symbols ['reval.viz.eval/viz-eval
+                          'reval.services/nb-collections
+                           ; used in repl:
+                          'reval.document.notebook/load-src
+                          'reval.services/save-code
+                          'reval.document.notebook/load-notebook
+                          'reval.document.notebook/eval-notebook
+                          'reval.document.notebook/save-notebook]}}
+

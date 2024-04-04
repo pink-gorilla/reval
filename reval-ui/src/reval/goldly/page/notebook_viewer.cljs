@@ -1,6 +1,6 @@
 (ns reval.goldly.page.notebook-viewer
   (:require
-   [spaces]
+   [spaces.core]
    [reval.goldly.url-loader :refer [url-loader]]
    [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
    [reval.goldly.notebook-ui.clj-result :refer [notebook]]))
@@ -35,13 +35,13 @@
     (let [fmt (if (string? fmt)
                 (keyword fmt)
                 fmt)]
-      [spaces/viewport
-       [spaces/left-resizeable {:size "20%"
+      [spaces.core/viewport
+       [spaces.core/left-resizeable {:size "20%"
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.services/nb-collections}
          #(notebook-collection 'reval.goldly.page.notebook-viewer/viewer-page %)]]
-       [spaces/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
+       [spaces.core/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.document.notebook/load-notebook
                      :args-fetch [ns fmt]}

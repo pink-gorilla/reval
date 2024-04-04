@@ -28,18 +28,10 @@
                "src" "test"
                "--config" "cljkondo.edn"]}
 
-  :outdated
-  {:extra-deps {com.github.liquidz/antq {:mvn/version "RELEASE"}}
-   :main-opts ["-m" "antq.core"]}
-
   :check
   {:extra-deps {athos/clj-check {:git/url "https://github.com/athos/clj-check.git"
                                  :sha "518d5a1cbfcd7c952f548e6dbfcb9a4a5faf9062"}}
    :main-opts ["-m" "clj-check.check"]}
-
-  :garamond
-  {:main-opts ["-m" "garamond.main"]
-   :extra-deps {com.workframe/garamond {:mvn/version "0.4.0"}}}
 
   :test
   {:extra-paths ["test"]

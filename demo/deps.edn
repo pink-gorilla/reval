@@ -1,6 +1,6 @@
 {:paths ["src" "resources"]
  :deps
- {org.pinkgorilla/reval-goldly {:local/root "../reval-goldly" :deps/manifest :deps}}
+ {org.pinkgorilla/reval-ui {:local/root "../reval-ui" :deps/manifest :deps}}
 
  :aliases
  {; https://github.com/weavejester/cljfmt
@@ -11,33 +11,37 @@
   {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
    :main-opts ["-m" "cljfmt.main" "fix" "--indents" "cljfmt.edn"]}
 
-  ;; nrepl only
-  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "1.0.0"}
-                       cider/cider-nrepl {:mvn/version "0.28.5"}
-                       }
-          :main-opts  ["-m" "nrepl.cmdline"
-                       "--middleware" "[cider.nrepl/cider-middleware]"
-                       "--port" "9100"
-                       ]}
+  ; demo ui
+  :webly {:extra-deps {org.pinkgorilla/webly {:mvn/version "0.5.658"}
+                       org.pinkgorilla/ui-repl {:mvn/version "0.1.92"} }
+          :exec-fn webly.app.app/webly-build
+          :exec-args {:config [{:build {:disabled-extensions #{; extensions using sci-configs will not work in webly.
+                                                              "reagent" "re-frame"
+                                                              "funcool-promesa"
+                                                              "applied-science.js-interop"
+                                                               ; webly2 is now in webly. needs to be removed from ui-repl.
+                                                              "webly2"
+                                                              "ui-repl"
+                                                              "cljs-ajax"}}}]
+                      :profile "npm-install"}}
 
+  :npm-install {:exec-args {:profile "npm-install"}}
+  :compile {:exec-args {:profile "compile2"}}
+  :release {:exec-args {:profile "release"}}
+  :release-adv {:exec-args {:profile "release-adv"}}
+  :static {:exec-args {:profile "static"}}
+  :ci {:exec-args {:profile "ci"}}
+
+  :run {:extra-deps {org.pinkgorilla/webly {:mvn/version "0.5.657"}}
+        :exec-fn modular.system/start!
+        :exec-args {:profile "jetty"
+                    :services "reval/demo-services.edn"
+                    :config  ["reval/demo-config.edn"]}}
+  
   ;; nb eval
   :nbeval {:extra-paths ["demo"]
            :exec-fn  reval.task/nbeval}
-
-  ; demo ui
-
-  :goldly
-  {:extra-paths ["target/webly" ; to include the sci-bindings info
-                 "node_modules"]
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.604"}
-                nrepl/nrepl {:mvn/version "1.0.0"}
-                cider/cider-nrepl {:mvn/version  "0.28.5" #_"0.32.0"}
-                }
-   :exec-fn modular.system/start!
-   :exec-args {:profile "jetty"
-               :services "reval/demo-services.edn"
-               :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
-
-  :build
-  {:exec-fn goldly.app.build/goldly-build
-   :exec-args {:profile "compile2"}}}}
+  
+  
+  
+  }}

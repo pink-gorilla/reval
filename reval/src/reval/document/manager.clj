@@ -3,9 +3,9 @@
    [taoensso.timbre :refer [debug info warnf error]]
    [clojure.string :as str]
    [clojure.java.io :as io]
-   [modular.config :refer [get-in-config]]
    [modular.persist.protocol :as p]
-   [reval.document.classpath :refer [ns->dir]]))
+   [reval.document.classpath :refer [ns->dir]]
+   [reval.config :refer [get-in-config]]))
 
 ; get-filename and get-link may NOT contain the fmt parameter
 ; the name contains the extension. The reason is, that we have

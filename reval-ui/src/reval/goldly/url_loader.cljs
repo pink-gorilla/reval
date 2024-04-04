@@ -1,9 +1,9 @@
 (ns reval.goldly.url-loader
   (:require
    [reagent.core :as r]
-   [ui.pinkie :refer [error-boundary]]
+   [pinkie.ui.core :refer [error-boundary]]
    [goldly.service.core :as service]
-   [http]))
+   [pinkgorilla.repl.cljs.http :refer [get-str get-edn]]))
 
 (def show-loader-debug-ui false)
 
@@ -19,8 +19,8 @@
         ;(info (str "loading:  " comparator))
         (swap! a assoc :comparator comparator)
         (case fmt
-          :txt (http/get-str url a [:data])
-          :edn (http/get-edn url a [:data])
+          :txt (get-str url a [:data])
+          :edn (get-edn url a [:data])
           :clj (if arg-fetch
                  (service/run-a a [:data] url arg-fetch)
                  (if args-fetch
