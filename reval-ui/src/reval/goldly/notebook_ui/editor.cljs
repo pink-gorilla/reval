@@ -21,7 +21,7 @@
 
 (defn save-code [path]
   (let [code (cm-get-code)]
-    (service/run-cb {:fun 'reval.services/save-code
+    (service/run-cb {:fun 'reval.goldly.save/save-code
                      :args [{:code code :path path}]
                      :timeout 1000
                      :cb (fn [[_s {:keys [_result]}]]

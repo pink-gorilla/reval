@@ -1,6 +1,9 @@
 {:paths ["src" "resources"]
  :deps
- {org.pinkgorilla/reval-ui {:local/root "../reval-ui" :deps/manifest :deps}}
+ {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
+  org.pinkgorilla/reval-ui {:local/root "../reval-ui" :deps/manifest :deps}
+  org.pinkgorilla/webly {:mvn/version "0.5.658"}
+  org.pinkgorilla/ui-repl {:mvn/version "0.1.92"}}
 
  :aliases
  {; https://github.com/weavejester/cljfmt
@@ -12,17 +15,8 @@
    :main-opts ["-m" "cljfmt.main" "fix" "--indents" "cljfmt.edn"]}
 
   ; demo ui
-  :webly {:extra-deps {org.pinkgorilla/webly {:mvn/version "0.5.658"}
-                       org.pinkgorilla/ui-repl {:mvn/version "0.1.92"} }
-          :exec-fn webly.app.app/webly-build
-          :exec-args {:config [{:build {:disabled-extensions #{; extensions using sci-configs will not work in webly.
-                                                              "reagent" "re-frame"
-                                                              "funcool-promesa"
-                                                              "applied-science.js-interop"
-                                                               ; webly2 is now in webly. needs to be removed from ui-repl.
-                                                              "webly2"
-                                                              "ui-repl"
-                                                              "cljs-ajax"}}}]
+  :webly {:exec-fn webly.app.app/webly-build
+          :exec-args {:config ["reval/demo-config.edn"]
                       :profile "npm-install"}}
 
   :npm-install {:exec-args {:profile "npm-install"}}
@@ -32,15 +26,16 @@
   :static {:exec-args {:profile "static"}}
   :ci {:exec-args {:profile "ci"}}
 
-  :run {:extra-deps {org.pinkgorilla/webly {:mvn/version "0.5.657"}}
-        :exec-fn modular.system/start!
+  :run {:exec-fn modular.system/start!
         :exec-args {:profile "jetty"
-                    :services "reval/demo-services.edn"
-                    :config  ["reval/demo-config.edn"]}}
+                    :config  ["reval/demo-config.edn"]
+                    :services "reval/demo-services.edn"}}
   
   ;; nb eval
-  :nbeval {:extra-paths ["demo"]
-           :exec-fn  reval.task/nbeval}
+  :nbeval {:exec-fn  reval.task/nbeval
+           :exec-args {
+                       :config  ["reval/demo-config.edn"]}
+           }
   
   
   

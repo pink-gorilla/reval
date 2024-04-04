@@ -11,11 +11,12 @@
 (def config (atom default-reval-config))
 
 (defn set-config! [reval-config]
+ (println "reval config: " reval-config)
   (let [reval-config {:rdocument (or (:rdocument reval-config)
                                      (:rdocument default-reval-config))
                       :collections (or (:collections reval-config)
                                        (:collections default-reval-config))}]
     (reset! config reval-config)))
 
-(defn get-in-config [path]
+(defn get-in-reval-config [path]
   (get-in @config path))

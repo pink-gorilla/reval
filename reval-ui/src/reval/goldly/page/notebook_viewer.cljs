@@ -39,7 +39,7 @@
        [spaces.core/left-resizeable {:size "20%"
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
-                     :url 'reval.services/nb-collections}
+                     :url 'reval.document.collection/nb-collections}
          #(notebook-collection 'reval.goldly.page.notebook-viewer/viewer-page %)]]
        [spaces.core/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj

@@ -150,7 +150,7 @@
          [spaces/left-resizeable {:size "10%"
                                   :class "bg-gray-100 max-h-full overflow-y-auto"}
           [url-loader {:fmt :clj
-                       :url 'reval.services/nb-collections
+                       :url 'reval.document.collection/nb-collections
                        :args []}
            #(notebook-collection 'reval.goldly.page.repl/repl %)]]
 
