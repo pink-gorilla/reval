@@ -1,4 +1,4 @@
-(ns reval.goldly.page.notebook-viewer
+(ns reval.page.notebook-viewer
   (:require
    [spaces.core]
    [reval.goldly.url-loader :refer [url-loader]]

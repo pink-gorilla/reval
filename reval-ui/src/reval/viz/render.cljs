@@ -1,4 +1,4 @@
-(ns reval.goldly.viz.render
+(ns reval.viz.render
   (:require
    [reagent.core :as r]
    [promesa.core :as p]

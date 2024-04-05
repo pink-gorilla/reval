@@ -1,4 +1,4 @@
-(ns reval.goldly.viz.data
+(ns reval.viz.data
   (:require
    [reval.type.converter :refer [value-type->hiccup]]))
 

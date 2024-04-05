@@ -1,22 +1,15 @@
-(ns reval.goldly.page.repl
+(ns reval.page.repl
   (:require
-   [clojure.string :as str]
    [reagent.core :as r]
    [re-frame.core :as rf]
    [layout]
-   [spaces]
-   [modular.ws.core :as ws]
-   [goldly :refer [error-view]]
-   [goldly.sci :refer [compile-sci-async compile-sci]]
+   [spaces.core]
    [goldly.service.core :as service]
-   [reval.goldly.viz.show :refer [show-data]]
-   [reval.goldly.viz.data :refer [value->data]]
-   [reval.goldly.url-loader :refer [url-loader]]
-   [reval.goldly.ui-helper :refer [text2]]
-   [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
-   [reval.goldly.notebook-ui.clj-result :refer [segment notebook add-segment empty-notebook]]
-   [reval.goldly.notebook-ui.editor :as editor]
-   [reval.goldly.notebook-ui.eval :as eval]))
+   [reval.helper.url-loader :refer [url-loader]]
+   [reval.notebook-ui.collection :refer [notebook-collection]]
+   [reval.notebook-ui.clj-result :refer [segment notebook add-segment empty-notebook]]
+   [reval.notebook-ui.editor :as editor]
+   [reval.notebook-ui.eval :as eval]))
 
 (defonce repl-code (r/atom ""))
 
@@ -140,25 +133,25 @@
     (let [{:keys [ns fmt path]
            :or {fmt "clj"
                 ns "user"}} query-params]
-      [spaces/viewport
+      [spaces.core
     ;"top"
-       [spaces/top-resizeable {:size 50}
+       [spaces.core {:size 50}
         [repl-header ns fmt path]] ; 
-       [spaces/fill {:class "bg-green-200"}
+       [spaces.core {:class "bg-green-200"}
         [:div.w-full.h-full.bg-red-200
 
-         [spaces/left-resizeable {:size "10%"
+         [spaces.core {:size "10%"
                                   :class "bg-gray-100 max-h-full overflow-y-auto"}
           [url-loader {:fmt :clj
                        :url 'reval.document.collection/nb-collections
                        :args []}
            #(notebook-collection 'reval.goldly.page.repl/repl %)]]
 
-         [spaces/left-resizeable {:size "60%"
+         [spaces.core/left-resizeable {:size "60%"
                                   :class "bg-gray-100"}
           [editor ns fmt path]]
 
-         [spaces/fill {}
+         [spaces.core/fill {}
           [repl-output]]]]])))
 
 

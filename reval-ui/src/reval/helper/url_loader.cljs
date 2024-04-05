@@ -1,4 +1,4 @@
-(ns reval.goldly.url-loader
+(ns reval.helper.url-loader
   (:require
    [reagent.core :as r]
    [pinkie.ui.core :refer [error-boundary]]

@@ -1,4 +1,4 @@
-(ns reval.goldly.notebook-ui.collection
+(ns reval.notebook-ui.collection
   (:require
    [clojure.string :refer [split]]
    [re-frame.core :as rf]))

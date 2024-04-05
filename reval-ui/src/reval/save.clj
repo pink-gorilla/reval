@@ -1,4 +1,4 @@
-(ns reval.goldly.save)
+(ns reval.save)
 
 (defn save-code [{:keys [path code]}]
   (println "saving code to: " path)

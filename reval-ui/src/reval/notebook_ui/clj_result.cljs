@@ -1,10 +1,10 @@
-(ns reval.goldly.notebook-ui.clj-result
+(ns reval.notebook-ui.clj-result
   (:require
    [clojure.string :refer [blank?]]
    [ui.highlightjs :refer [highlightjs]]
    [reval.goldly.ui-helper :refer [text2]]
    [reval.goldly.viz.show :refer [show-data]]
-   ;[goldly :refer [error-view]]
+   ;[reval.goldly.notebook-ui.eval-error :refer [error-view]]
    ))
 
 (def show-stacktrace true)
@@ -41,9 +41,7 @@
       [:tbody
        (map-indexed stacktrace-line stacktrace)]])])
 
-(defn evalerr-sci [err-sci]
-  ;[error-view "" err-sci]
-  [:div (pr-str err-sci)])
+
 
 ;; segment
 
@@ -68,7 +66,7 @@
        [highlightjs scode])
      (when err
        [evalerr err])
-     (when err-sci
+     #_(when err-sci
        [evalerr-sci err-sci])
      (when (not (blank? out))
        [:div.bg-blue-200

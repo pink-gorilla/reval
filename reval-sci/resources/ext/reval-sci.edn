@@ -4,14 +4,15 @@
  :cljs-namespace [reval.type.sci ; side-effects; load protocols for cljs and sci
                   ]
 
- :sci-cljs-ns [reval.goldly.display
+ :sci-cljs-ns [; kernel
+               reval.goldly.display
                reval.goldly.ui-helper
                reval.goldly.url-loader
                ; notebook-ui
                reval.goldly.notebook-ui.clj-result
                reval.goldly.notebook-ui.collection
                reval.goldly.notebook-ui.editor
-               reval.goldly.notebook-ui.eval
+              
                reval.goldly.notebook-ui.rdocument
                ; viz
                reval.goldly.viz.data

@@ -1,12 +1,11 @@
-(ns reval.goldly.notebook-ui.editor
+(ns reval.notebook-ui.editor
   (:require
    [clojure.string :as str]
    [reagent.core :as r]
    [cm]
    [ui.codemirror :refer [codemirror-unbound]]
-   [goldly :refer [error-view]]
    [goldly.service.core :as service]
-   [reval.editor :refer [block-for]]))
+   [reval.notebook-ui.rewrite :refer [block-for]]))
 
 (defonce editor-id (r/atom 1))
 

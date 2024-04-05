@@ -1,4 +1,10 @@
-(ns reval.goldly.display)
+(ns reval.display)
+
+(defn render-value-with [escaped-sci-cljs-render-fn]
+  (fn [v]
+    (with-meta
+      [escaped-sci-cljs-render-fn v]
+      {:R true})))
 
 (defn render-fn [t v]
   (with-meta
@@ -14,7 +20,6 @@
   (with-meta
     v
     {:hiccup true}))
-
 
 
 

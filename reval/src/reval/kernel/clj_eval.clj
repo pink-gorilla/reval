@@ -42,19 +42,6 @@
     (catch Exception e
       {:err (err (.getCause e))})))
 
-(load-string "(+ 4 4) (* 4 4)")
-(try (load-string "(/ 4 0)")
-     (catch Exception e
-      ;(println "ex: " e)
-      ;(stacktrace e)
-      ;(.getMessage e)
-       (.getCause e)
-       (class e)
-       (class (.getCause e))
-
-     ; type
-       ))
-(clj-eval-raw "(/ 4 0)")
 
 (defn clj-eval
   "evaluate code in namespace ns
@@ -131,6 +118,23 @@
 
   (let [c (kernel-eval {:code "(ns bongo) (println 3) (+ 5 5)" :kernel :clj})]
     (<!! c))
+  
+
+(load-string "(+ 4 4) (* 4 4)")
+(try (load-string "(/ 4 0)")
+     (catch Exception e
+      ;(println "ex: " e)
+      ;(stacktrace e)
+      ;(.getMessage e)
+       (.getCause e)
+       (class e)
+       (class (.getCause e))
+
+     ; type
+       ))
+(clj-eval-raw "(/ 4 0)")
+
+
 
 ; 
   )

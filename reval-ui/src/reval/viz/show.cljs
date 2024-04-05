@@ -1,6 +1,6 @@
-(ns reval.goldly.viz.show
+(ns reval.viz.show
   (:require
-   [reval.goldly.viz.render :refer [get-render-fn]]))
+   [reval.viz.render :refer [get-render-fn]]))
 
 (defn log [& args]
   (.log js/console (apply str args)))

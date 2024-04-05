@@ -1,7 +1,7 @@
-(ns reval.goldly.viz.render-fn
+(ns reval.viz.render-fn
   (:require
    [viz.hiccup :refer [resolve-hiccup]]
-   [reval.goldly.viz.render :refer [get-render-fn]]))
+   [reval.viz.render :refer [get-render-fn]]))
 
 (defn hiccup [data]
   data)

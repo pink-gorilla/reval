@@ -1,4 +1,4 @@
-(ns reval.goldly.ui-helper
+(ns reval.helper.ui-helper
   (:require
    [re-frame.core :as rf]
    [clojure.string :refer [split]]))

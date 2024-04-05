@@ -1,4 +1,4 @@
-(ns reval.cljs-eval
+(ns reval.kernel.cljs-eval
   (:require
    [taoensso.timbre :refer [info]]
    [clojure.core.async :refer [go chan >! <!! alts! timeout]]
