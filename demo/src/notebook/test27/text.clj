@@ -1,4 +1,4 @@
-(ns notebook.test.text
+(ns notebook.test27.text
   (:require
     [reval.goldly.display :as display]))
 

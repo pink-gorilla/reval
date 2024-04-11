@@ -1,9 +1,9 @@
 (ns reval.page.notebook-viewer
   (:require
    [spaces.core]
-   [reval.goldly.url-loader :refer [url-loader]]
-   [reval.goldly.notebook-ui.collection :refer [notebook-collection]]
-   [reval.goldly.notebook-ui.clj-result :refer [notebook]]))
+   [reval.helper.url-loader :refer [url-loader]]
+   [reval.notebook-ui.collection :refer [notebook-collection]]
+   [reval.notebook-ui.clj-result :refer [notebook]]))
 
 ;; NOTEBOOK UI
 
@@ -40,7 +40,7 @@
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.document.collection/nb-collections}
-         #(notebook-collection 'reval.goldly.page.notebook-viewer/viewer-page %)]]
+         #(notebook-collection 'reval.page.notebook-viewer/viewer-page %)]]
        [spaces.core/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.document.notebook/load-notebook

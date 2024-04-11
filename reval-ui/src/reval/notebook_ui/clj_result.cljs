@@ -2,8 +2,8 @@
   (:require
    [clojure.string :refer [blank?]]
    [ui.highlightjs :refer [highlightjs]]
-   [reval.goldly.ui-helper :refer [text2]]
-   [reval.goldly.viz.show :refer [show-data]]
+   [reval.helper.ui-helper :refer [text2]]
+   [reval.viz.show :refer [show-data]]
    ;[reval.goldly.notebook-ui.eval-error :refer [error-view]]
    ))
 

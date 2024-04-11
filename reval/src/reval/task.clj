@@ -1,23 +1,41 @@
 (ns reval.task
   (:require
-   [reval.config :refer [default-reval-config set-config!]]
    [reval.document.collection  :refer [nb-collections eval-collections]]
    [reval.default] ; side-effects
-   [modular.config]
-   ))
+   [clojure.pprint :refer [print-table]]))
 
-(defn nbeval
-  ([{:keys [config]; a map so it can be consumed by tools deps -X
-     :or {config default-reval-config}
-     :as p}]
-   (modular.config/load-config! config)
-   (println "setting reval config: " config)
-   (println "full config: " (modular.config/get-in-config []))
-    (set-config! (modular.config/get-in-config [:reval]))
-   (nbeval))
-  ([]
-   (println "evaluating nb collections ..")
-   (let [cols (nb-collections)]
-     (println "nb-cols: " cols)
-     (eval-collections cols)  )))
+(defn eval-all-collections [m]
+  (println "evaluating nb collections .. m: " (keys m))
+  (let [cols (nb-collections)]
+    (println "nb-cols: " cols)
+    (eval-collections cols)))
+
+
+(defn inline-coll [[cname coll]]
+  (let [x (partition 2 coll)
+        y (map (fn [[kernel nbs]]
+                 (map #(assoc % :kernel kernel :coll cname) nbs)) x)]
+    (apply concat y)))
+
+(defn inline-collections [cols]
+  (reduce concat [] (map inline-coll cols)))
+
+
+(defn print-all-collections [m]
+  (println "nb collections .. m: " (keys m))
+  (let [cols (nb-collections)
+        cols-f (inline-collections cols)]
+    (print-table [:coll :nbns :ext :kernel :path] cols-f)))
+
+
+(comment
+  (inline-collections (nb-collections))
+  (print-all-collections {})
+
+
+ ; 
+  )
+
+
+  
 

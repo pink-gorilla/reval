@@ -23,6 +23,6 @@
    (defn value-type->hiccup [v]
      (try
        (to-hiccup v)
-       (catch :default e ; js/Exception _
+       (catch js/Exception _
          (unknown-type-view v)))))
 

@@ -1,15 +1,19 @@
 {:name "reval-ui"
  ; build 
  :lazy true
- :cljs-namespace [reval.type.cljs ; side-effects; load protocols for cljs and sci
+ :depends-on #{:ui-codemirror}
+ :cljs-namespace [reval.viz.data
+                  reval.viz.render-fn
+                  reval.type.cljs ; side-effects; load protocols for cljs and sci
                   reval.type.converter
-                  reval.editor
                   reval.page.notebook-viewer
-                  ]
- :cljs-ns-bindings {'reval.type.converter {'value-type->hiccup reval.type.converter/value-type->hiccup}
-                    'reval.editor {'block-for reval.editor/block-for}
+                  reval.notebook-ui.editor]
+ :cljs-ns-bindings {'reval.viz.data {'value->data reval.viz.data/value->data}
+                    'reval.viz.render-fn {'hiccup  reval.viz.render-fn/hiccup
+                                          'reagent  reval.viz.render-fn/reagent}
+                    'reval.type.converter {'value-type->hiccup reval.type.converter/value-type->hiccup}
                     'reval.page.notebook-viewer {'viewer-page reval.page.notebook-viewer/viewer-page}
-                    }
+                    'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}}
  ; run 
  :api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list
                             "files" reval.document-handler/wrapped-get-ns-files
@@ -21,7 +25,7 @@
                 :permission #{:dev}
                 :symbols [reval.viz.eval/viz-eval
                           reval.document.collection/nb-collections
-                          reval.goldly.save/save-code
+                          reval.save/save-code
                           ; used in repl:
                           reval.document.notebook/load-src
                           reval.document.notebook/load-notebook

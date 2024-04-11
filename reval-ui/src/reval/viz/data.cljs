@@ -22,19 +22,19 @@
          :data (:data v)}
 
         (contains? m :hiccup)
-        {:render-fn 'reval.goldly.viz.render-fn/hiccup
+        {:render-fn 'reval.viz.render-fn/hiccup
          :data v}
 
         (contains? m :reagent)
-        {:render-fn 'reval.goldly.viz.render-fn/reagent
+        {:render-fn 'reval.viz.render-fn/reagent
          :data v}
 
         (contains? m :R)
-        {:render-fn 'reval.goldly.viz.render-fn/reagent
+        {:render-fn 'reval.viz.render-fn/reagent
          :data v}
 
         :else
-        {:render-fn 'reval.goldly.viz.render-fn/reagent
+        {:render-fn 'reval.viz.render-fn/reagent
          :data (value-type->hiccup v)}))
-    {:render-fn 'reval.goldly.viz.render-fn/reagent
+    {:render-fn 'reval.viz.render-fn/reagent
      :data nil-view}))

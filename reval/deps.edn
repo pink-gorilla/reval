@@ -4,7 +4,7 @@
   org.clojure/core.async {:mvn/version "1.6.673"}
   org.clojure/data.codec {:mvn/version "0.1.1"} ; image base64 encoding
   rewrite-clj/rewrite-clj {:mvn/version "1.1.47" #_"1.0.644-alpha"}
-  org.pinkgorilla/modular {:mvn/version "0.0.38"}}
+  org.pinkgorilla/modular {:mvn/version "0.0.40"}}
 
  :aliases
  {;https://github.com/applied-science/deps-library

@@ -1,4 +1,4 @@
-(ns notebook.test.fira-code)
+(ns notebook.test27.fira-code)
 
 ; if the threading macro appears different, then the correct font got loaded.
 25

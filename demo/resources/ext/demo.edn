@@ -1,9 +1,10 @@
 {:name "demo-reval"
- :lazy false
+ :lazy true
+ :depends-on #{:reval-ui}
 
- :cljs-routes {""      reval.goldly.page.notebook-viewer/viewer-page
+ :cljs-routes {""  reval.page.notebook-viewer/viewer-page
                ; "devtools/repl" :repl
-               ;"devtools/scratchpad" :scratchpad
+             
               }
  
 ;

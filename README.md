@@ -12,17 +12,12 @@
     cd demo
     clj -X:nbeval
     clj -X:webly:npm-install
-    clj -X:webly:compile2
-    clj -X:run
+    clj -X:webly:compile
+    clj -X:webly:run
 ```
   Open Browser on Port 8080
 
 
-## scratchpad
-- you can send vizualisations of your clj expressions to the scratchpad 
-- `->scratchpad` sends the vizualisation to the browser.
-- Open the repo in your preferred ide. Connect to nrepl on port 9100.
-- demo/demo/scratchpad.clj or Eval demo/demo/notebook.clj 
 
 ## configuration
 
