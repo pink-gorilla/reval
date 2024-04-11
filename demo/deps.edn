@@ -5,7 +5,7 @@
   org.pinkgorilla/webly {:mvn/version "0.5.660"}
   ;org.pinkgorilla/ui-repl {:mvn/version "0.1.92"}
   ; ui modules for demo notebooks:
- ; org.pinkgorilla/ui-highcharts {:mvn/version "0.0.28"}
+  org.pinkgorilla/ui-highcharts {:mvn/version "0.0.28"}
   }
 
  :aliases

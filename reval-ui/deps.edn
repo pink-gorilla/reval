@@ -6,9 +6,9 @@
   org.pinkgorilla/pinkie {:mvn/version "0.5.231"}; error boundary
   org.pinkgorilla/ui-repl {:mvn/version "0.1.93"}; reagent
   org.pinkgorilla/ui-input {:mvn/version "0.2.42"}; spaces
-  org.pinkgorilla/ui-codemirror {:mvn/version "0.1.46"}
+  org.pinkgorilla/ui-codemirror {:mvn/version "0.1.47"}
   org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.9"}
-  org.pinkgorilla/ui-site {:mvn/version "0.0.29"} ; remove it?
+  ;org.pinkgorilla/ui-site {:mvn/version "0.0.29"} ; remove it?
   org.pinkgorilla/clj-service {:mvn/version "0.2.7"}
   }
 
