@@ -17,7 +17,7 @@
 ```
   Open Browser on Port 8080
 
-
+A simple notebook viewer is on [Reval Github Pages](https://pink-gorilla.github.io/reval/)
 
 ## configuration
 

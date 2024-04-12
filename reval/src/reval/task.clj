@@ -1,5 +1,6 @@
 (ns reval.task
   (:require
+   [clojure.java.io :as io]
    [reval.document.collection  :refer [nb-collections eval-collections]]
    [reval.default] ; side-effects
    [clojure.pprint :refer [print-table]]))
@@ -14,9 +15,18 @@
 (defn save-welcome []
   (spit "target/webly/public/rdocument/welcome.edn" nb-welcome))
 
+
+(defn- ensure-directory [path]
+  (when-not (.exists (io/file path))
+    (.mkdir (java.io.File. path))))
+
 (defn eval-all-collections [m]
   (println "evaluating nb collections .. m: " (keys m))
   (let [cols (nb-collections)]
+    (ensure-directory "target")
+    (ensure-directory "target/webly")
+    (ensure-directory "target/webly/public")
+    (ensure-directory "target/webly/public/rdocument")
     (spit "target/webly/public/rdocument/notebooks.edn" cols)
     (save-welcome)
     (println "nb-cols: " cols)
