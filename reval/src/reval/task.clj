@@ -15,7 +15,6 @@
 (defn save-welcome []
   (spit "target/webly/public/rdocument/welcome.edn" nb-welcome))
 
-
 (defn- ensure-directory [path]
   (when-not (.exists (io/file path))
     (.mkdir (java.io.File. path))))
