@@ -1,6 +1,12 @@
 {:paths ["src" "resources"]
  :deps
- {org.pinkgorilla/reval-goldly {:local/root "../reval-goldly" :deps/manifest :deps}}
+ {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
+  org.pinkgorilla/reval-ui {:local/root "../reval-ui" :deps/manifest :deps}
+  org.pinkgorilla/webly {:mvn/version "0.5.660"}
+  ;org.pinkgorilla/ui-repl {:mvn/version "0.1.92"}
+  ; ui modules for demo notebooks:
+  org.pinkgorilla/ui-highcharts {:mvn/version "0.0.28"}
+  }
 
  :aliases
  {; https://github.com/weavejester/cljfmt
@@ -11,33 +17,30 @@
   {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
    :main-opts ["-m" "cljfmt.main" "fix" "--indents" "cljfmt.edn"]}
 
-  ;; nrepl only
-  :nrepl {:extra-deps {nrepl/nrepl {:mvn/version "1.0.0"}
-                       cider/cider-nrepl {:mvn/version "0.28.5"}
-                       }
-          :main-opts  ["-m" "nrepl.cmdline"
-                       "--middleware" "[cider.nrepl/cider-middleware]"
-                       "--port" "9100"
-                       ]}
-
-  ;; nb eval
-  :nbeval {:extra-paths ["demo"]
-           :exec-fn  reval.task/nbeval}
-
   ; demo ui
+  :webly {:exec-fn webly.app.app/webly-build
+          :exec-args {:config ["reval/demo-config.edn"]
+                      :profile "npm-install"}}
 
-  :goldly
-  {:extra-paths ["target/webly" ; to include the sci-bindings info
-                 "node_modules"]
-   :extra-deps {org.pinkgorilla/goldly {:mvn/version "0.4.604"}
-                nrepl/nrepl {:mvn/version "1.0.0"}
-                cider/cider-nrepl {:mvn/version  "0.28.5" #_"0.32.0"}
-                }
-   :exec-fn modular.system/start!
-   :exec-args {:profile "jetty"
-               :services "reval/demo-services.edn"
-               :config  ["webly/config.edn" "goldly/config.edn" "reval/demo-config.edn"]}}
+  :npm-install {:exec-args {:profile "npm-install"}}
+  :compile {:exec-args {:profile "compile2"}}
+  :release {:exec-args {:profile "release"}}
+  :release-adv {:exec-args {:profile "release-adv"}}
+  :static {:exec-args {:profile "static"}}
+  :ci {:exec-args {:profile "ci"}}
 
-  :build
-  {:exec-fn goldly.app.build/goldly-build
-   :exec-args {:profile "compile2"}}}}
+  :run {:exec-fn modular.system/start!
+        :exec-args {:profile "jetty"
+                    :config  ["reval/demo-config.edn"]
+                    :services "reval/demo-services.edn"}}
+
+  :nbeval {:exec-fn modular.system/start!
+            :exec-args {:run reval.task/eval-all-collections
+                        :config  ["reval/demo-config.edn"]
+                        :services "reval/task-services.edn"}}
+  :nblist {:exec-fn modular.system/start!
+           :exec-args {:run reval.task/print-all-collections
+                       :config  ["reval/demo-config.edn"]
+                       :services "reval/task-services.edn"}}
+  
+  }}

@@ -7,7 +7,7 @@
    [modular.helper.date :refer [now-str]]
    [reval.viz.data :refer [value->data]]
    [reval.document.manager :as rdm]
-   [reval.document.classpath :refer [ns->dir ns->filename]]
+   [reval.document.path :refer [ns->dir ns->filename]]
    [reval.document.src-parser :refer [text->notebook]]
    [reval.kernel.clj-eval :refer [clj-eval]]
    [reval.default]  ; side effects to include all default converters

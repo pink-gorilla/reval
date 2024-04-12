@@ -1,14 +1,23 @@
-{:paths ["src"]
+{:paths ["src"
+         "resources"]
  :deps
- {org.clojure/clojure    {:mvn/version "1.11.1"}
-  org.clojure/core.async {:mvn/version "1.6.673"}
-  org.clojure/data.codec {:mvn/version "0.1.1"} ; image base64 encoding
-  rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}
-  org.pinkgorilla/modular {:mvn/version "0.0.40"}
-  funcool/promesa {:mvn/version "11.0.674"}}
+ {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
+  ; deps to ui extensions used in reval
+  org.pinkgorilla/pinkie {:mvn/version "0.5.231"}; error boundary
+  org.pinkgorilla/ui-repl {:mvn/version "0.1.93"}; reagent
+  org.pinkgorilla/ui-input {:mvn/version "0.2.43"} ; spaces
+  org.pinkgorilla/ui-codemirror {:mvn/version "0.1.47"}
+  org.pinkgorilla/ui-highlightjs {:mvn/version "0.0.9"}
+  org.pinkgorilla/clj-service {:mvn/version "0.2.7"}}
 
  :aliases
- {; https://github.com/weavejester/cljfmt
+ {; github ci  
+  :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}
+                 slipset/deps-deploy {:mvn/version "0.2.1"}
+                 babashka/fs {:mvn/version "0.0.5"}}
+          :ns-default build}
+
+  ; https://github.com/weavejester/cljfmt
   :cljfmt
   {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
    :main-opts ["-m" "cljfmt.main" "check" "--indents" "cljfmt.edn"]}
@@ -30,12 +39,13 @@
    :main-opts ["-m" "clj-check.check"]}
 
   :test
-  {:extra-paths ["test"]
+  {:extra-paths ["test" "demo"]
    :extra-deps {io.github.cognitect-labs/test-runner
                 {:git/url "https://github.com/cognitect-labs/test-runner.git"
                  :sha "dd6da11611eeb87f08780a30ac8ea6012d4c05ce"}}
-   :exec-fn cognitect.test-runner.api/test
-   :main-opts ["-m" "cognitect.test-runner"]}
- 
+   :main-opts ["-m" "cognitect.test-runner"]
+   :exec-fn cognitect.test-runner.api/test}
 
+
+;
   }}

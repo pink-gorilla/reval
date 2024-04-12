@@ -1,9 +1,8 @@
 (ns reval.kernel.clj-eval
   (:require
    [clojure.string :as string]
-   [taoensso.timbre :refer [debug info warnf error]]
    [clojure.core :refer [read-string load-string]]
-   [clojure.core.async :refer [>! close! go <! <!! chan]]
+   [promesa.core :as p]
    [modular.helper.id :refer [guuid]]
    [reval.kernel.protocol :refer [kernel-eval]]))
 
@@ -41,20 +40,6 @@
     (with-out-str-data-map (load-string code))
     (catch Exception e
       {:err (err (.getCause e))})))
-
-(load-string "(+ 4 4) (* 4 4)")
-(try (load-string "(/ 4 0)")
-     (catch Exception e
-      ;(println "ex: " e)
-      ;(stacktrace e)
-      ;(.getMessage e)
-       (.getCause e)
-       (class e)
-       (class (.getCause e))
-
-     ; type
-       ))
-(clj-eval-raw "(/ 4 0)")
 
 (defn clj-eval
   "evaluate code in namespace ns
@@ -94,11 +79,7 @@
 (defmethod kernel-eval :clj [seg]
   ; no logging in here. 
   ; when capturing eval result, it is not a good idea.
-  (let [c (chan)]
-    (go
-      (>! c (clj-eval seg))
-      (close! c))
-    c))
+  (p/resolved (clj-eval seg)))
 
 (comment
   (read-string "(+ 1 2) (- 3 2)") ; reads next expression from string
@@ -129,8 +110,22 @@
   (clj-eval {:code "(c/use-project)"  :ns "bongo"})
   (clj-eval {:code "*ns*"  :ns "bongo"})
 
-  (let [c (kernel-eval {:code "(ns bongo) (println 3) (+ 5 5)" :kernel :clj})]
-    (<!! c))
+  (-> (kernel-eval {:code "(ns bongo) (println 3) (+ 5 5)" :kernel :clj})
+      (p/then (fn [r] (println "result: " r))))
+
+  (load-string "(+ 4 4) (* 4 4)")
+  (try (load-string "(/ 4 0)")
+       (catch Exception e
+      ;(println "ex: " e)
+      ;(stacktrace e)
+      ;(.getMessage e)
+         (.getCause e)
+         (class e)
+         (class (.getCause e))
+
+     ; type
+         ))
+  (clj-eval-raw "(/ 4 0)")
 
 ; 
   )

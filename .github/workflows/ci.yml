@@ -31,6 +31,8 @@ jobs:
       run: |
         cd reval
         clojure -M:cljfmt
+        cd ../reval-ui
+        clojure -M:cljfmt
       shell: bash
     - name: test-clj
       run: |
@@ -44,24 +46,8 @@ jobs:
         CLOJARS_PASSWORD: ${{ secrets.ReleasePassword }}
         CODECOV_TOKEN: ${{ secrets.CodecovToken }}
       run: |
-        cd reval-goldly
+        cd reval-ui
         git config --global user.email "ci@pinkgorilla.org"
         git config --global user.name "CI/CD"
-        clojure -T:build-jar jar
-        clojure -T:build-jar deploy
-      #  clojure -M:release --patch
-      #  git push --tags
-      #
-      #  rm src/goldly_bindings_generated.cljs
-      #  clojure -M:release tag --minor
-      #  clojure -M:release pom
-      #  clojure -M:release jar
-      # clojure -M:release deploy
-      # lein release
-      # bash <(curl -s https://codecov.io/bash)
-      # lein with-profile +relay-jetty cloverage
-      #  bash <(curl -s https://codecov.io/bash) -f target/coverage/codecov.json
-      #
-      # Could not transfer metadata foo:bar/maven-metadata.xml from/to releases (https://clojars.org/repo): Read timed out
-      # Default 10000 not enough for us
-      # export LEIN_JVM_OPTS="-Dmaven.wagon.rto=90000"
+        clojure -T:build jar
+        clojure -T:build deploy

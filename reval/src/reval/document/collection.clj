@@ -2,10 +2,10 @@
   (:require
    [clojure.string :as str]
    [clojure.java.io :as io]
-   [modular.config :refer [get-in-config]]
    [modular.resource.explore :refer [describe-files]]
-   [reval.document.classpath :refer [split-ext is-format? ext-is-format? filename->ns]]
-   [reval.document.notebook :refer [eval-notebook]]))
+   [reval.document.path :refer [split-ext is-format? ext-is-format? filename->ns]]
+   [reval.document.notebook :refer [eval-notebook]]
+   [reval.config :refer [get-in-reval-config]]))
 
 ; this does not work. meta-data cannot be assoced to a string
 #_(defn name-with-meta [{:keys [name path] :as entry}]
@@ -63,7 +63,7 @@
    (map eval-collection colls)))
 
 (defn nb-collections []
-  (get-collections (get-in-config [:reval :collections])))
+  (get-collections (get-in-reval-config [:collections])))
 
 (comment
 

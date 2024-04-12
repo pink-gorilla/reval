@@ -1,4 +1,4 @@
-(ns notebook.test.reval-image
+(ns notebook.test27.reval-image
   (:require
    [clojure.java.io :as io]
    [modular.persist.protocol :refer [loadr]]

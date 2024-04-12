@@ -1,12 +1,14 @@
-{:goldly {:lazy true
-          ; run
-          :routes {:app {"" :repl
-                         "devtools/repl" :repl
-                         "devtools/viewer" :viewer
-                         "devtools/scratchpad" :scratchpad}
-                   :api {}}}
-
- :reval {:rdocument  {:storage-root "rdocument/"
+{:build {:disabled-extensions #{; extensions using sci-configs will not work in webly.
+                                "reagent" "re-frame"
+                                "funcool-promesa"
+                                "applied-science.js-interop"
+                                ; webly2 is now in webly. needs to be removed from ui-repl.
+                                "webly2"
+                                "ui-repl"
+                                "cljs-ajax"
+                                }}
+ 
+ :reval {:rdocument  {:storage-root "target/webly/public/rdocument/"
                       :url-root "/api/rdocument/file/"}
          :collections {:test27 [:clj "notebook/test27/"]
                        :test27-cljs [:cljs "notebook/test27/"]

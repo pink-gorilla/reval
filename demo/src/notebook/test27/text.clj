@@ -1,6 +1,6 @@
-(ns notebook.test.text
+(ns notebook.test27.text
   (:require
-    [reval.goldly.display :as display]))
+    [reval.display :as display]))
 
 ; seqs and maps are not implemented
 ; the question is what is an efficient show way that is also nice.
@@ -8,7 +8,7 @@
 [1 2 3]
 
 ^:R
-['reval.goldly.ui-helper/text2 "hello\nworld"]
+['reval.ui-helper/text2 "hello\nworld"]
 
 ^:R
 ['notebook.test27.greeter/greet {:name "Wolfgang"}]
