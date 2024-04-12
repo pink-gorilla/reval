@@ -7,11 +7,16 @@
    [reval.notebook-ui.collection :refer [notebook-collection]]
    [reval.notebook-ui.clj-result :refer [notebook]]))
 
+(defn url-collections []
+  ; target/webly/public/rdocument/notebooks.edn
+  (str (get-resource-path) "rdocument/notebooks.edn"))
 
 (defn url-notebook [nbns]
   ; target/webly/public/rdocument/notebook/study/movies/notebook.edn
-  ; http://localhost:8080/r/rdocument/notebook/notebook/study/movies/notebook.edn
-  (str (get-resource-path) "rdocument/" (ns->dir nbns) "/notebook.edn"))
+  ; http://localhost:8080/r/rdocument/notebook/study/movies/notebook.edn
+  (if nbns 
+    (str (get-resource-path) "rdocument/" (ns->dir nbns) "/notebook.edn")
+    (str (get-resource-path) "rdocument/welcome.edn")))
 
 ;; NOTEBOOK UI
 
@@ -19,12 +24,7 @@
 
 ;; APP
 
-(def nb-welcome
-  {:meta {:ns "goldly.welcome"}
-   :content
-   [{:code "(println \"Welcome to Notebook Viewer \")"
-     :hiccup [:h1.text-blue-800 "Welcome to Notebook Viewer!"]
-     :out "Welcome to Notebook Viewer"}]})
+
 
 (defn viewer-debug [query-params]
   [:div.bg-gray-500.pt-10.hoover-bg-blue-300
@@ -46,8 +46,11 @@
       [spaces.core/viewport
        [spaces.core/left-resizeable {:size "20%"
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
-        [url-loader {:fmt :clj
-                     :url 'reval.document.collection/nb-collections}
+        [url-loader {;:fmt :clj
+                     ;:url 'reval.document.collection/nb-collections
+                     :fmt :edn
+                     :url (url-collections)
+                     }
          #(notebook-collection 'reval.page.viewer/viewer-page %)]]
        [spaces.core/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {;:fmt :clj
