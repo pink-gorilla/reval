@@ -41,7 +41,6 @@
     (catch Exception e
       {:err (err (.getCause e))})))
 
-
 (defn clj-eval
   "evaluate code in namespace ns
    if no ns is passed, it will execute the code in the current ns (*ns*)
@@ -113,23 +112,20 @@
 
   (-> (kernel-eval {:code "(ns bongo) (println 3) (+ 5 5)" :kernel :clj})
       (p/then (fn [r] (println "result: " r))))
-  
 
-(load-string "(+ 4 4) (* 4 4)")
-(try (load-string "(/ 4 0)")
-     (catch Exception e
+  (load-string "(+ 4 4) (* 4 4)")
+  (try (load-string "(/ 4 0)")
+       (catch Exception e
       ;(println "ex: " e)
       ;(stacktrace e)
       ;(.getMessage e)
-       (.getCause e)
-       (class e)
-       (class (.getCause e))
+         (.getCause e)
+         (class e)
+         (class (.getCause e))
 
      ; type
-       ))
-(clj-eval-raw "(/ 4 0)")
-
-
+         ))
+  (clj-eval-raw "(/ 4 0)")
 
 ; 
   )

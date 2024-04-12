@@ -34,7 +34,6 @@
                 (log "get-render-fn: require result failure!")
                 (swap! load-a assoc :status :error)))))
 
-
 (defn get-render-fn [s]
   (let [load-a (r/atom {:status :loading})
         resolve-fn (get-resolver)

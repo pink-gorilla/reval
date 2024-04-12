@@ -41,8 +41,6 @@
       [:tbody
        (map-indexed stacktrace-line stacktrace)]])])
 
-
-
 ;; segment
 
 (defn segment-debug [segment]
@@ -67,7 +65,7 @@
      (when err
        [evalerr err])
      #_(when err-sci
-       [evalerr-sci err-sci])
+         [evalerr-sci err-sci])
      (when (not (blank? out))
        [:div.bg-blue-200.max-w-full.overflow-x-auto
         [text2 out]])

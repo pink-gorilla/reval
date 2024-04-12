@@ -22,7 +22,6 @@
     (println "nb-cols: " cols)
     (eval-collections cols)))
 
-
 (defn- inline-coll [[cname coll]]
   (let [x (partition 2 coll)
         y (map (fn [[kernel nbs]]
@@ -32,23 +31,20 @@
 (defn- inline-collections [cols]
   (reduce concat [] (map inline-coll cols)))
 
-
 (defn print-all-collections [m]
   (println "nb collections .. m: " (keys m))
   (let [cols (nb-collections)
         cols-f (inline-collections cols)]
     (print-table [:coll :nbns :ext :kernel :path] cols-f)))
 
-
 (comment
   (inline-collections (nb-collections))
   (print-all-collections {})
   (eval-all-collections {})
 
-
- ; 
+; 
   )
 
 
-  
+
 

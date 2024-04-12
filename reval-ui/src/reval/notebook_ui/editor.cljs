@@ -30,7 +30,7 @@
 (def cm-opts {:lineWrapping false})
 
 (defn cm-editor []
-  [:<> 
+  [:<>
    [theme/style-codemirror-fullscreen] ;cm/style-inline
    [:div.my-codemirror.w-full.h-full
     [codemirror @editor-id cm-opts]]])

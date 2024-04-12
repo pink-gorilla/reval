@@ -13,7 +13,6 @@
     :code code
     :err (str "kernel unknown: " kernel)}))
 
-
 (defn available-kernels []
   (->> (methods kernel-eval)
        keys
@@ -31,7 +30,6 @@
   (-> (kernel-eval {:code "(+ 7 7)" :kernel :clj})
       (p/then (fn [r]
                 (println "result: " r))))
- 
 
 ; 
   )

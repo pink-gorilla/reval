@@ -33,7 +33,6 @@
                  (.log js/console "eval result: " (pr-str er))
                  (swap! nb-a add-segment er)))))
 
-
 (defn eval-all [fmt]
   (clear)
   (let [code (cme/cm-get-code)]
@@ -52,8 +51,6 @@
                  (println "notebook eval result: " r)
                  (reset! nb-a r)))))
 
-
-
 (rf/reg-event-fx
  :repl/eval-expression
  (fn [_cofx [_ _data]]
@@ -63,8 +60,6 @@
    nil))
 
 ;; HEADER
-
-
 
 (defn repl-header [nbns fmt path]
   ;(reset! eval/cur-ns nbns)
@@ -107,8 +102,6 @@
                         ;(swap! editor-id inc)
                         ))))
         [cme/cm-editor]))))
-
-
 
 (defn repl [ns fmt path]
   [spaces.core/viewport

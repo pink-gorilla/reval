@@ -23,12 +23,11 @@
 (comment
   (-> (viz-eval {:code "(/ 1 3)" :ns "user" :kernel :clj})
       (p/then (fn [r] (println "eval result: " r))))
-  
+
   (-> (viz-eval {:code "(+ 1 3)" :ns "user" :kernel :clj})
       (p/then (fn [r] (println "eval result: " r))))
 
   (viz-eval-blocking {:code "(+ 1 3)" :ns "user" :kernel :clj})
-      
-  
+
 ;
   )
