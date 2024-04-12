@@ -69,7 +69,7 @@
      #_(when err-sci
        [evalerr-sci err-sci])
      (when (not (blank? out))
-       [:div.bg-blue-200
+       [:div.bg-blue-200.max-w-full.overflow-x-auto
         [text2 out]])
      (when render-fn
        [:div.mt-1.mb-1

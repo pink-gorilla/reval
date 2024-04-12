@@ -6,24 +6,26 @@
                   reval.viz.render-fn
                   reval.type.cljs ; side-effects; load protocols for cljs and sci
                   reval.type.converter
-                  reval.page.notebook-viewer
+                  reval.page.viewer
+                  reval.page.repl
                   reval.notebook-ui.editor]
  :cljs-ns-bindings {'reval.viz.data {'value->data reval.viz.data/value->data}
                     'reval.viz.render-fn {'hiccup  reval.viz.render-fn/hiccup
                                           'reagent  reval.viz.render-fn/reagent}
                     'reval.type.converter {'value-type->hiccup reval.type.converter/value-type->hiccup}
-                    'reval.page.notebook-viewer {'viewer-page reval.page.notebook-viewer/viewer-page}
+                    'reval.page.viewer {'viewer-page reval.page.viewer/viewer-page}
+                    'reval.page.repl {'repl-page reval.page.repl/repl-page}
                     'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}}
  ; run 
  :api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list
                             "files" reval.document-handler/wrapped-get-ns-files
                             ["file/" :ns "/" :name] reval.document-handler/wrapped-ns-file-handler}}
- :cljs-routes  {"reval/" {;"repl" reval.goldly.page.repl/repl
-                          "viewer" reval.page.notebook-viewer/viewer-page}}
+ :cljs-routes  {"reval/" {"viewer" reval.page.viewer/viewer-page
+                          "repl" reval.page.repl/repl-page}}
 
  :clj-services {:name "reval"
                 :permission #{:dev}
-                :symbols [reval.viz.eval/viz-eval
+                :symbols [reval.viz.eval/viz-eval-blocking
                           reval.document.collection/nb-collections
                           reval.save/save-code
                           ; used in repl:

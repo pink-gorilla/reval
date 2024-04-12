@@ -1,4 +1,4 @@
-(ns reval.page.notebook-viewer
+(ns reval.page.viewer
   (:require
    [spaces.core]
    [reval.helper.url-loader :refer [url-loader]]
@@ -40,7 +40,7 @@
                                 :class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.document.collection/nb-collections}
-         #(notebook-collection 'reval.page.notebook-viewer/viewer-page %)]]
+         #(notebook-collection 'reval.page.viewer/viewer-page %)]]
        [spaces.core/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
         [url-loader {:fmt :clj
                      :url 'reval.document.notebook/load-notebook

@@ -7,7 +7,7 @@
    [goldly.service.core :as service]
    [reval.notebook-ui.rewrite :refer [block-for]]))
 
-(defonce editor-id (r/atom 1))
+(defonce editor-id (r/atom 27))
 
 (defn cm-get-code []
   (-> (get-editor @editor-id)
@@ -29,15 +29,9 @@
 
 (def cm-opts {:lineWrapping false})
 
-
-
-;(defn cm-editor-atom []
-;  [:div.w-full.h-full.bg-white-200
-;    [style-codemirror-fullscreen]
-;      [ui.codemirror/codemirror @editor-id repl-code]])
-
 (defn cm-editor []
-  [:<> [theme/style-codemirror-fullscreen] ;cm/style-inline
+  [:<> 
+   [theme/style-codemirror-fullscreen] ;cm/style-inline
    [:div.my-codemirror.w-full.h-full
     [codemirror @editor-id cm-opts]]])
 

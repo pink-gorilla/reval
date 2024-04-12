@@ -1,18 +1,18 @@
 (ns reval.kernel.protocol
   (:require
    [modular.helper.id :refer [guuid]]
-   #?(:clj [clojure.core.async :refer [>! chan close! go <!!]]
-      :cljs [cljs.core.async  :refer [>! chan close!] :refer-macros [go]])))
+   [promesa.core :as p]))
 
 #?(:clj (defmulti kernel-eval (fn [e] (:kernel e)))
    :cljs (defmulti kernel-eval (fn [e] (:kernel e))))
 
-(defmethod kernel-eval :default [m]
-  (let [c (chan)]
-    (go (>! c {:id (guuid)
-               :err (str "kernel unknown: " (:kernel m))})
-        (close! c))
-    c))
+(defmethod kernel-eval :default [{:keys [id code ns kernel]
+                                  :or {id (guuid)}}]
+  (p/resolved
+   {:id (guuid)
+    :code code
+    :err (str "kernel unknown: " kernel)}))
+
 
 (defn available-kernels []
   (->> (methods kernel-eval)
@@ -24,9 +24,14 @@
 
   (available-kernels)
 
-  #?(:clj
-     (<!! (kernel-eval {:code "(+ 7 7)" :kernel :minister-clj}))
-     (<!! (kernel-eval {:code "(+ 7 7)" :kernel :clj})))
+  (-> (kernel-eval {:code "(+ 7 7)" :kernel :minister-clj})
+      (p/then (fn [r]
+                (println "result: " r))))
+
+  (-> (kernel-eval {:code "(+ 7 7)" :kernel :clj})
+      (p/then (fn [r]
+                (println "result: " r))))
+ 
 
 ; 
   )
