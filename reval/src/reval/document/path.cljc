@@ -1,7 +1,6 @@
-(ns reval.document.classpath
+(ns reval.document.path
   (:require
-   [clojure.string :as str]
-   [clojure.java.io :as io]))
+   [clojure.string :as str]))
 
 ; discover clj/cljs files in resources (can be jar or file)
 
@@ -44,14 +43,6 @@
 
   (split-ext "demo/notebook.clj")
   (split-ext "demo/notebook.clj#")
-
-  (-> "demo/notebook"
-      (clojure.java.io/resource)
-      (rs/directory?))
-
-  (-> (rs/resources "demo/notebook/apple.clj")
-      first
-      (rs/directory?))
 
   (ns->dir "demo.notebook-test.apple")
 

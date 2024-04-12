@@ -3,7 +3,7 @@
    [clojure.string :as str]
    [clojure.java.io :as io]
    [modular.resource.explore :refer [describe-files]]
-   [reval.document.classpath :refer [split-ext is-format? ext-is-format? filename->ns]]
+   [reval.document.path :refer [split-ext is-format? ext-is-format? filename->ns]]
    [reval.document.notebook :refer [eval-notebook]]
    [reval.config :refer [get-in-reval-config]]))
 

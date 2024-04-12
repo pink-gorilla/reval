@@ -4,7 +4,7 @@
    [clojure.string :as str]
    [clojure.java.io :as io]
    [modular.persist.protocol :as p]
-   [reval.document.classpath :refer [ns->dir]]
+   [reval.document.path :refer [ns->dir]]
    [reval.config :refer [get-in-reval-config]]))
 
 ; get-filename and get-link may NOT contain the fmt parameter

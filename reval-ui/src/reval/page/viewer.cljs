@@ -1,9 +1,17 @@
 (ns reval.page.viewer
   (:require
    [spaces.core]
+   [webly.spa.mode :refer [get-resource-path]]
    [reval.helper.url-loader :refer [url-loader]]
+   [reval.document.path :refer [ns->dir]]
    [reval.notebook-ui.collection :refer [notebook-collection]]
    [reval.notebook-ui.clj-result :refer [notebook]]))
+
+
+(defn url-notebook [nbns]
+  ; target/webly/public/rdocument/notebook/study/movies/notebook.edn
+  ; http://localhost:8080/r/rdocument/notebook/notebook/study/movies/notebook.edn
+  (str (get-resource-path) "rdocument/" (ns->dir nbns) "/notebook.edn"))
 
 ;; NOTEBOOK UI
 
@@ -14,9 +22,9 @@
 (def nb-welcome
   {:meta {:ns "goldly.welcome"}
    :content
-   [{:code "(println \"Welcome to Goldly Notebook Viewer \")"
+   [{:code "(println \"Welcome to Notebook Viewer \")"
      :hiccup [:h1.text-blue-800 "Welcome to Notebook Viewer!"]
-     :out "Welcome to Goldly Notebook Viewer"}]})
+     :out "Welcome to Notebook Viewer"}]})
 
 (defn viewer-debug [query-params]
   [:div.bg-gray-500.pt-10.hoover-bg-blue-300
@@ -42,9 +50,12 @@
                      :url 'reval.document.collection/nb-collections}
          #(notebook-collection 'reval.page.viewer/viewer-page %)]]
        [spaces.core/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
-        [url-loader {:fmt :clj
-                     :url 'reval.document.notebook/load-notebook
-                     :args-fetch [ns fmt]}
+        [url-loader {;:fmt :clj
+                     ;:url 'reval.document.notebook/load-notebook
+                     ;:args-fetch [ns fmt]
+                     :fmt :edn
+                     :url (url-notebook ns)
+                     }
          notebook]]])))
 
 (defn viewer-page [{:keys [_route-params query-params _handler] :as _route}]
