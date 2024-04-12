@@ -11,11 +11,15 @@
   org.pinkgorilla/clj-service {:mvn/version "0.2.7"}}
 
  :aliases
- {; github ci  
+ {; github ci  MULTI-DEPS VERSION
   :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}
                  slipset/deps-deploy {:mvn/version "0.2.1"}
-                 babashka/fs {:mvn/version "0.0.5"}}
-          :ns-default build}
+                 io.github.seancorfield/build-clj {:git/tag "v0.5.4" :git/sha "bc9c0cc"}
+                 babashka/fs {:mvn/version "0.0.5"}
+                 org.pinkgorilla/modular {:mvn/version "0.0.40"} ; modular.date
+                 }
+          :ns-default build
+          :jvm-opts ["-Dmaven.wagon.rto=90000"]}
 
   ; https://github.com/weavejester/cljfmt
   :cljfmt
