@@ -44,16 +44,11 @@
       [spaces.core/viewport
        [spaces.core/left-resizeable {:size "20%"
                                      :class "bg-gray-100 max-h-full overflow-y-auto"}
-        [url-loader {;:fmt :clj
-                     ;:url 'reval.document.collection/nb-collections
-                     :fmt :edn
+        [url-loader {:fmt :edn
                      :url (url-collections)}
          #(notebook-collection 'reval.page.viewer/viewer-page %)]]
        [spaces.core/fill {:class "bg-gray-100 max-h-full overflow-y-auto"}
-        [url-loader {;:fmt :clj
-                     ;:url 'reval.document.notebook/load-notebook
-                     ;:args-fetch [ns fmt]
-                     :fmt :edn
+        [url-loader {:fmt :edn
                      :url (url-notebook ns)}
          notebook]]])))
 

@@ -1,6 +1,7 @@
 (ns reval.helper.url-loader
   (:require
    [reagent.core :as r]
+   [taoensso.timbre :refer [debug info warnf error]]
    [pinkie.ui.core :refer [error-boundary]]
    [goldly.service.core :as service]
    [pinkgorilla.repl.cljs.http :refer [get-str get-edn]]))
@@ -16,7 +17,7 @@
         comparator [url arg-fetch args-fetch]]
     (if comparator?
       (when (not (= comparator (:comparator @a)))
-        ;(info (str "loading:  " comparator))
+        (info "url-loading fmt:" fmt "url: " url)
         (swap! a assoc :comparator comparator)
         (case fmt
           :txt (get-str url a [:data])
