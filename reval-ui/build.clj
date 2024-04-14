@@ -5,7 +5,7 @@
    [clojure.string :as str]
    [clojure.tools.build.api :as b]
    [org.corfield.build :as bb] ; https://github.com/seancorfield/build-clj
-   [modular.date :refer [now-str]]))
+   ))
 
 (def lib 'org.pinkgorilla/reval)
 (def version (format "0.6.%s" (b/git-count-revs nil)))

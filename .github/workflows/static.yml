@@ -50,12 +50,7 @@ jobs:
       - name: build gh-pages
         if: success()
         run: |
-          cd demo
-          clojure -X:webly:npm-install
-          clojure -X:webly:release-adv
-          clojure -X:webly:static
-          clojure -X:nbeval
-          cp target/webly/public/rdocument target/static/r -r
+          ./static.sh
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
         with:
