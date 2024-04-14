@@ -6,6 +6,7 @@
                   reval.viz.render-fn
                   reval.type.cljs ; side-effects; load protocols for cljs and sci
                   reval.type.converter
+                  reval.kernel.protocol
                   reval.page.viewer
                   reval.page.repl
                   reval.notebook-ui.editor]
@@ -13,9 +14,12 @@
                     'reval.viz.render-fn {'hiccup  reval.viz.render-fn/hiccup
                                           'reagent  reval.viz.render-fn/reagent}
                     'reval.type.converter {'value-type->hiccup reval.type.converter/value-type->hiccup}
+                    'reval.kernel.protocol {'available-kernels reval.kernel.protocol/available-kernels
+                                            'kernel-eval reval.kernel.protocol/kernel-eval}
                     'reval.page.viewer {'viewer-page reval.page.viewer/viewer-page}
                     'reval.page.repl {'repl-page reval.page.repl/repl-page}
                     'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}}
+
  ; run 
  :api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list
                             "files" reval.document-handler/wrapped-get-ns-files
