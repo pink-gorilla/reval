@@ -2,9 +2,9 @@
  :deps
  {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   org.pinkgorilla/reval-ui {:local/root "../reval-ui" :deps/manifest :deps}
-  org.pinkgorilla/webly {:mvn/version "0.5.662"}
+  org.pinkgorilla/webly {:mvn/version "0.5.683"}
   ; ui modules for demo notebooks:
-  org.pinkgorilla/ui-highcharts {:mvn/version "0.0.28"}
+  org.pinkgorilla/ui-highcharts {:mvn/version "0.0.29"}
   }
 
  :aliases
