@@ -1,7 +1,4 @@
-{:build {:disabled-extensions #{
-                                ;"webly2"
-                                ;"cljs-ajax"
-                                }}
+{:build {:disabled-extensions #{}}
  
  :reval {:rdocument  {:storage-root "target/webly/public/rdocument/"
                       :url-root "/api/rdocument/file/"}
