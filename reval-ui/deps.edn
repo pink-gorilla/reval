@@ -7,7 +7,7 @@
   org.pinkgorilla/ui-repl {:mvn/version "0.1.104"} ; reagent
   org.pinkgorilla/ui-input {:mvn/version "0.2.45"} ; spaces
   org.pinkgorilla/ui-codemirror {:mvn/version "0.1.48"}
-  org.pinkgorilla/ui-highlightjs {:mvn/version "0.1.16"}
+  org.pinkgorilla/ui-highlightjs {:mvn/version "0.1.17"}
   org.pinkgorilla/clj-service {:mvn/version "0.2.9"}}
 
  :aliases
