@@ -8,7 +8,7 @@
   org.pinkgorilla/ui-input {:mvn/version "0.2.45"} ; spaces
   org.pinkgorilla/ui-codemirror {:mvn/version "0.1.48"}
   org.pinkgorilla/ui-highlightjs {:mvn/version "0.1.16"}
-  org.pinkgorilla/clj-service {:mvn/version "0.2.8"}}
+  org.pinkgorilla/clj-service {:mvn/version "0.2.9"}}
 
  :aliases
  {; github ci  MULTI-DEPS VERSION
