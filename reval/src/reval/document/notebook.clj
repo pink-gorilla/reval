@@ -1,6 +1,5 @@
 (ns reval.document.notebook
   (:require
-   [clojure.string :as str]
    [clojure.java.io :as io]
    [taoensso.timbre :refer [debug info warnf]]
    [modular.helper.id :refer [guuid]]
@@ -9,9 +8,7 @@
    [reval.document.manager :as rdm]
    [reval.document.path :refer [ns->dir ns->filename]]
    [reval.document.src-parser :refer [text->notebook]]
-   [reval.kernel.clj-eval :refer [clj-eval]]
-   [reval.default]  ; side effects to include all default converters
-   ))
+   [reval.kernel.clj-eval :refer [clj-eval]]))
 
 ;; create
 
@@ -43,11 +40,11 @@
                  (into []))})
 
 (defn create-notebook
-  ([ns]
-   (create-notebook ns :clj))
-  ([ns fmt]
+  ([this ns]
+   (create-notebook this ns :clj))
+  ([this ns fmt]
    (when ns
-     (rdm/delete-directory-ns ns))
+     (rdm/delete-directory-ns this ns))
    (let [src (if ns
                (load-src ns fmt)
                "")]
@@ -61,20 +58,20 @@
 ;; persistence
 
 (defn load-notebook
-  ([ns]
-   (load-notebook ns :clj))
-  ([ns fmt]
+  ([this ns]
+   (load-notebook this ns :clj))
+  ([this ns fmt]
    (let [nb (if ns
-              (rdm/loadr ns "notebook" :edn)
+              (rdm/loadr this ns "notebook" :edn)
               nil)]
      (-> (if nb
            nb
-           (create-notebook ns fmt))
+           (create-notebook this ns fmt))
          (with-meta {:render-as :p/notebook})))))
 
-(defn save-notebook [ns nb]
+(defn save-notebook [this ns nb]
   (info "saving notebook: " ns)
-  (rdm/save nb ns "notebook" :edn))
+  (rdm/save this nb ns "notebook" :edn))
 
 ; eval
 
@@ -104,10 +101,10 @@
     (map nb-eval-segment segments)))
 
 (defn eval-notebook
-  ([ns]
-   (eval-notebook ns eval-result->hiccup)) ; default converter
-  ([ns eval-result-view-fn]
-   (let [nb (create-notebook ns)
+  ([this ns]
+   (eval-notebook this ns eval-result->hiccup)) ; default converter
+  ([this ns eval-result-view-fn]
+   (let [nb (create-notebook this ns)
          eval-results (eval-nb-segments nb ns)
          content (if eval-result-view-fn
                    (map eval-result-view-fn eval-results) ; use here a better thing.
@@ -117,7 +114,7 @@
                 (assoc-in [:meta :eval-time] (now-str))
                 (assoc-in [:meta :java] (-> (System/getProperties) (get "java.version")))
                 (assoc-in [:meta :clojure] (clojure-version)))]
-     (save-notebook ns nb)
+     (save-notebook this ns nb)
      (with-meta nb {:render-as :p/notebook}))))
 
 (comment
@@ -152,12 +149,14 @@
   ;;  :out "", 
   ;;  :id :87929fe8-4003-4c25-9df4-512391857d07 }
 
-  (create-notebook "demo.notebook-test.apple")
-  (eval-notebook "demo.notebook-test.apple")
+  (def this {:config {}})
 
-  (eval-notebook "demo.notebook.image")
+  (create-notebook this "demo.notebook-test.apple")
+  (eval-notebook this "demo.notebook-test.apple")
 
-  (load-notebook "user.notebook.banana")
+  (eval-notebook this "demo.notebook.image")
+
+  (load-notebook this "user.notebook.banana")
 
 ;
   )

@@ -4,8 +4,7 @@
    [clojure.java.io :as io]
    [modular.resource.explore :refer [describe-files]]
    [reval.document.path :refer [split-ext is-format? ext-is-format? filename->ns]]
-   [reval.document.notebook :refer [eval-notebook]]
-   [reval.config :refer [get-in-reval-config]]))
+   [reval.document.notebook :refer [eval-notebook]]))
 
 ; this does not work. meta-data cannot be assoced to a string
 #_(defn name-with-meta [{:keys [name path] :as entry}]
@@ -52,18 +51,18 @@
               [k [(first v) (get-nss-list (first v) (rest v))]]) spec)
        (into {})))
 
-(defn eval-collection [[name [t ns-list]]]
+(defn eval-collection [this [name [t ns-list]]]
   (doall
-   (map #(eval-notebook (:nbns %)) ns-list)))
+   (map #(eval-notebook this (:nbns %)) ns-list)))
 
-(defn eval-collections [colls]
+(defn eval-collections [this colls]
  ; {:demo [:clj []]
  ;  :user [:clj ["test.notebook.apple"]]}
   (doall
-   (map eval-collection colls)))
+   (map (partial eval-collection this) colls)))
 
-(defn nb-collections []
-  (get-collections (get-in-reval-config [:collections])))
+(defn nb-collections [this]
+  (get-collections (get-in this [:config :collections])))
 
 (comment
 
@@ -113,10 +112,16 @@
    {:test5 [:clj "notebook/test27/"]
     :study [:clj "notebook/study/"]})
 
-  (nb-collections)
+  (def this {:config {:rdocument  {:storage-root "/tmp/rdocument/"
+                                   :url-root "/api/rdocument/file/"}
+                      :collections {:user [:clj "user/notebook/"]
+                                    :demo [:clj "demo/notebook/"]
+                                    :demo-cljs [:cljs "demo/notebook/"]}}})
 
-  (-> (nb-collections)
-      eval-collections)
+  (nb-collections this)
+
+  (->> (nb-collections this)
+       (eval-collections this))
 
 ;
   )

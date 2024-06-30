@@ -1,15 +1,28 @@
 (ns reval.document.notebook-eval-test
   (:require
    [clojure.test :refer [deftest is]]
+   [reval.document.manager :refer [storage-root url-root get-link-ns get-path-ns]]
    [reval.document.notebook :refer [eval-notebook load-notebook]]
    [reval.test-init]))
 
-; this test relies on the default storage path
-; defined in reval.config.
+(def this {:config {:rdocument  {:storage-root "/tmp/rdocument/"
+                                 :url-root "/api/rdocument/file/"}
+                    :collections {:user [:clj "user/notebook/"]
+                                  :demo [:clj "demo/notebook/"]
+                                  :demo-cljs [:cljs "demo/notebook/"]}}})
+
+(deftest config-test
+  (let [storage-root-val (storage-root this)
+        url-root-val (url-root this)
+        path-ns (get-path-ns this 'demo.apple)]
+    (is (= storage-root-val "/tmp/rdocument/"))
+    (is (= url-root-val "/api/rdocument/file/"))
+    (is (= url-root-val "/api/rdocument/file/"))
+    (is (= path-ns "/tmp/rdocument/demo/apple/"))))
 
 (deftest notebook-eval-test
-  (eval-notebook "test.notebook.apple")
-  (let [nb  (load-notebook "test.notebook.apple")
+  (eval-notebook this "test.notebook.apple")
+  (let [nb  (load-notebook this "test.notebook.apple")
         ;;(loadr :edn "/tmp/rdocument/test/notebook/apple/notebook.edn")
         segments (:content nb)]
     (is (= (get-in nb [:meta :ns]) "test.notebook.apple"))
@@ -25,8 +38,8 @@
            "hello\n"))))
 
 (comment
-  (eval-notebook "test.notebook.apple")
-  (load-notebook "test.notebook.apple")
+  (eval-notebook this "test.notebook.apple")
+  (load-notebook this "test.notebook.apple")
   ;(loadr :edn "demo/rdocument/demo/notebook_test/apple/notebook.edn")
 
 ;  

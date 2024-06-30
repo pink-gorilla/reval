@@ -4,7 +4,7 @@
    [ui.codemirror.theme :as theme]
    [ui.codemirror.api :as api]
    [ui.codemirror.codemirror :refer [codemirror get-editor]]
-   [goldly.service.core :as service]
+   [goldly.service.core :refer [clj]]
    [reval.notebook-ui.rewrite :refer [block-for]]))
 
 (defonce editor-id (r/atom 27))
@@ -20,12 +20,8 @@
 
 (defn save-code [path]
   (let [code (cm-get-code)]
-    (service/run-cb {:fun 'reval.save/save-code
-                     :args [{:code code :path path}]
-                     :timeout 1000
-                     :cb (fn [[_s {:keys [_result]}]]
-                   ;(println "result: " result)
-                           )})))
+    (clj {:timeout 1000}
+         'reval.save/save-code {:code code :path path})))
 
 (def cm-opts {:lineWrapping false})
 

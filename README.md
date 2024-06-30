@@ -10,7 +10,7 @@
 - clone this repo
 ```
     cd demo
-    clj -X:nbeval
+          
     clj -X:webly:npm-install
     clj -X:webly:compile
     clj -X:webly:run
@@ -31,10 +31,7 @@ The devtools config we use (in goldly-docs)
 ```
 
 ```
-(reval.config/set-config!
- {:storage-root "demo/rdocument/"
-  :url-root "/api/rdocument/file/"})
-```
+
 
 By default storage root is "/tmp/rdocument/".
 

@@ -48,16 +48,16 @@
 ;; image (to document manager)
 
 (defrecord imgrecord [image alt type width height ns]
-  hiccup-convertable
-  (to-hiccup [{:keys [^BufferedImage image alt type width height]}]
-    (let [name-no-ext (guuid-str)
-          name (str name-no-ext "." type)
-          src (rdm/get-link-ns ns name)]
-      (rdm/save image ns name-no-ext :png)
-      [:img {:src src
-             :width width
-             :height height
-             :alt alt}])))
+  ;hiccup-convertable
+  #_(to-hiccup [{:keys [^BufferedImage image alt type width height]}]
+               (let [name-no-ext (guuid-str)
+                     name (str name-no-ext "." type)
+                     src (rdm/get-link-ns ns name)]
+                 (rdm/save image ns name-no-ext :png)
+                 [:img {:src src
+                        :width width
+                        :height height
+                        :alt alt}])))
 
 (defn image [^BufferedImage image & {:keys [alt type width height]}]
   (let [alt (or alt "")

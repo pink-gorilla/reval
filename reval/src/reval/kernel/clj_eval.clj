@@ -105,9 +105,6 @@
   (clj-eval {:code "(println 3) (def x 777) (+ 3 4)" :ns "bongo"})
   (clj-eval {:code "x" :ns "bongo" :id 3})
 
-  (clj-eval {:code "(ns bongo (:require [reval.config :as c]))" :ns "bongo"})
-  (clj-eval {:code "(ns bongo (:require [reval.config :as c]))" :ns "bongo"})
-  (clj-eval {:code "(c/use-project)"  :ns "bongo"})
   (clj-eval {:code "*ns*"  :ns "bongo"})
 
   (-> (kernel-eval {:code "(ns bongo) (println 3) (+ 5 5)" :kernel :clj})
