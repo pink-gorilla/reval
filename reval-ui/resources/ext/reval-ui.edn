@@ -1,7 +1,7 @@
 {:name "reval-ui"
  ; build 
  :lazy true
- :depends-on #{:ui-codemirror :ui-repl :ui-rnd}
+ :depends-on #{:ui-codemirror :ui-repl :ui-rnd :nano-id}
  :cljs-namespace [reval.viz.data
                   reval.viz.render-fn
                   reval.type.cljs ; side-effects; load protocols for cljs and sci
