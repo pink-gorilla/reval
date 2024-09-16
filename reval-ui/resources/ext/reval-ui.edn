@@ -9,7 +9,8 @@
                   reval.kernel.protocol
                   reval.page.viewer
                   reval.page.repl
-                  reval.notebook-ui.editor]
+                  reval.notebook-ui.editor
+                  reval.frepl]
  :cljs-ns-bindings {'reval.viz.data {'value->data reval.viz.data/value->data}
                     'reval.viz.render-fn {'hiccup  reval.viz.render-fn/hiccup
                                           'reagent  reval.viz.render-fn/reagent}
