@@ -1,14 +1,15 @@
 {:paths ["src"
          "resources"]
  :deps
- {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
+ {nano-id/nano-id {:mvn/version "1.1.0"}
+  org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   ; deps to ui extensions used in reval
   org.pinkgorilla/pinkie {:mvn/version "0.5.232"} ; error boundary
-  org.pinkgorilla/ui-repl {:mvn/version "0.1.105"} ; reagent
-  org.pinkgorilla/ui-input {:mvn/version "0.2.47"} ; spaces
+  org.pinkgorilla/ui-repl {:mvn/version "0.1.107"} ; reagent
+  org.pinkgorilla/ui-input {:mvn/version "0.2.48"} ; spaces, rnd, overlay
   org.pinkgorilla/ui-codemirror {:mvn/version "0.1.48"}
   org.pinkgorilla/ui-highlightjs {:mvn/version "0.1.19"}
-  org.pinkgorilla/clj-service {:mvn/version "0.3.18"}}
+  org.pinkgorilla/clj-service {:mvn/version "0.3.20"}}
 
  :aliases
  {; github ci  MULTI-DEPS VERSION

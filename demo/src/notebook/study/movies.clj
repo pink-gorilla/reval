@@ -13,6 +13,16 @@
    {:name "Matrix" :year 1999 :studio "Warner Bros" :producer "Joel Silver"}
    {:name "Dr. Strange" :year 2016 :studio "Marvel Studios" :producer "Scott Derrickson"}])
 
+*ns*
+
 (print-table movies)
+
+
+(def more-movies 
+  (conj movies {:name "Harry Potter" :year 2020})
+  )
+
+(count more-movies)
+
 
 

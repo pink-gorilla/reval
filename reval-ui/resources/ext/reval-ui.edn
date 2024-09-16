@@ -1,7 +1,7 @@
 {:name "reval-ui"
  ; build 
  :lazy true
- :depends-on #{:ui-codemirror :ui-repl}
+ :depends-on #{:ui-codemirror :ui-repl :ui-rnd}
  :cljs-namespace [reval.viz.data
                   reval.viz.render-fn
                   reval.type.cljs ; side-effects; load protocols for cljs and sci
@@ -18,7 +18,9 @@
                                             'kernel-eval reval.kernel.protocol/kernel-eval}
                     'reval.page.viewer {'viewer-page reval.page.viewer/viewer-page}
                     'reval.page.repl {'repl-page reval.page.repl/repl-page}
-                    'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}}
+                    'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}
+                    'reval.frepl {'show-floating-repl reval.frepl/show-floating-repl
+                                  'show-floating-repl-namespace reval.frepl/show-floating-repl-namespace}}
 
  ; run 
  ;:api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list

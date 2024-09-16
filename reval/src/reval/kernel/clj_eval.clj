@@ -49,30 +49,30 @@
   [{:keys [id code ns]
     :or {id (guuid)}}]
   (let [code-ns (if (and ns (not (string/blank? ns)))
-                  (str "(ns " ns " ) ")
-                  "nil")
+                  (str "(in-ns '" ns " ) ")
+                  "")
        ; _ (error "code-to-set-ns: " code-ns)
-        code-with-ns (str code-ns " [ " code " (str *ns*) ]")
-       ; _ (error "full code: " code-with-ns)
+        ;code-with-ns (str code-ns " [ " code " (str *ns*) ]")
+        code-with-ns (str code-ns code)
         er-code (clj-eval-raw code-with-ns)
        ; _ (error "er-code: " er-code)
         ; [[nil] "notebook.study.movies"]
         {:keys [value]} er-code
-        ns-after (if (:err er-code)
-                   ns  ; on compile exception the ns does not change
-                   (last value))
-        values-new (drop-last value)
-        last-value (last values-new)
+        ;ns-after (if (:err er-code)
+        ;           ns  ; on compile exception the ns does not change
+        ;           (last value))
+        ;values-new (drop-last value)
+        ;last-value (last values-new)
         ;er-code (clj-eval-raw code)
         ;er-ns-after (clj-eval-raw "*ns*")
         ;ns-after  (-> er-ns-after :value str) ; (str *ns*)
+        ;last-value value
+        ;new-ns (:value (clj-eval-raw "(str *ns*)"))
         r (merge er-code
                  {:id id
                   :code code
-                  :ns ns-after}
-                 {:value last-value
-                  :code code})]
-
+                  :ns ns ; new-ns  ;:ns ns-after
+                  })]
     ;(info "eval-result: " r)
     r))
 

@@ -9,7 +9,7 @@
 (defonce cur-ns (r/atom "user"))
 
 (defn eval-clj [segment]
-  (let [segment (merge segment {:ns @cur-ns})
+  (let [segment (merge {:ns @cur-ns} segment)
         _ (info "eval clj: " segment)
         rp (clj {:timeout 120000} 'reval.viz.eval/viz-eval-blocking segment)]
     (p/then rp (fn [r]
