@@ -15,7 +15,6 @@
    [modular.persist.edn]
    [modular.persist.image]
    [modular.persist.text]
-   [modular.persist.json]
 
    ;  kernel 
    [reval.kernel.protocol]
