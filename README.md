@@ -11,9 +11,16 @@
 ```
     cd demo
           
+    clj -X:nbeval
+
     clj -X:webly:npm-install
+
     clj -X:webly:compile
     clj -X:webly:run
+
+    or
+    clj -X:webly:watch
+
 ```
   Open Browser on Port 8080
 

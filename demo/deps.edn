@@ -2,7 +2,7 @@
  :deps
  {org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
   org.pinkgorilla/reval-ui {:local/root "../reval-ui" :deps/manifest :deps}
-  org.pinkgorilla/webly {:mvn/version "0.7.693"}
+  org.pinkgorilla/webly {:mvn/version "0.7.703"}
   ; ui modules for demo notebooks:
   org.pinkgorilla/ui-highcharts {:mvn/version "0.0.29"}
 
@@ -25,8 +25,14 @@
           :exec-args {:config ["reval/demo-config.edn"]
                       :profile "npm-install"}}
 
+  :watch {:exec-fn modular.system/start!
+          :exec-args {:profile "watch"
+                      :config  ["reval/demo-config.edn"]
+                      :services "reval/demo-services.edn"
+                      }}
+
   :npm-install {:exec-args {:profile "npm-install"}}
-  :compile {:exec-args {:profile "compile2"}}
+  :compile {:exec-args {:profile "compile"}}
   :release {:exec-args {:profile "release"}}
   :release-adv {:exec-args {:profile "release-adv"}}
   :static {:exec-args {:profile "static"}}
