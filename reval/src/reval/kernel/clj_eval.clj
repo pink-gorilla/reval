@@ -1,30 +1,11 @@
 (ns reval.kernel.clj-eval
   (:require
+   [taoensso.timbre :as timbre :refer [info]]
    [clojure.string :as string]
    [clojure.core :refer [read-string load-string]]
    [promesa.core :as p]
    [modular.helper.id :refer [guuid]]
    [reval.kernel.protocol :refer [kernel-eval]]))
-
-(defn stack-frame
-  "Return a map describing the stack frame."
-  [^StackTraceElement frame]
-  {:name   (str (.getClassName frame) "/" (.getMethodName frame))
-   :file   (.getFileName frame)
-   :line   (.getLineNumber frame)
-   :class  (.getClassName frame)
-   :method (.getMethodName frame)})
-
-(defn stacktrace [e]
-  (->> e
-       .getStackTrace
-       (map stack-frame)
-       (into [])))
-
-(defn err [e]
-  {:class (.getName (class e))
-   :message (.getMessage e)
-   :stacktrace (stacktrace e)})
 
 (defmacro with-out-str-data-map
   [& body]
@@ -37,9 +18,10 @@
 
 (defn clj-eval-raw [code]
   (try
+    (info "eval raw: " code)
     (with-out-str-data-map (load-string code))
-    (catch Exception e
-      {:err (err (.getCause e))})))
+    (catch Exception ex
+      {:ex ex})))
 
 (defn clj-eval
   "evaluate code in namespace ns

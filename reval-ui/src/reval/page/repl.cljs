@@ -7,9 +7,8 @@
    [goldly.service.core :refer [clj]]
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.kernel.clj-remote] ; side effects
-   [reval.helper.url-loader :refer [url-loader]]
-   [reval.notebook-ui.collection :refer [notebook-collection]]
-   [reval.notebook-ui.clj-result :refer [notebook add-segment empty-notebook]]
+   [reval.dali.viewer.collection-viewer :refer [collection-viewer]]
+   [reval.dali.viewer.notebook :refer [notebook add-segment empty-notebook]]
    [reval.notebook-ui.editor :as cme]))
 
 (defonce repl-code (r/atom ""))
@@ -49,7 +48,7 @@
   (let [rp (clj 'reval.document.notebook/eval-notebook ns)]
     (p/then rp (fn [r]
                  (println "notebook eval result: " r)
-                 (reset! nb-a r)))))
+                 (reset! nb-a (:data r))))))
 
 (rf/reg-event-fx
  :repl/eval-expression
@@ -113,9 +112,8 @@
     [spaces.core/left-resizeable {:size "10%"
                                   :scrollable true
                                   :class "bg-gray-100 max-h-full overflow-y-auto"}
-     [url-loader {:fmt :clj
-                  :url 'reval.document.collection/nb-collections}
-      #(notebook-collection 'reval.page.repl/repl-page %)]]
+     [collection-viewer
+      {:link 'reval.page.repl/repl-page}]]
     [spaces.core/fill {}
      [editor ns fmt path]] ; [:div.h-full.w-full.bg-blue-900.max-h-full.overflow-y-auto]
     [spaces.core/right-resizeable {:size "50%"

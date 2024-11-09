@@ -1,5 +1,4 @@
 {:modular (modular.system/modular-env)  ; {:profile "jetty"  :config ["demo.edn" "secrets.edn"]}
- ;:secrets #include "secrets.edn" ;; externalised and usually "mounted" as a docker/kubernetes secret
  :components
  {:config {:start (modular.config/load-config! (:config #ref [:modular]))}
   :exts {:start (extension/discover)}
@@ -13,9 +12,9 @@
                         (clip/ref :exts))}
 
   :reval {:start (reval.core/start-reval
-                  {:config (:reval (deref (clip/ref :config)))
-                   :clj  (clip/ref :clj-service)
-                   :reval-role nil})}
+                  (merge {:clj  (clip/ref :clj-service)
+                          :reval-role nil}
+                       (:reval (deref (clip/ref :config)))))}
 
   :webly {:start (webly.app.app/start-webly
                   (clip/ref :exts)

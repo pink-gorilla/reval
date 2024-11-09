@@ -31,8 +31,8 @@ A simple notebook viewer is on [Reval Github Pages](https://pink-gorilla.github.
 The devtools config we use (in goldly-docs)
 
 ```
-:devtools {:rdocument  {:storage-root "demo/rdocument/"
-                         :url-root "/api/rdocument/file/"}
+:devtools {:rdocument  {:fpath "demo/rdocument"
+                        :rpath "/api/rdocument/file/"}
             :collections {:user [:clj "user/notebook/"]
                           :demo [:clj "demo/notebook/"]}}
 ```

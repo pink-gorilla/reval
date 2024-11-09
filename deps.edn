@@ -1,0 +1,5 @@
+{:deps {reval/reval {:local/root "./reval" :deps/manifest :deps}
+        reval/reval-ui {:local/root "./reval-ui" :deps/manifest :deps}
+        reval/reval-sci {:local/root "./reval-sci" :deps/manifest :deps}}
+
+}

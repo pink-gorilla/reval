@@ -17,10 +17,8 @@
 
 (print-table movies)
 
-
-(def more-movies 
-  (conj movies {:name "Harry Potter" :year 2020})
-  )
+(def more-movies
+  (conj movies {:name "Harry Potter" :year 2020}))
 
 (count more-movies)
 

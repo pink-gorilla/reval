@@ -1,12 +1,17 @@
-{:name "demo-reval"
+{:name "demo"
  :lazy true
  :depends-on #{:reval-ui}
- :cljs-namespace [demo.page.overlay]
- :cljs-ns-bindings {'demo.page.overlay {'overlay-page  demo.page.overlay/overlay-page}}
+ :cljs-namespace [;demo.page.frepl
+                  
+                  ]
+
+ :cljs-ns-bindings {;'demo.page.frepl {'page  demo.page.frepl/page}
+                    }
 
  :cljs-routes {""  reval.page.viewer/viewer-page
-               ; "devtools/repl" :repl
-               "frepl" demo.page.overlay/overlay-page
+               "repl"  reval.page.repl/repl-page
+               ;"frepl" demo.page.overlay/overlay-page
+               
               }
  
 ;

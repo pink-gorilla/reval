@@ -11,7 +11,7 @@
 (defn eval-clj [segment]
   (let [segment (merge {:ns @cur-ns} segment)
         _ (info "eval clj: " segment)
-        rp (clj {:timeout 120000} 'reval.viz.eval/viz-eval-blocking segment)]
+        rp (clj {:timeout 120000} 'reval.dali.eval/dali-eval-blocking segment)]
     (p/then rp (fn [r]
                  (info "eval clj result: " r)
                  (reset! cur-ns (:ns r))))

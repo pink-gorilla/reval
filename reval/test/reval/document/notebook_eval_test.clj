@@ -1,24 +1,23 @@
 (ns reval.document.notebook-eval-test
   (:require
    [clojure.test :refer [deftest is]]
-   [reval.document.manager :refer [storage-root url-root get-link-ns get-path-ns]]
+   [reval.document.manager :refer [fpath url-root get-link-ns get-path-ns]]
    [reval.document.notebook :refer [eval-notebook load-notebook]]
    [reval.test-init]))
 
-(def this {:config {:rdocument  {:storage-root "/tmp/rdocument/"
-                                 :url-root "/api/rdocument/file/"}
+(def this {:config {:rdocument  {:fpath "/tmp/rdocument"
+                                 :rpath "/api/rdocument/file"}
                     :collections {:user [:clj "user/notebook/"]
                                   :demo [:clj "demo/notebook/"]
                                   :demo-cljs [:cljs "demo/notebook/"]}}})
 
 (deftest config-test
-  (let [storage-root-val (storage-root this)
+  (let [rpath-val (fpath this)
         url-root-val (url-root this)
         path-ns (get-path-ns this 'demo.apple)]
-    (is (= storage-root-val "/tmp/rdocument/"))
-    (is (= url-root-val "/api/rdocument/file/"))
-    (is (= url-root-val "/api/rdocument/file/"))
-    (is (= path-ns "/tmp/rdocument/demo/apple/"))))
+    (is (= rpath-val "/tmp/rdocument"))
+    (is (= url-root-val "/api/rdocument/file"))
+    (is (= path-ns "/tmp/rdocument/demo/apple"))))
 
 (deftest notebook-eval-test
   (eval-notebook this "test.notebook.apple")

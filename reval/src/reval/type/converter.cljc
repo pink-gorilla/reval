@@ -1,28 +1,23 @@
 (ns reval.type.converter
   (:require
-   [reval.type.protocol :refer [to-hiccup]]))
-
-(defn unknown-type-view [v]
-  (let [type-as-str (-> v type str)]
-    [:div.border-solid.p-2
-     [:p.text-red-300 type-as-str]
-     [:span (pr-str v)]]))
-
-(def nil-view
-  [:div.p-2.clj-nil
-   [:p "nil"]])
+   [reval.type.protocol :refer [dali-convertable to-dali]]
+   [taoensso.timbre :as timbre :refer [info]]
+   [reval.dali.plot.type :as plot]))
 
 #?(:clj
-   (defn value-type->hiccup [v]
+   (defn type->dali [env v] ; here env is first
      (try
-       (with-meta (to-hiccup v) {:hiccup true})
-       (catch Exception _
-         (unknown-type-view v))))
+       (if (satisfies? dali-convertable v)
+          (to-dali v env) ; note that for the protocol the type needs to be first. 
+          (plot/unknown-type v))
+       (catch Exception ex
+         (info "v: " v " ex: " ex)
+         (plot/type-convert-err v))))
 
    :cljs
-   (defn value-type->hiccup [v]
+   (defn type->dali [env v] ; here env is first
      (try
-       (to-hiccup v)
+       (to-dali v env) ; note that for the protocol the type needs to be first.
        (catch js/Exception _
-         (unknown-type-view v)))))
+         (plot/unknown-type v)))))
 

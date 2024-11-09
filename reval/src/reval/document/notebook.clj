@@ -1,10 +1,11 @@
 (ns reval.document.notebook
   (:require
    [clojure.java.io :as io]
+   [tick.core :as t]
    [taoensso.timbre :refer [debug info warnf]]
    [modular.helper.id :refer [guuid]]
-   [modular.helper.date :refer [now-str]]
-   [reval.viz.data :refer [value->data]]
+   [dali.spec :refer [create-dali-spec]]
+   [reval.dali.eval :refer [dalify]]
    [reval.document.manager :as rdm]
    [reval.document.path :refer [ns->dir ns->filename]]
    [reval.document.src-parser :refer [text->notebook]]
@@ -13,16 +14,16 @@
 ;; create
 
 (defn load-src
-  ([ns]
-   (load-src ns :clj))
-  ([ns fmt]
+  ([nbns]
+   (load-src nbns :clj))
+  ([nbns fmt]
    (try
      (->
-      (ns->filename ns fmt)
+      (ns->filename nbns fmt)
       (io/resource)
       slurp)
      (catch Exception _
-       (str "(ns " ns ")\n ; This namespace does not exist as a local file!\n")))))
+       (str "(ns " nbns ")\n ; This namespace does not exist as a local file!\n")))))
 
 (defn src->src-list
   ([src]
@@ -40,59 +41,58 @@
                  (into []))})
 
 (defn create-notebook
-  ([this ns]
-   (create-notebook this ns :clj))
-  ([this ns fmt]
-   (when ns
-     (rdm/delete-directory-ns this ns))
-   (let [src (if ns
-               (load-src ns fmt)
+  ([this nbns]
+   (create-notebook this nbns :clj))
+  ([this nbns fmt]
+   (when nbns
+     (rdm/delete-directory-ns this nbns))
+   (let [src (if nbns
+               (load-src nbns fmt)
                "")]
      (-> src
          (src->src-list fmt)
          src-list->notebook
          (assoc :meta {:id (guuid)
                        :eval-time "not evaluated"
-                       :ns ns})))))
+                       :ns nbns})))))
 
 ;; persistence
 
+(defn plot-notebook [nb]
+ (create-dali-spec
+   {:viewer-fn 'reval.dali.viewer.notebook/notebook
+    :data nb}))
+
 (defn load-notebook
-  ([this ns]
-   (load-notebook this ns :clj))
-  ([this ns fmt]
-   (let [nb (if ns
-              (rdm/loadr this ns "notebook" :edn)
+  ([this nbns]
+   (load-notebook this nbns :clj))
+  ([this nbns fmt]
+   (let [nb (if nbns
+              (rdm/loadr this nbns "notebook" :edn)
               nil)]
      (-> (if nb
            nb
-           (create-notebook this ns fmt))
-         (with-meta {:render-as :p/notebook})))))
+           (create-notebook this nbns fmt))
+         (plot-notebook)))))
 
-(defn save-notebook [this ns nb]
-  (info "saving notebook: " ns)
-  (rdm/save this nb ns "notebook" :edn))
+(defn save-notebook [this nbns nb]
+  (info "saving notebook: " nbns)
+  (rdm/save this nb nbns "notebook" :edn))
 
 ; eval
-
-(defn eval-result->hiccup [{:keys [value] :as eval-result}]
-  (when-let [data (value->data value)]
-    (-> eval-result
-        (dissoc :value)
-        (merge  data))))
 
 (defn eval-ns-raw
   "evaluates a clj namespace.
      returns seq of eval-result"
-  [ns]
-  (let [src (load-src ns)
+  [nbns]
+  (let [src (load-src nbns)
         src-list (src->src-list src)]
-    (map #(clj-eval {:ns ns
+    (map #(clj-eval {:ns nbns
                      :code %})
          src-list)))
 
-(defn eval-nb-segments [nb ns]
-  (let [nsa (atom ns)
+(defn eval-nb-segments [nb nbns]
+  (let [nsa (atom nbns)
         segments (:content nb)
         nb-eval-segment (fn [seg]
                           (let [er (clj-eval (assoc seg :ns @nsa))]
@@ -101,21 +101,21 @@
     (map nb-eval-segment segments)))
 
 (defn eval-notebook
-  ([this ns]
-   (eval-notebook this ns eval-result->hiccup)) ; default converter
-  ([this ns eval-result-view-fn]
-   (let [nb (create-notebook this ns)
-         eval-results (eval-nb-segments nb ns)
+  ([this nbns]
+   (eval-notebook this nbns #(dalify this %))) ; default converter
+  ([this nbns eval-result-view-fn]
+   (let [nb (create-notebook this nbns)
+         eval-results (eval-nb-segments nb nbns)
          content (if eval-result-view-fn
                    (map eval-result-view-fn eval-results) ; use here a better thing.
                    eval-results)
          nb (-> nb
                 (assoc :content (into [] content))
-                (assoc-in [:meta :eval-time] (now-str))
+                (assoc-in [:meta :eval-time] (-> (t/instant) str))
                 (assoc-in [:meta :java] (-> (System/getProperties) (get "java.version")))
                 (assoc-in [:meta :clojure] (clojure-version)))]
-     (save-notebook this ns nb)
-     (with-meta nb {:render-as :p/notebook}))))
+     (save-notebook this nbns nb)
+     (plot-notebook nb))))
 
 (comment
 
@@ -126,11 +126,6 @@
 
   (-> (load-src "demo.notebook-test.banana")
       type)
-
-  ;;  "(+ 1 1)
-  ;; (println 123)
-  ;; [1 2 3]
-  ;; {:a 3}"
 
   (-> "demo.notebook-test.banana"
       load-src
@@ -149,7 +144,7 @@
   ;;  :out "", 
   ;;  :id :87929fe8-4003-4c25-9df4-512391857d07 }
 
-  (def this {:config {}})
+  (def this {})
 
   (create-notebook this "demo.notebook-test.apple")
   (eval-notebook this "demo.notebook-test.apple")

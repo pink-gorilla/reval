@@ -18,30 +18,24 @@ code
                        :ns "notebook.study.movies"
                        :code code}))
 
-
 (p/await (kernel-eval {:kernel :clj
                        :ns "user"
                        :code code}))
 
-
- (p/await (kernel-eval {:code "(println 3) (def x 777) (defn f [] 99) (+ 3 4)"
-              :kernel :clj
-              :ns "bongotrott"
-              :id 1}))
+(p/await (kernel-eval {:code "(println 3) (def x 777) (defn f [] 99) (+ 3 4)"
+                       :kernel :clj
+                       :ns "bongotrott"
+                       :id 1}))
 
 (defn add-ns [ns]
   (str "(in-ns '" ns ")\r\n"))
 
 (def code-ns (add-ns "notebook.study.movies"))
 
-
 code-ns
 (p/await (kernel-eval {:kernel :clj
                        :ns "user"
                        :code code-ns}))
-
-
-
 
 (load-string code)
 
@@ -57,13 +51,12 @@ code2
 
 (load-string code2)
 
-
 (def code3
   (let [ns "notebook.study.movies"
         code-ns (if (and ns (not (string/blank? ns)))
                   (str "(in-ns '" ns " ) ")
                   "nil")
-        code-with-ns (str code-ns code )]
+        code-with-ns (str code-ns code)]
     code-with-ns))
 
 code3
@@ -71,7 +64,6 @@ code3
 (load-string code3)
 
 (load-string "(in-ns 'xxx) (def a 1)")
-
 
 (load-string "(in-ns 'xxx)  *ns*")
 
@@ -87,12 +79,9 @@ code3
 
 (load-string "(ns xxx)  *ns*")
 
-
 (load-string "*ns*")
 
 (load-string "(ns yyy) *ns*")
-
-
 
 (p/await (kernel-eval {:kernel :clj
                        :ns "notebook.study.movies"
@@ -102,26 +91,21 @@ code3
                        :ns "notebook.study.movies"
                        :code code-with-ns}))
 
-
 (def code2 "(ns bongo) (def x 34) (+ x 4) *ns*")
-
 
 (p/await (kernel-eval {:kernel :clj
                          ;:ns "user"
                        :code code2}))
 
-
 (p/await (kernel-eval {:kernel :clj
                        :ns "bongo"
                        :code "*ns*"}))
-
 
 (load-string "*ns*")
 
 (load-string "(ns bongo) (def y 36)")
 
 (load-string "(in-ns 'bongo) y")
-
 
 ; (in-ns 'yippie2)
 (load-string "(ns yippie7 (:require [clojure.pprint :refer [print-table]]))

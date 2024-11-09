@@ -1,7 +1,7 @@
 (ns reval.document.manager
   (:require
    [taoensso.timbre :refer [debug info warnf error]]
-   [clojure.string :as str]
+   [babashka.fs :as fs]
    [clojure.java.io :as io]
    [modular.persist.protocol :as p]
    [reval.document.path :refer [ns->dir]]))
@@ -17,57 +17,44 @@
 
 ;; URL side
 
-(defn storage-root [this]
-  (get-in this [:config :rdocument :storage-root]))
-
 (defn url-root [this]
-  (get-in this [:config :rdocument :url-root]))
+  (get-in this [:rdocument :rpath]))
 
 (defn get-link-ns [this ns name]
   (str (url-root this)  ns "/" name))
 
 ;; FILE side
 
-(defn get-path-ns [this ns]
-  (str (storage-root this) (ns->dir ns) "/"))
+(defn fpath [this]
+  (get-in this [:rdocument :fpath]))
 
-(defn get-filename-ns [this ns name]
-  (str (get-path-ns this ns) name))
+(defn get-path-ns [this nbns]
+  (str (fpath this) "/" (ns->dir nbns)))
 
-(defn- ensure-directory [path]
-  (when-not (.exists (io/file path))
-    (.mkdir (java.io.File. path))))
+(defn get-filename-ns [this nbns name]
+  (str (get-path-ns this nbns) "/" name))
 
-(defn- ensure-directory-ns [this ns]
-  (let [root (storage-root this)
-        ns-path (ns->dir ns)
-        dirs (str/split ns-path #"/")
-        ensure (fn [r dir]
-                 (let [edir (str r dir "/")]
-                   (ensure-directory edir)
-                   edir))]
-    (ensure-directory root)
-    (reduce ensure root dirs)))
 
 (defn delete-recursively [fname]
   (doseq [f (reverse (file-seq (clojure.java.io/file fname)))]
     (clojure.java.io/delete-file f true)))
 
-(defn delete-directory-ns [this ns]
-  (let [ns-path (this get-path-ns ns)]
-    (info "deleting reproduceable ns: " ns "path: " ns-path)
+(defn delete-directory-ns [this nbns]
+  (let [ns-path (this get-path-ns nbns)]
+    (info "deleting reproduceable ns: " nbns "path: " ns-path)
     (delete-recursively ns-path)))
 
 (defn- add-extension [name format]
   (let [ext (clojure.core/name format)]
     (str name "." ext)))
 
-(defn save [this data ns name-no-ext format]
+(defn save [this data nbns name-no-ext format]
   ;(info "saving.. this: " this)
-  (let [filename (-> (get-filename-ns this ns name-no-ext)
+  (let [path (get-path-ns this nbns)
+        filename (-> (get-filename-ns this nbns name-no-ext)
                      (add-extension format))]
     ;(info "filename: " filename)
-    (ensure-directory-ns this ns)
+    (fs/create-dirs path)
     ;(info "saving: " filename)
     (p/save format filename data)
     data ; usable for threading macros  
@@ -82,7 +69,7 @@
 ;; explore
 
 (defn get-ns-list [this]
-  (let [nb-root-dir (io/file (storage-root this))]
+  (let [nb-root-dir (io/file (fpath this))]
     (if (and (.exists nb-root-dir)
              (.isDirectory nb-root-dir))
       (->> nb-root-dir
@@ -91,7 +78,7 @@
       [])))
 
 (defn get-document-list [this ns]
-  (let [doc-dir (io/file (str (storage-root this) (str ns)))]
+  (let [doc-dir (io/file (str (fpath this) (str ns)))]
     (if (and (.exists doc-dir)
              (.isDirectory doc-dir))
       (->> doc-dir
@@ -101,19 +88,18 @@
 
 (comment
 
-  (def this {:config {:rdocument  {:storage-root "/tmp/rdocument/"
-                                   :url-root "/api/rdocument/file/"}
+  (def this {:config {:rdocument  {:fpath "/tmp/rdocument"
+                                   :rpath "/api/rdocument/file"}
                       :collections {:user [:clj "user/notebook/"]
                                     :demo [:clj "demo/notebook/"]
                                     :demo-cljs [:cljs "demo/notebook/"]}}})
 
-  (ensure-directory (storage-root this))
+
 
   (get-filename-ns this "demo.study3" "bongo.txt")
 
-  (get-link-ns this "demo.notebook.image" "bongo.txt")
+ (get-link-ns this "demo.notebook.image" "bongo.txt")
 
-  (ensure-directory-ns this "demo.test-notebook.apple")
 
   (save this {:a 1 :b "bongotrott" :c [1 2 3]}  "demo.3" "bongotrott" :edn)
   (save this {:a 1 :b "bongotrott" :c [1 2 3]} "demo.3" "bongotrott-1" :edn)

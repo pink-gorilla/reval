@@ -1,9 +1,9 @@
 (ns reval.type.cljs
   "converts clojurescript values to hiccup representation"
   (:require
-   [reval.type.protocol :refer [hiccup-convertable #_to-hiccup]]
-   [reval.type.ui.simplevalue :refer [simplevalue->hiccup]]
-   [reval.type.ui.list :refer [list->hiccup map->hiccup]]))
+   [dali.spec :refer [dali-spec?]]
+   [reval.dali.plot.type :refer [simplevalue->dali list->dali map->dali unknown-type]]
+   [reval.type.protocol :refer [dali-convertable]]))
 
 ;;; ** to-hiccupers for basic Clojure forms **
 
@@ -22,114 +22,119 @@
       (simplevalue->hiccup self "clj-unknown")))
 
 (extend-type default
-  hiccup-convertable
-  (to-hiccup [self]
-    ; warning because pr-str still might look good,
-    ;(warnf "to-hiccuping unknown cljs type: %s data: %s " (type self) (pr-str self))
-    [:div.bg-red-500 "unknown type: " (type self)
-     (simplevalue->hiccup self "clj-unknown")]))
+  dali-convertable
+  (to-dali [v env]
+    (unknown-type v)))
+
 
 ; nil values are a distinct thing of their own
 
 (extend-type nil
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-nil")))
+  dali-convertable
+  (to-dali [v env]
+    (simplevalue->dali v "clj-nil")))
+
 
 (extend-type cljs.core/Keyword
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-keyword")))
+  dali-convertable
+  (to-dali [v env]
+    (simplevalue->dali v "clj-keyword")))
 
 (extend-type cljs.core/Symbol
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-symbol")))
+  dali-convertable
+  (to-dali [v env]
+    (simplevalue->dali v "clj-symbol")))
 
 ; would be cool to be able to use meta data to switch between
 ; if meta ^:br is set, then convert \n to [:br] otherwise to-hiccup the string as it is.
 ; however clojure does not support meta data for strings
 (extend-type string
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-string")))
+  dali-convertable
+  (to-dali [v env]
+    (simplevalue->dali v "clj-string")))
 
 #_(extend-type char
-    hiccup-convertable
-    (to-hiccup [self]
-      (simplevalue->hiccup self "clj-char")))
+    dali-convertable
+    (to-dali [v env]
+      (simplevalue->dali v "clj-char")))
 
 (extend-type number
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-long")))
+  dali-convertable
+  (to-dali [v env]
+    (simplevalue->dali v "clj-long")))
 
 (extend-type boolean
-  hiccup-convertable
-  (to-hiccup [self]
-    (simplevalue->hiccup self "clj-boolean")))
+  dali-convertable
+  (to-dali [v env]
+    (simplevalue->dali v "clj-boolean")))
 
 ;; LIST
 
 (extend-type cljs.core/MapEntry
-  hiccup-convertable
-  (to-hiccup [self]
-    (list->hiccup
+  dali-convertable
+  (to-dali [v env]
+    (list->dali
+     env
      {:class "clj-vector"
       :open "["
-      :close  "]"
-      :separator  ", "}
-     self)))
+      :close "]"
+      :separator " "}
+     v)))
 
 (extend-type cljs.core/LazySeq
-  hiccup-convertable
-  (to-hiccup [self]
-    (list->hiccup
+  dali-convertable
+  (to-dali [v env]
+    (list->dali
+     env
      {:class "clj-lazy-seq"
       :open  "("
       :close ")"
       :separator " "}
-     self)))
+     v)))
 
 (extend-type cljs.core/IntegerRange
-  hiccup-convertable
-  (to-hiccup [self]
-    (list->hiccup
+  dali-convertable
+  (to-dali [v env]
+    (list->dali
+     env
      {:class "clj-int-range"
       :open  "("
       :close ")"
       :separator " "}
-     self)))
+     v)))
 
 (extend-type cljs.core/PersistentVector
-  hiccup-convertable
-  (to-hiccup [self]
-    (list->hiccup
+  dali-convertable
+  (to-dali [v env]
+    (list->dali
+     env
      {:class "clj-vector"
       :open "["
       :close  "]"
       :separator " "}
-     self)))
+     v)))
 
 (extend-type cljs.core/List
-  hiccup-convertable
-  (to-hiccup [self]
-    (list->hiccup
+  dali-convertable
+  (to-dali [v env]
+    (list->dali
+     env
      {:class "clj-list"
       :open "("
       :close  ")"
       :separator " "}
-     self)))
+     v)))
 
 (extend-type cljs.core/PersistentHashSet
-  hiccup-convertable
-  (to-hiccup [self]
-    (list->hiccup
+  dali-convertable
+  (to-dali [v env]
+    (list->dali
+     env
      {:class "clj-set"
       :open "#{"
       :close  "}"
       :separator  " "}
-     self)))
+     v)))
 
 ;; MAPS
 
@@ -138,14 +143,17 @@
 ;; bracketing. These will then be assembled in to a list-like for the whole map by the IPersistentMap to-hiccup function.
 
 (extend-type cljs.core/PersistentArrayMap
-  hiccup-convertable
-  (to-hiccup [self]
-    (map->hiccup
-     {:class "clj-map"
-      :open "{"
-      :close  "}"
-      :separator  " "}
-     self)))
+  dali-convertable
+  (to-dali [v env]
+    (if (dali-spec? v)
+      v
+      (map->dali
+       env
+       {:class "clj-map"
+        :open "{"
+        :close  "}"
+        :separator  " "}
+       v))))
 
 ;; This still needs to be implemented:
 ;; cljs.core/Range

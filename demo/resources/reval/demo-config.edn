@@ -1,13 +1,10 @@
-{:build {:disabled-extensions #{}}
- 
- :reval {:rdocument  {:storage-root "target/webly/public/rdocument/"
-                      :url-root "/api/rdocument/file/"}
-         :collections {:test27 [:clj "notebook/test27/"]
-                       :test27-cljs [:cljs "notebook/test27/"]
-                       :study [:clj "notebook/study/"]
-                       :big-list [:clj "notebook/big_list/"]
-                       :demo [:clj "demo/notebook/"] ; embedded notebooks in jars.
-                       }}
+{:reval {:rdocument  {:fpath ".reval/public/rdocument"
+                      :rpath "/r/rdocument"}
+         :collections {:study {:clj "notebook/study/"}
+                       ;:big-list {:clj "notebook/big_list/"}
+                       :cljs {:cljs "notebook/cljs/"}
+                       :demo {:clj "demo/notebook/" ; embedded notebooks in jars.
+                              :cljs "demo/notebook/"}}}
 
  :keybindings [{:kb "alt-g k",
                 :handler [:palette/show],
