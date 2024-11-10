@@ -6,7 +6,6 @@
   (:import
    [java.awt.image BufferedImage]))
 
-
 (extend-type BufferedImage
   dali-convertable
   (to-dali [v env]

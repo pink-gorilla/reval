@@ -1,18 +1,17 @@
 (ns reval.dali.viewer.collection
   (:require
-   [clojure.string :refer [split]]
-   [re-frame.core :as rf]))
+   [clojure.string :refer [split]]))
 
 ;; COLLECTION UI
 
-(defn nb-item [open-link nbns]
+(defn nb-item [open-link {:keys [nbns] :as nbinfo}]
   [:a
    [:p.w-full.truncate.bg-blue-200.hover:bg-blue-300.border.border-solid.border-blue-300.p-1.cursor-pointer
    ; trunctate does the text magic
    ; .overflow-x-hidden
    ;[:a ;.m-1
     {:class "text-blue-500"
-     :on-click #(rf/dispatch [:bidi/goto open-link :query-params {:ns nbns}])}
+     :on-click #(open-link nbinfo)}
     ;(-> (split nbns ".") last)
     nbns
     ;]

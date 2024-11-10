@@ -9,23 +9,22 @@
    ))
 
 (defn dalify [env {:keys [ex value] :as er}]
-   (if ex
-     (-> er
+  (if ex
+    (-> er
         (dissoc :ex)
         (assoc :err (plot/exception "" ex)))
-     (-> er
-         (dissoc :value)
-         (assoc :result (type->dali env value)))))
+    (-> er
+        (dissoc :value)
+        (assoc :result (type->dali env value)))))
 
 (defn dali-eval [env segment]
   (info "viz-eval segment: " segment)
   (let [eval-p (kernel-eval segment)]
     (p/then eval-p #(dalify env %))))
 
- #?(:clj
-(defn dali-eval-blocking [env segment]
-  (p/await (dali-eval env segment)))
- )
+#?(:clj
+   (defn dali-eval-blocking [env segment]
+     (p/await (dali-eval env segment))))
 
 (comment
   (-> (dali-eval nil {:code "(/ 1 3)" :ns "user" :kernel :clj})

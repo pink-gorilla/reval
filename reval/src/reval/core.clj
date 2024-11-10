@@ -46,20 +46,20 @@
    :content
    [{:code "(println \"Welcome to Notebook Viewer \")"
      :result ^{:dali true}
-      {:viewer-fn 'dali.viewer.hiccup/hiccup
-       :data  [:h1.text-blue-800 "Welcome to Notebook Viewer!"]}
+     {:viewer-fn 'dali.viewer.hiccup/hiccup
+      :data  [:h1.text-blue-800 "Welcome to Notebook Viewer!"]}
      :out "Welcome to Notebook Viewer"}]})
 
-(defn- save-welcome [{:keys [rdocument]}] 
-  (spit 
+(defn- save-welcome [{:keys [rdocument]}]
+  (spit
    (str (:fpath rdocument) "/welcome.edn")
    nb-welcome))
 
 (defn eval-collections [{:keys [rdocument collections] :as this}]
   (info "build collection index for collections:  "  collections)
   (spit
-    (str (:fpath rdocument) "/notebooks.edn")
-    (nbcol/collections-ns-summary collections))
+   (str (:fpath rdocument) "/notebooks.edn")
+   (nbcol/collections-ns-summary collections))
   (info "generate index notebook.. ")
   (save-welcome this)
   (info "eval collections.. ")

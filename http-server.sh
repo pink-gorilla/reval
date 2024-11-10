@@ -1,4 +1,4 @@
-#!/usr/bin/env /home/florian/babashka/bb
+#!/usr/bin/env /home/florian/.guix-profile/bin/bb
 
 (require '[babashka.deps :as deps])
 (deps/add-deps

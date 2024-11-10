@@ -1,8 +1,7 @@
 (ns reval.dali.plot.type
   (:require
    [dali.spec :refer [create-dali-spec]]
-   [reval.type.protocol :refer [to-dali]]
-   ))
+   [reval.type.protocol :refer [to-dali]]))
 
 (def styles
   {"clj-raw"    {:color "red"}
@@ -67,18 +66,18 @@
     :close ")"
     :separator " "}
    [1 "test" 5.3 nil :super])
-  
-   (map->dali
-    nil
-    {:class "clj-map"
-     :open "{"
-     :close "}"
-     :separator " "}
-    {:a 1 
-     :b "test" 
-     :c 5.3 
-     :d nil 
-     :e :super})
+
+  (map->dali
+   nil
+   {:class "clj-map"
+    :open "{"
+    :close "}"
+    :separator " "}
+   {:a 1
+    :b "test"
+    :c 5.3
+    :d nil
+    :e :super})
 
 ;  
   )

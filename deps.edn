@@ -1,5 +1,62 @@
 {:deps {reval/reval {:local/root "./reval" :deps/manifest :deps}
         reval/reval-ui {:local/root "./reval-ui" :deps/manifest :deps}
         reval/reval-sci {:local/root "./reval-sci" :deps/manifest :deps}}
+ 
 
-}
+ :aliases
+ {; github ci  MULTI-DEPS VERSION
+  :build {:deps {io.github.clojure/tools.build {:mvn/version "0.9.6"}
+                 slipset/deps-deploy {:mvn/version "0.2.1"}
+                 io.github.seancorfield/build-clj {:git/tag "v0.5.4" :git/sha "bc9c0cc"}
+                 babashka/fs {:mvn/version "0.0.5"}}
+          :ns-default build
+          :jvm-opts ["-Dmaven.wagon.rto=90000"]}
+ 
+  ; https://github.com/weavejester/cljfmt
+  :cljfmt
+  {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
+   :main-opts ["-m" "cljfmt.main"
+               "--indents" "cljfmt.edn"
+               "check"
+               "reval/src"
+               "reval-ui/src"
+               "reval-sci/src"
+               ]}
+
+  :cljfmt-fix
+  {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
+   :main-opts ["-m" "cljfmt.main"
+               "--indents" "cljfmt.edn"
+               "fix"
+               "reval/src"
+               "reval-ui/src"
+               "reval-sci/src"
+               ]}
+  
+  
+ 
+  ; https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md
+  :lint
+  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2024.03.13"}}
+   :main-opts ["-m" "clj-kondo.main"
+               "--lint"
+               "reval/src"
+               "reval-ui/src"
+               "reval-sci/src"
+               "--config" "cljkondo.edn"]}
+ 
+  :check
+  {:extra-deps {athos/clj-check {:git/url "https://github.com/athos/clj-check.git"
+                                 :sha "518d5a1cbfcd7c952f548e6dbfcb9a4a5faf9062"}}
+   :main-opts ["-m" "clj-check.check"]}
+ 
+  :test
+  {:extra-paths ["test" "demo"]
+   :extra-deps {io.github.cognitect-labs/test-runner
+                {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                 :sha "dd6da11611eeb87f08780a30ac8ea6012d4c05ce"}}
+   :main-opts ["-m" "cognitect.test-runner"]
+   :exec-fn cognitect.test-runner.api/test}
+
+;  
+}}

@@ -83,17 +83,15 @@
     [notebook @nb-a]]])
 
 (defn editor [_ns _fmt _path]
-  (let [loaded (r/atom [nil nil nil])
-        ;id (r/atom 1)
-        ]
-    (fn [ns fmt path]
-      (let [comparator [ns fmt path]]
+  (let [loaded (r/atom [nil nil nil])]
+    (fn [nbns fmt path]
+      (let [comparator [nbns fmt path]]
         (when (not (= comparator @loaded))
           (println "loaded: " @loaded)
           (reset! loaded comparator)
           (-> (clj {:timeout 1000}
                    'reval.document.notebook/load-src
-                   ns (keyword fmt))
+                   nbns (keyword fmt))
               (p/then (fn [result]
                         (println "code result: " result)
                         (reset! repl-code result)
@@ -102,28 +100,32 @@
                         ))))
         [cme/cm-editor]))))
 
-(defn repl [ns fmt path]
-  [spaces.core/viewport
-   [spaces.core/top-resizeable {:size "10%"
-                                :scrollable false
-                                :class "bg-gray-100"} ; max-h-full overflow-y-auto
-    [repl-header ns fmt path]]
-   [spaces.core/fill {}
-    [spaces.core/left-resizeable {:size "10%"
-                                  :scrollable true
-                                  :class "bg-gray-100 max-h-full overflow-y-auto"}
-     [collection-viewer
-      {:link 'reval.page.repl/repl-page}]]
-    [spaces.core/fill {}
-     [editor ns fmt path]] ; [:div.h-full.w-full.bg-blue-900.max-h-full.overflow-y-auto]
-    [spaces.core/right-resizeable {:size "50%"
-                                   :scrollable true
-                                   :class "bg-blue-100 max-h-full overflow-y-auto"}
-     [repl-output]]]])
+(defn goto-nb [nbinfo]
+  (rf/dispatch [:bidi/goto 'reval.page.repl/repl-page
+                :query-params nbinfo]))
+
+(defn repl [opts]
+  (fn [{:keys [nbns ext path]
+        :or {ext "clj"
+             nbns "user"
+             path ""}}]
+    [spaces.core/viewport
+     [spaces.core/top-resizeable {:size "10%"
+                                  :scrollable false
+                                  :class "bg-gray-100"} ; max-h-full overflow-y-auto
+      [repl-header nbns ext path]]
+     [spaces.core/fill {}
+      [spaces.core/left-resizeable {:size "10%"
+                                    :scrollable true
+                                    :class "bg-gray-100 max-h-full overflow-y-auto"}
+       [collection-viewer
+        {:link goto-nb}]]
+      [spaces.core/fill {}
+       [editor nbns ext path]] ; [:div.h-full.w-full.bg-blue-900.max-h-full.overflow-y-auto]
+      [spaces.core/right-resizeable {:size "50%"
+                                     :scrollable true
+                                     :class "bg-blue-100 max-h-full overflow-y-auto"}
+       [repl-output]]]]))
 
 (defn repl-page [{:keys [_route-params query-params _handler] :as _route}]
-  (let [{:keys [ns fmt path]
-         :or {fmt "clj"
-              ns "user"
-              path ""}} query-params]
-    [repl ns fmt path]))
+  [repl query-params])

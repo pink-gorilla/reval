@@ -5,7 +5,6 @@
    [reval.document.path :refer [split-ext is-format? ext-is-format? filename->ns]]
    [reval.document.notebook :refer [eval-notebook create-notebook save-notebook]]))
 
-
 (defn- convert-ns [res-path {:keys [name path] :as entry}]
   (let [[name-only ext] (split-ext name)
         nbns (if (and name-only ext)
@@ -35,30 +34,30 @@
   (->> col-spec
        (map (fn [[fmt res-paths]]
               (let [res-paths (if (string? res-paths)
-                                  [res-paths]
-                                  res-paths)]
-              [fmt (get-nss-list fmt res-paths)])))
+                                [res-paths]
+                                res-paths)]
+                [fmt (get-nss-list fmt res-paths)])))
        (into {})))
-
 
 (defn collection-ns [{:keys [clj cljs] :as col-info}]
   (let [nb-list (fn [info-seq]
-                  (map :nbns info-seq))]
-    (concat 
-       (nb-list clj)
-       (nb-list cljs))))
+                  (->> info-seq
+                       (sort-by :nbns)
+                       ;(map :nbns info-seq)
+                       ))]
+    (concat
+     (nb-list clj)
+     (nb-list cljs))))
 
 (defn collections-ns-summary [m]
   (let [one (fn [[name i]]
-              [name 
-                (-> i
-                    (build-collection)
-                    (collection-ns))]
-              )]
+              [name
+               (-> i
+                   (build-collection)
+                   (collection-ns))])]
     (->> m
          (map one)
-         (into {})
-         )))
+         (into {}))))
 
 ;; EVAL
 
@@ -66,22 +65,22 @@
   (->> (create-notebook this nbns fmt)
        (save-notebook this nbns)))
 
-(defn eval-collection [this col-spec] 
+(defn eval-collection [this col-spec]
   (let [coll-nb (build-collection col-spec)
         #_{:clj
-         [{:nbns "notebook.study.exception",
-           :ext "clj",
-           :path "/home/florian/repo/pink-gorilla/reval/demo/src/notebook/study/exception.clj"}
-          {:nbns "notebook.study.fira-code",
-           :ext "clj",
-           :path "/home/florian/repo/pink-gorilla/reval/demo/src/notebook/study/fira_code.clj"}]
-         :cljs []}
+           [{:nbns "notebook.study.exception",
+             :ext "clj",
+             :path "/home/florian/repo/pink-gorilla/reval/demo/src/notebook/study/exception.clj"}
+            {:nbns "notebook.study.fira-code",
+             :ext "clj",
+             :path "/home/florian/repo/pink-gorilla/reval/demo/src/notebook/study/fira_code.clj"}]
+           :cljs []}
         clj-nbns-seq (map :nbns (:clj coll-nb))
         cljs-nbns-seq (map :nbns (:cljs coll-nb))]
     (doall
-      (map #(eval-notebook this %) clj-nbns-seq))
+     (map #(eval-notebook this %) clj-nbns-seq))
     (doall
-      (map #(create-empty-notebook this % :cljs) cljs-nbns-seq))
+     (map #(create-empty-notebook this % :cljs) cljs-nbns-seq))
     nil))
 
 (defn eval-collections [this colls]
@@ -89,8 +88,6 @@
  ;  :user [:clj ["test.notebook.apple"]]}
   (doall
    (map (partial eval-collection this) (vals colls))))
-
-
 
 (comment
 
@@ -125,7 +122,7 @@
 
   (build-collection {:clj "notebook/study/"
                      :cljs "demo/notebook/"})
-  
+
   (build-collection {:clj ["notebook/study/"
                            "notebook/big_list/"]
                      :cljs "demo/notebook/"})
@@ -152,19 +149,17 @@
   ;;      {:nbns "demo.notebook.tailwind", :ext "cljs"}]}
 
   (->  (build-collection {:clj ["notebook/study/"
-                              "notebook/big_list/"]
-                        :cljs "demo/notebook/"})
-       (collection-ns)
-   )
-  
+                                "notebook/big_list/"]
+                          :cljs "demo/notebook/"})
+       (collection-ns))
+
   (collections-ns-summary
-  {:study {:clj "notebook/study/"}
-   :big-list {:clj "notebook/big_list/"}
-   :cljs {:cljs "notebook/cljs/"}
-   :demo {:clj "demo/notebook/" ; embedded notebooks in jars.
-          :cljs "demo/notebook/"}} 
-   )
-  
+   {:study {:clj "notebook/study/"}
+    :big-list {:clj "notebook/big_list/"}
+    :cljs {:cljs "notebook/cljs/"}
+    :demo {:clj "demo/notebook/" ; embedded notebooks in jars.
+           :cljs "demo/notebook/"}})
+
 ;
   )
 

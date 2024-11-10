@@ -17,6 +17,7 @@
   ([nbns]
    (load-src nbns :clj))
   ([nbns fmt]
+   (info "load-src nbns: " nbns " fmt: " fmt)
    (try
      (->
       (ns->filename nbns fmt)
@@ -59,7 +60,7 @@
 ;; persistence
 
 (defn plot-notebook [nb]
- (create-dali-spec
+  (create-dali-spec
    {:viewer-fn 'reval.dali.viewer.notebook/notebook
     :data nb}))
 
@@ -121,8 +122,9 @@
 
   (ns->filename "demo.notebook-test.banana" :clj)
 
-  (load-src "demo.notebook.image")
-  (load-src "demo.notebook-test.banana")
+  (load-src "notebook.study.image")
+  (load-src "notebook.study.image" :clj)
+  (load-src "notebook.study.image" :cljs)
 
   (-> (load-src "demo.notebook-test.banana")
       type)

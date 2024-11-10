@@ -2,8 +2,6 @@
   (:require
    [dali.spec :refer [create-dali-spec]]))
 
-
-
 (defn exception
   "returns a plot specification {:render-fn :spec :data}. 
    The ui shows the exception."

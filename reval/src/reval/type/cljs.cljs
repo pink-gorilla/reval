@@ -26,14 +26,12 @@
   (to-dali [v env]
     (unknown-type v)))
 
-
 ; nil values are a distinct thing of their own
 
 (extend-type nil
   dali-convertable
   (to-dali [v env]
     (simplevalue->dali v "clj-nil")))
-
 
 (extend-type cljs.core/Keyword
   dali-convertable

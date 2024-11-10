@@ -26,9 +26,10 @@
         "demo/notebook/"
         ;"notebook/big_list/"
         ]
-  :cljs ["notebook/cljs"
+  :cljs ["notebook/cljs/"
          "demo/notebook/"
          ]})
+
 
 
 (eval-collections *env*)

@@ -22,15 +22,18 @@
      (when scode
        [highlightjs scode])
      (when result
-       [:div.mt-1.mb-1.w-full
+       [:div.mt-1.mb-1.w-full.h-full
+        {:style {:max-width "800px"
+                 :max-height "400px"}}
         [viewer2 result]])
      (when err
-       [viewer2 err])
+       [:div.mt-1.mb-1.w-full.h-full
+        {:style {:max-width "800px"
+                 :max-height "400px"}}
+        [viewer2 err]])
      (when (not (blank? out))
        [:div.bg-blue-200.max-w-full.overflow-x-auto
-        [text2 out]])
-
-    ]))
+        [text2 out]])]))
 
 ;; notebook
 

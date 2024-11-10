@@ -68,13 +68,13 @@
 
     (n/tag f)
     (do ;(debug "tag:" (n/tag f))
-        (-> state
-            (add-segment-md) ; add accumulated md (if any)
-            (add-segment-code kernel f)))
+      (-> state
+          (add-segment-md) ; add accumulated md (if any)
+          (add-segment-code kernel f)))
 
     :else
     (do ;(debugf "ignoring form: %s" (pr-str f))
-        state)))
+      state)))
 
 (defn text->segments [kernel code]
   ;(debug "text: " code) ; newline :map :comment

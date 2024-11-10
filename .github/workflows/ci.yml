@@ -29,14 +29,11 @@ jobs:
         cli: 1.10.3.929 # Clojure CLI based on tools.deps
     - name: clj-fmt
       run: |
-        cd reval
         clojure -M:cljfmt
-        cd ../reval-ui
         clojure -M:cljfmt
       shell: bash
     - name: test-clj
       run: |
-        cd reval
         clojure -M:test
     - name: Release
       if: success()
@@ -46,7 +43,6 @@ jobs:
         CLOJARS_PASSWORD: ${{ secrets.ReleasePassword }}
         CODECOV_TOKEN: ${{ secrets.CodecovToken }}
       run: |
-        cd reval-ui
         git config --global user.email "ci@pinkgorilla.org"
         git config --global user.name "CI/CD"
         clojure -T:build jar

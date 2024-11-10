@@ -4,25 +4,16 @@
          ]
  :deps
  {org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}
-  ;org.pinkgorilla/reval-ui {:local/root "../reval-ui" :deps/manifest :deps}
   org.pinkgorilla/webly {:mvn/version "0.7.703"}
   ; ui modules for demo notebooks:
-  org.pinkgorilla/ui-highcharts {:mvn/version "0.0.29"}
+  org.pinkgorilla/ui-vega {:mvn/version "0.3.221"}
 
   ; run by default in docs-services
   nrepl/nrepl {:mvn/version "1.2.0"}
   cider/cider-nrepl {:mvn/version "0.49.1"}}
 
  :aliases
- {; https://github.com/weavejester/cljfmt
-  :cljfmt
-  {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
-   :main-opts ["-m" "cljfmt.main" "check" "--indents" "cljfmt.edn"]}
-  :cljfmt-fix
-  {:extra-deps {cljfmt/cljfmt {:mvn/version "0.8.0"}}
-   :main-opts ["-m" "cljfmt.main" "fix" "--indents" "cljfmt.edn"]}
-
-  ; demo ui
+ {; demo ui
   :webly {:exec-fn webly.app.app/webly-build
           :exec-args {:config ["reval/demo-config.edn"]
                       :profile "npm-install"}}
@@ -47,7 +38,7 @@
   ;; notebook eval
 
   :nbeval {:exec-fn modular.system/start!
-           :exec-args {:run demo.task/eval-all-collections
+           :exec-args {:run demo.task/eval-all
                        :config  ["reval/demo-config.edn"]
                        :services "reval/task-services.edn"}}
   :nblist {:exec-fn modular.system/start!

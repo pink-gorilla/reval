@@ -9,6 +9,7 @@
                   reval.dali.viewer.notebook-viewer
                   reval.dali.viewer.collection
                   reval.dali.viewer.collection-viewer
+                  reval.dali.viewer.list
                   ; reval
                   reval.kernel.protocol
                   reval.type.converter
@@ -33,6 +34,7 @@
                     reval.dali.viewer.collection {'notebook-collection reval.dali.viewer.collection/notebook-collection }
                     reval.dali.viewer.collection-viewer {'load-transform-edn reval.dali.viewer.collection-viewer/load-transform-edn 
                                                          'collection-viewer reval.dali.viewer.collection-viewer/collection-viewer}
+                    reval.dali.viewer.list {'list-view reval.dali.viewer.list/list-view }
 
                     ; reval
                     'reval.kernel.protocol {'available-kernels reval.kernel.protocol/available-kernels

@@ -1,6 +1,5 @@
 (ns reval.dali.viewer.evalerr)
 
-
 ;; currently not used.
 
 (def show-stacktrace true)

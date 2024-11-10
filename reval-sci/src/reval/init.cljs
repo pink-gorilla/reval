@@ -1,7 +1,7 @@
 (ns reval.init
-   (:require
-    [taoensso.timbre :as timbre :refer [info]]
-    [webly.module.build :refer [load-namespace]]))
+  (:require
+   [taoensso.timbre :as timbre :refer [info]]
+   [webly.module.build :refer [load-namespace]]))
 
 (defn reval-cljs-kernel-init []
   (info "goldly reval cljs-kernel-init ..")

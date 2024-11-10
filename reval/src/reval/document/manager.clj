@@ -34,7 +34,6 @@
 (defn get-filename-ns [this nbns name]
   (str (get-path-ns this nbns) "/" name))
 
-
 (defn delete-recursively [fname]
   (doseq [f (reverse (file-seq (clojure.java.io/file fname)))]
     (clojure.java.io/delete-file f true)))
@@ -94,12 +93,9 @@
                                     :demo [:clj "demo/notebook/"]
                                     :demo-cljs [:cljs "demo/notebook/"]}}})
 
-
-
   (get-filename-ns this "demo.study3" "bongo.txt")
 
- (get-link-ns this "demo.notebook.image" "bongo.txt")
-
+  (get-link-ns this "demo.notebook.image" "bongo.txt")
 
   (save this {:a 1 :b "bongotrott" :c [1 2 3]}  "demo.3" "bongotrott" :edn)
   (save this {:a 1 :b "bongotrott" :c [1 2 3]} "demo.3" "bongotrott-1" :edn)

@@ -19,11 +19,11 @@
 
 (defn err-adjust [e]
   (when-let [sci-err (exception->error e)]
-    (plot/hiccup 
-       [:div 
-         (pr-str 
-           {:sci-compilation-error true
-            :err-sci sci-err})])))
+    (plot/hiccup
+     [:div
+      (pr-str
+       {:sci-compilation-error true
+        :err-sci sci-err})])))
 
 (defonce cur-ns (r/atom "user"))
 
