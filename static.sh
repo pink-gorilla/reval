@@ -12,3 +12,4 @@ clojure -X:webly:release-adv
 clojure -X:webly:static
 clojure -X:nbeval
 cp .reval/public/rdocument target/static/r -r
+echo "done"
