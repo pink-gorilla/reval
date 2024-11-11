@@ -11,4 +11,4 @@ clojure -X:webly:npm-install
 clojure -X:webly:release-adv
 clojure -X:webly:static
 clojure -X:nbeval
-cp target/webly/public/rdocument target/static/r -r
+cp .reval/public/rdocument target/static/r -r
