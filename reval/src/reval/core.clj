@@ -56,12 +56,12 @@
    nb-welcome))
 
 (defn eval-collections [{:keys [rdocument collections] :as this}]
+  (info "eval collections.. ")
+  (nbcol/eval-collections this collections)
   (info "build collection index for collections:  "  collections)
   (spit
    (str (:fpath rdocument) "/notebooks.edn")
    (nbcol/collections-ns-summary collections))
   (info "generate index notebook.. ")
-  (save-welcome this)
-  (info "eval collections.. ")
-  (nbcol/eval-collections this collections))
+  (save-welcome this))
 

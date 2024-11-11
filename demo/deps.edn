@@ -40,8 +40,4 @@
   :nbeval {:exec-fn modular.system/start!
            :exec-args {:run demo.task/eval-all
                        :config  ["reval/demo-config.edn"]
-                       :services "reval/task-services.edn"}}
-  :nblist {:exec-fn modular.system/start!
-           :exec-args {:run demo.task/print-all-collections
-                       :config  ["reval/demo-config.edn"]
                        :services "reval/task-services.edn"}}}}
