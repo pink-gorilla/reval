@@ -19,19 +19,8 @@
    [dali.viewer.text :refer [text]]))
 
 (defn nil-result? [result]
-  (println "result: " result)
-  (let [data (:data result)
-        [span _opts val] data
-        ;nilr (= data [:span {:style {:color "grey"}} nil])
-        is-vector (vector? data)
-        is-span (= span :span)
-        is-nil (= val "nil")
-        nilr (and is-vector is-span is-nil)]
-    (println "data: " data "nilr: " nilr "span: " span " val: " val
-             "is-span " is-span
-             "is-nil " is-nil
-             "is-vector " is-vector)
-    nilr))
+  (let [data (:data result)]
+    (= data [:span {:style {:color "grey"}} "nil"])))
 
 (defn segment [{:keys [_id  err out result] :as segment}]
   ; copied and modified from ; [reval.dali.viewer.notebook :refer [segment]]
