@@ -1,6 +1,7 @@
 (ns reval.frepl
   (:require
    [taoensso.timbre :refer-macros [debugf info warn warnf error]]
+   [clojure.string :refer [blank?]]
    [reagent.core :as r]
    [promesa.core :as p]
    [nano-id.core :refer [nano-id]]
@@ -14,7 +15,45 @@
    ; kernel
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.kernel.clj-remote] ; side effects
-   [reval.dali.viewer.notebook :refer [segment]]))
+   [dali.viewer :refer [viewer2]]
+   [dali.viewer.text :refer [text]]))
+
+(defn nil-result? [result]
+  (println "result: " result)
+  (let [data (:data result)
+        [span _opts val] data
+        ;nilr (= data [:span {:style {:color "grey"}} nil])
+        is-vector (vector? data)
+        is-span (= span :span)
+        is-nil (= val "nil")
+        nilr (and is-vector is-span is-nil)]
+    (println "data: " data "nilr: " nilr "span: " span " val: " val
+             "is-span " is-span
+             "is-nil " is-nil
+             "is-vector " is-vector)
+    nilr))
+
+(defn segment [{:keys [_id  err out result] :as segment}]
+  ; copied and modified from ; [reval.dali.viewer.notebook :refer [segment]]
+  ; reason: frepl should have big view of the resulting data, and in a 
+  ; notebook the layout is different.
+  (println "frepl segment: " segment)
+  (cond
+    (and result (not (nil-result? result)))
+    [:div.mt-1.mb-1.w-full.h-full
+     {:style {:max-width "800px"
+              :max-height "400px"}}
+     [viewer2 result]]
+    err
+    [:div.mt-1.mb-1.w-full.h-full
+     {:style {:max-width "800px"
+              :max-height "400px"}}
+     [viewer2 err]]
+    (not (blank? out))
+    [text {:text out
+           :class "bg-blue-200 max-w-full overflow-x-auto h-full w-full"}]
+    :else
+    [:div "no result/error/console output."]))
 
 ;; codemirror
 
