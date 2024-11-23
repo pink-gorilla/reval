@@ -14,12 +14,12 @@
                   reval.kernel.protocol
                   reval.type.converter
                   reval.type.cljs ; side-effects; load protocols for cljs and sci
-
                   ; pages
                   reval.page.viewer
                   reval.page.repl
                   ;reval.notebook-ui.editor
-                  ;reval.frepl
+                  ; floating repl
+                  reval.frepl
                   ]
  :cljs-ns-bindings {; dali plot
                     reval.dali.plot.type {'simplevalue->dali reval.dali.plot.type/simplevalue->dali
@@ -48,8 +48,8 @@
                     'reval.page.viewer {'viewer-page reval.page.viewer/viewer-page}
                     'reval.page.repl {'repl-page reval.page.repl/repl-page}
                     ;'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}
-                    ;'reval.frepl {'show-floating-repl reval.frepl/show-floating-repl
-                    ;              'show-floating-repl-namespace reval.frepl/show-floating-repl-namespace}
+                    'reval.frepl {'show-floating-repl reval.frepl/show-floating-repl
+                                  'show-floating-repl-namespace reval.frepl/show-floating-repl-namespace}
                     }
 
  ; run 
