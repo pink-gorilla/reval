@@ -156,7 +156,7 @@
   (let [id (str (nano-id 5))]
     (overlay-add id [rnd {:bounds "window"
                           :default {:width 400 :height 400 :x 50 :y 60}
-                          :style {:position  "fixed"
+                          :style {;:position  "fixed" ; this works here, but in docy docs it does not longer show.
                                   :border "solid 2px blue"
                                   :background "#f0f0f0"
                                   :display "grid"
