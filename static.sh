@@ -1,6 +1,6 @@
  #!/bin/sh
 cd demo
-rm target -r
+rm .gorilla -r
 rm .shadow-cljs -r
 rm .cpcache -r
 rm package.json
@@ -11,5 +11,5 @@ clojure -X:webly:npm-install
 clojure -X:webly:release-adv
 clojure -X:webly:static
 clojure -X:nbeval
-cp .reval/public/rdocument target/static/r -r
+# cp .reval/public/rdocument target/static/r -r
 echo "done"

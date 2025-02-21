@@ -2,7 +2,7 @@
          "resources" ; extension
          ]
  :deps {
-        org.pinkgorilla/goldly {:mvn/version "0.7.684"}
+        org.pinkgorilla/goldly {:mvn/version "0.9.685"}
         org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
         
         

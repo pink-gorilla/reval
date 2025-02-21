@@ -1,4 +1,4 @@
-{:reval {:rdocument  {:fpath ".reval/public/rdocument"
+{:reval {:rdocument  {:fpath ".gorilla/public/rdocument"
                       :rpath "/r/rdocument"}
          :collections {:study {:clj "notebook/study/"}
                        ;:big-list {:clj "notebook/big_list/"}

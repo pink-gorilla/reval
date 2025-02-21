@@ -6,7 +6,7 @@
 
 (require '[babashka.http-server :as http-server])
 
-(println "open http://localhost:8080/static")
+(println "open http://localhost:8080/static/")
 
 (http-server/exec {:port 8080
-              :dir "./target"})
+              :dir "./.gorilla"})
