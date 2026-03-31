@@ -13,7 +13,7 @@
 ; we now have nil checker. so shoudl be better ?
 #_(extend-type Object
     dali-convertable
-    (to-dali [v env]
+    (to-dali [v _env]
     ; no logging in production!
     ;this fucks up nrepl and then 
     ;(warnf "rendering unknown clj type: %s data: %s" (type self) (pr-str self))
@@ -22,106 +22,106 @@
 ;; nil values are a distinct thing of their own
 (extend-type nil
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-nil")))
 
 (extend-type Boolean
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-boolean")))
 
 (extend-type clojure.lang.Symbol
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-symbol")))
 
 (extend-type clojure.lang.Namespace
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-namespace")))
 
 (extend-type clojure.lang.Keyword
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-keyword")))
 
 (extend-type clojure.lang.Var
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-var")))
 
 (extend-type clojure.lang.Atom
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-atom")))
 
 (extend-type clojure.lang.Agent
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-agent")))
 
 (extend-type clojure.lang.Ref
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-ref")))
 
 (extend-type java.lang.Class
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-class")))
 
 ;; primitive types
 
 (extend-type java.lang.Character
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-char")))
 
 (extend-type java.lang.String
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-string")))
 
 (extend-type java.lang.Integer
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-int")))
 
 (extend-type java.lang.Long
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-long")))
 
 (extend-type clojure.lang.BigInt
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-bigint")))
 
 (extend-type java.lang.Float
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-float")))
 
 (extend-type java.lang.Double
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-double")))
 
 (extend-type java.math.BigDecimal
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-bigdecimal")))
 
 (extend-type clojure.lang.Ratio
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-ratio")))
 
 ;; time
 
 (extend-type java.time.LocalDate
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v _env]
     (simplevalue->dali v "clj-localdate")))
 
 ;; renderers for collection of items

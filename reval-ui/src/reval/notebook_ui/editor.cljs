@@ -4,7 +4,7 @@
    [ui.codemirror.theme :as theme]
    [ui.codemirror.api :as api]
    [ui.codemirror.codemirror :refer [codemirror get-editor]]
-   [goldly.service.core :refer [clj]]
+   [clj-service.http :refer [clj]]
    [reval.notebook-ui.rewrite :refer [block-for]]))
 
 (defonce editor-id (r/atom 27))
@@ -28,7 +28,8 @@
 (defn cm-editor []
   [:<>
    [theme/style-codemirror-fullscreen] ;cm/style-inline
-   [:div.my-codemirror.w-full.h-full
+   [:div.my-codemirror {:style {:width "100%"
+                                :height "100%"}}
     [codemirror @editor-id cm-opts]]])
 
 (defn current-expression []

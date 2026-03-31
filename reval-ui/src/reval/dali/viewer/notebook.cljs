@@ -17,22 +17,30 @@
 
 (defn segment [{:keys [_id _ns _src err out result] :as segment}]
   (let [scode (:code segment)]
-    [:div.flex.flex-col
-     ;(pr-str segment)
+    [:div {:style {:display "flex"
+                   :flex-direction "column"}}
      (when scode
        [highlightjs scode])
      (when result
-       [:div.mt-1.mb-1.w-full.h-full
-        {:style {:max-width "800px"
-                 :max-height "400px"}}
+       [:div {:style {:margin-top "4px"
+                      :margin-bottom "4px"
+                      :width "100%"
+                      :height "100%"
+                      :max-width "800px"
+                      :max-height "400px"}}
         [viewer2 result]])
      (when err
-       [:div.mt-1.mb-1.w-full.h-full
-        {:style {:max-width "800px"
-                 :max-height "400px"}}
+       [:div {:style {:margin-top "4px"
+                      :margin-bottom "4px"
+                      :width "100%"
+                      :height "100%"
+                      :max-width "800px"
+                      :max-height "400px"}}
         [viewer2 err]])
      (when (not (blank? out))
-       [:div.bg-blue-200.max-w-full.overflow-x-auto
+       [:div {:style {:background "#bfdbfe"
+                      :max-width "100%"
+                      :overflow-x "auto"}}
         [text2 out]])]))
 
 ;; notebook
@@ -40,16 +48,28 @@
 (def show-notebook-debug-ui false)
 
 (defn notebook-debug [nb]
-  [:div.bg-gray-500.mt-5
-   [:p.font-bold "notebook debug ui"]
+  [:div {:style {:background "#6b7280"
+                 :margin-top "1.25rem"}}
+   [:p {:style {:font-weight "700"}} "notebook debug ui"]
    (pr-str nb)])
 
 (defn notebook [{:keys [meta content] :as nb}]
   (let [{:keys [ns eval-time]} meta]
-    [:div.bg-indigo-50.p-2.max-w-full.overflow-x-auto
-     [:h1.text-xl.text-blue-800.text-xl.pb-2 ns]
-     [:p.pb-2 "evaluated: " eval-time]
-     [:hr.h-full.border-solid]
+    [:div {:style {:background "#eef2ff"
+                   :padding "8px"
+                   :max-width "100%"
+                   :overflow-x "auto"}}
+     [:h1 {:style {:font-size "1.25rem"
+                   :line-height "1.75rem"
+                   :color "#1e40af"
+                   :padding-bottom "8px"
+                   :margin "0"}}
+      ns]
+     [:p {:style {:padding-bottom "8px"
+                  :margin "0"}}
+      "evaluated: " eval-time]
+     [:hr {:style {:width "100%"
+                   :border-style "solid"}}]
      (into [:div]
            (map segment content))
      (when show-notebook-debug-ui

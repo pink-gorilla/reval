@@ -1,6 +1,7 @@
 {:deps {reval/reval {:local/root "./reval" :deps/manifest :deps}
         reval/reval-ui {:local/root "./reval-ui" :deps/manifest :deps}
-        reval/reval-sci {:local/root "./reval-sci" :deps/manifest :deps}}
+        ;reval/reval-sci {:local/root "./reval-sci" :deps/manifest :deps}
+        }
  
 
  :aliases
@@ -36,7 +37,7 @@
  
   ; https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md
   :lint
-  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2024.03.13"}}
+  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2026.01.19"}}
    :main-opts ["-m" "clj-kondo.main"
                "--lint"
                "reval/src"

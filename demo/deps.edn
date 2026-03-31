@@ -3,12 +3,14 @@
          ".reval"
          ]
  :deps
- {org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}
-  org.pinkgorilla/webly {:mvn/version "0.9.716"}
+ {org.pinkgorilla/ui-router {:mvn/version "0.3.46"}
+  org.pinkgorilla/webly {:mvn/version "0.20.736"}
+  org.pinkgorilla/shadow-x {:mvn/version "0.3.27"}
   ; ui modules for demo notebooks:
   org.pinkgorilla/ui-vega {:mvn/version "0.3.221"}
-
-  ; run by default in docs-services
+  org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}
+  
+  ; run in services
   nrepl/nrepl {:mvn/version "1.2.0"}
   cider/cider-nrepl {:mvn/version "0.49.1"}}
 
@@ -36,7 +38,7 @@
                     :services "reval/demo-services.edn"}}
 
   ;; notebook eval
-
+  
   :nbeval {:exec-fn modular.system/start!
            :exec-args {:run demo.task/eval-all
                        :config  ["reval/demo-config.edn"]

@@ -3,7 +3,7 @@
    [reagent.core :as r]
    [promesa.core :as p]
    [taoensso.timbre :refer [debug info warnf error]]
-   [goldly.service.core :refer [clj]]
+   [clj-service.http :refer [clj]]
    [reval.kernel.protocol :refer [kernel-eval]]))
 
 (defonce cur-ns (r/atom "user"))

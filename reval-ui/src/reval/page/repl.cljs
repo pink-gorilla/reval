@@ -2,9 +2,10 @@
   (:require
    [reagent.core :as r]
    [re-frame.core :as rf]
+   [reitit.frontend.easy :as rfe]
    [promesa.core :as p]
    [spaces.core]
-   [goldly.service.core :refer [clj]]
+   [clj-service.http :refer [clj]]
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.kernel.clj-remote] ; side effects
    [reval.dali.viewer.collection-viewer :refer [collection-viewer]]
@@ -64,22 +65,54 @@
   ;(reset! eval/cur-ns nbns)
   (reset! cur-fmt fmt)
   (reset! cur-path path)
-  [:div.pt-5
-   [:span.text-xl.text-blue-500.text-bold.mr-4 "repl"]
+  [:div {:style {:padding-top "1.25rem"}}
+   [:span {:style {:font-size "1.25rem"
+                   :line-height "1.75rem"
+                   :color "#3b82f6"
+                   :font-weight "700"
+                   :margin-right "1rem"}}
+    "repl"]
    [:span "ns: " nbns "  format: " fmt]
-   [:button.bg-gray-400.m-1 {:on-click #(eval-all fmt)} "eval all"]
-   [:button.bg-gray-400.m-1 {:on-click #(eval-segment fmt)} "eval current"]
-   [:button.bg-gray-400.m-1 {:on-click #(eval-nb nbns fmt)} "nb eval"]
-   [:button.bg-gray-400.m-1 {:on-click #(cme/save-code path)} "save"]
-   [:div.bg-blue-300.inline-block
-    ; output
-    [:button.bg-gray-400.m-1 {:on-click clear} "clear output"]
-    [:button.bg-red-400.m-1 #_{:on-click eval-clj} "send to pages"]]])
+   [:button {:style {:background "#9ca3af"
+                     :margin "4px"
+                     :cursor "pointer"}
+             :on-click #(eval-all fmt)}
+    "eval all"]
+   [:button {:style {:background "#9ca3af"
+                     :margin "4px"
+                     :cursor "pointer"}
+             :on-click #(eval-segment fmt)}
+    "eval current"]
+   [:button {:style {:background "#9ca3af"
+                     :margin "4px"
+                     :cursor "pointer"}
+             :on-click #(eval-nb nbns fmt)}
+    "nb eval"]
+   [:button {:style {:background "#9ca3af"
+                     :margin "4px"
+                     :cursor "pointer"}
+             :on-click #(cme/save-code path)}
+    "save"]
+   [:div {:style {:background "#93c5fd"
+                  :display "inline-block"}}
+    [:button {:style {:background "#9ca3af"
+                      :margin "4px"
+                      :cursor "pointer"}
+              :on-click clear}
+     "clear output"]
+    [:button {:style {:background "#f87171"
+                      :margin "4px"
+                      :cursor "pointer"}}
+     "send to pages"]]])
 
 (defn repl-output []
-  [:div.w-full.h-full.bg-gray-500
+  [:div {:style {:width "100%"
+                 :height "100%"
+                 :background "#6b7280"}}
    [:div#repltarget]
-   [:div.overflow-scroll.h-full.w-full
+   [:div {:style {:overflow "scroll"
+                  :height "100%"
+                  :width "100%"}}
     [notebook @nb-a]]])
 
 (defn editor [_ns _fmt _path]
@@ -101,8 +134,7 @@
         [cme/cm-editor]))))
 
 (defn goto-nb [nbinfo]
-  (rf/dispatch [:bidi/goto 'reval.page.repl/repl-page
-                :query-params nbinfo]))
+  (rfe/navigate 'reval.page.repl/repl-page {:query-params nbinfo}))
 
 (defn repl [opts]
   (fn [{:keys [nbns ext path]
@@ -112,19 +144,23 @@
     [spaces.core/viewport
      [spaces.core/top-resizeable {:size "10%"
                                   :scrollable false
-                                  :class "bg-gray-100"} ; max-h-full overflow-y-auto
+                                  :style {:background "#f3f4f6"}}
       [repl-header nbns ext path]]
      [spaces.core/fill {}
       [spaces.core/left-resizeable {:size "10%"
                                     :scrollable true
-                                    :class "bg-gray-100 max-h-full overflow-y-auto"}
+                                    :style {:background "#f3f4f6"
+                                            :max-height "100%"
+                                            :overflow-y "auto"}}
        [collection-viewer
         {:link goto-nb}]]
       [spaces.core/fill {}
        [editor nbns ext path]] ; [:div.h-full.w-full.bg-blue-900.max-h-full.overflow-y-auto]
       [spaces.core/right-resizeable {:size "50%"
                                      :scrollable true
-                                     :class "bg-blue-100 max-h-full overflow-y-auto"}
+                                     :style {:background "#dbeafe"
+                                             :max-height "100%"
+                                             :overflow-y "auto"}}
        [repl-output]]]]))
 
 (defn repl-page [{:keys [_route-params query-params _handler] :as _route}]

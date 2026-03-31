@@ -1,8 +1,9 @@
 (ns reval.dali.viewer.notebook-viewer
   (:require
-   [webly.spa.mode :refer [get-resource-path]]
+   [shadowx.core :refer [get-resource-path]]
+   [dali.viewer :refer [viewer2]]
    [reval.document.path :refer [ns->dir]]
-   [dali.viewer :refer [viewer2]]))
+   ))
 
 (defn url-notebook [nbns]
   ; target/webly/public/rdocument/notebook/study/movies/notebook.edn

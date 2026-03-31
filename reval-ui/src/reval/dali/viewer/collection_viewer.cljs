@@ -2,8 +2,9 @@
   (:require
    [promesa.core :as p]
    [dali.transform.load :refer [load-edn]]
-   [webly.spa.mode :refer [get-resource-path]]
-   [dali.viewer :refer [viewer2]]))
+   [dali.viewer :refer [viewer2]]
+   [shadowx.core :refer [get-resource-path]]
+   ))
 
 (defn url-collections []
   ; target/webly/public/rdocument/notebooks.edn

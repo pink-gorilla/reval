@@ -1,4 +1,9 @@
-{:reval {:rdocument  {:fpath ".gorilla/public/rdocument"
+{:spa {:title "reval-demo"
+       :mount-fn router.app/mount}
+ :reitit {:wrap demo.app/wrap}
+ :cljs-routes-reitit demo.app/routes
+ 
+ :reval {:rdocument  {:fpath ".gorilla/public/rdocument"
                       :rpath "/r/rdocument"}
          :collections {:study {:clj "notebook/study/"}
                        ;:big-list {:clj "notebook/big_list/"}

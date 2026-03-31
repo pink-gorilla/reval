@@ -12,7 +12,7 @@
   (if ex
     (-> er
         (dissoc :ex)
-        (assoc :err (plot/exception "" ex)))
+        (assoc :err (plot/exception ex)))
     (-> er
         (dissoc :value)
         (assoc :result (type->dali env value)))))

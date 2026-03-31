@@ -1,9 +1,9 @@
 {:paths ["src"]
  :deps
- {org.clojure/clojure    {:mvn/version "1.11.1"}
+ {org.clojure/clojure    {:mvn/version "1.12.4"}
   funcool/promesa {:mvn/version "11.0.674"}
   rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}
-  org.pinkgorilla/modular {:mvn/version "0.2.61"}
-  org.pinkgorilla/timbre {:mvn/version "0.0.7"}
-  org.pinkgorilla/dali {:mvn/version "0.2.31"}
+  org.pinkgorilla/modular {:mvn/version "0.3.77"}
+  org.pinkgorilla/timbre {:mvn/version "0.0.8"}
+  org.pinkgorilla/dali {:mvn/version "0.6.41"}
   }}

@@ -1,11 +1,7 @@
 {:paths ["src"
          "resources" ; extension
          ]
- :deps {
-        org.pinkgorilla/goldly {:mvn/version "0.9.685"}
-        org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}
-        
-        
-        }
+ :deps {org.pinkgorilla/goldly {:mvn/version "0.9.686"}
+        org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}}
 ;
  }

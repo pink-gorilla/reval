@@ -11,7 +11,7 @@
    [ui.codemirror.api :as api]
    [ui.codemirror.codemirror :refer [codemirror get-editor]]
    ; clj service
-   [goldly.service.core :refer [clj]]
+   [clj-service.http :refer [clj]]
    ; kernel
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.kernel.clj-remote] ; side effects
@@ -29,18 +29,28 @@
   (println "frepl segment: " segment)
   (cond
     (and result (not (nil-result? result)))
-    [:div.mt-1.mb-1.w-full.h-full
-     {:style {:max-width "800px"
-              :max-height "400px"}}
+    [:div {:style {:margin-top "4px"
+                   :margin-bottom "4px"
+                   :width "100%"
+                   :height "100%"
+                   :max-width "800px"
+                   :max-height "400px"}}
      [viewer2 result]]
     err
-    [:div.mt-1.mb-1.w-full.h-full
-     {:style {:max-width "800px"
-              :max-height "400px"}}
+    [:div {:style {:margin-top "4px"
+                   :margin-bottom "4px"
+                   :width "100%"
+                   :height "100%"
+                   :max-width "800px"
+                   :max-height "400px"}}
      [viewer2 err]]
     (not (blank? out))
-    [text {:text out
-           :class "bg-blue-200 max-w-full overflow-x-auto h-full w-full"}]
+    [:div {:style {:background "#bfdbfe"
+                   :max-width "100%"
+                   :overflow-x "auto"
+                   :height "100%"
+                   :width "100%"}}
+     [text {:text out}]]
     :else
     [:div "no result/error/console output."]))
 
@@ -89,11 +99,11 @@
                            (p/then rp (fn [res]
                                         (reset! show-data-a true)))))]
 
-    [:div {:display "flex"
-           :width "100%"
-           :flexdirection "column"
-           :justifycontent "space-between"
-           :class "bg-gray-300"}
+    [:div {:style {:display "flex"
+                   :width "100%"
+                   :flex-direction "column"
+                   :justify-content "space-between"
+                   :background "#d1d5db"}}
      [:style ".toolbar-item {
                                   padding: 1px;
                                   cursor: pointer;
@@ -116,15 +126,19 @@
       {:on-click #(swap! show-data-a not)}
       (if @show-data-a "code" "result")]
      (when-not @show-data-a
-       [:button.bg-gray-400.m-1.p-1.toolbar-item {:on-click #(eval-to-result)
-                                                                   ;#(eval-code id opts data-a)
-                                                  }"eval"])
+       [:button.toolbar-item {:style {:background "#9ca3af"
+                                      :margin "4px"
+                                      :padding "4px"}
+                              :on-click #(eval-to-result)}
+        "eval"])
             ;[:span.toolbar-item "menu"]
-     [:button
-      {:class "bg-gray-400 m-1 p-1 toolbar-item"
-       :style {;:margin-left "auto" ; align one flex child to the right
+     [:button.toolbar-item
+      {:style {:background "#9ca3af"
+               :margin "4px"
+               :padding "4px"
                :float "right"}
-       :on-click #(overlay-remove id)} "x"]]))
+       :on-click #(overlay-remove id)}
+      "x"]]))
 
 (defn result [data-a show-data-a]
   [:div {:style {:overflow "hidden"
