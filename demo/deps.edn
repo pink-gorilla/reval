@@ -7,7 +7,7 @@
   org.pinkgorilla/webly {:mvn/version "0.20.736"}
   org.pinkgorilla/shadow-x {:mvn/version "0.3.27"}
   ; ui modules for demo notebooks:
-  org.pinkgorilla/ui-vega {:mvn/version "0.3.221"}
+  org.pinkgorilla/dali-table {:mvn/version "0.6.105"}
   org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}
   
   ; run in services
