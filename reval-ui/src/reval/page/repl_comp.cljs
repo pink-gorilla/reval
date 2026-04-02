@@ -5,18 +5,21 @@
    [reagent.core :as r]
    [promesa.core :as p]
    [nano-id.core :refer [nano-id]]
+   ; ui stuff
    [uix.core :refer [$ defui]]
    ["react" :as react]
+   [ui.codemirror.theme :as theme]
+   [ui.codemirror.codemirror :refer [codemirror codemirror-themed]]
+   [layout.flexlayout.core2 :as flc]
+   [layout.flexlayout.comp :refer [component-ui]]
+   ; gorilla
    [clj-service.http :refer [clj]]
+   ; reval
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.dali.viewer.directory-explorer-viewer :refer [directory-explorer-viewer]]
    [reval.dali.viewer.notebook :refer [notebook empty-notebook add-segment]]
    [reval.notebook-ui.editor-tab :as edtab]
-   [reval.page.repl-flex :as rflex]
-   [layout.flexlayout.core :as flc]
-   [layout.flexlayout.comp :refer [component-ui]]
-   [ui.codemirror.theme :as theme]
-   [ui.codemirror.codemirror :refer [codemirror]]))
+   [reval.page.repl-flex :as rflex]))
 
 (def cm-opts {:lineWrapping false})
 
@@ -159,32 +162,31 @@
                :on-click #(clear-local! m)}
       "clear output"]]))
 
-(defn- repl-code-panel [_]
-  (let [load-key (r/atom nil)]
-    (fn [opts]
-      (let [st (:state opts)
-            cfg (rflex/config-map (:config opts))
-            merged (merge cfg @st)
-            {:keys [editor-id nbns path res-path ext]} merged
-            fmt-kw (keyword (or ext :clj))
-            k [nbns fmt-kw path res-path]]
-        (when (and editor-id (not= @load-key k))
-          (reset! load-key k)
-          (-> (if (str/blank? (str res-path))
-                (clj {:timeout 1000}
-                     'reval.document.notebook/load-src nbns fmt-kw)
-                (clj {:timeout 1000}
-                     'reval.document.notebook/load-src-by-res-path res-path))
-              (p/then (fn [src]
-                        (js/setTimeout #(edtab/cm-set-code editor-id src) 0)))))
-        [:div {:style {:height "100%" :width "100%" :min-height 0
-                       :display "flex" :flex-direction "column"}}
-         [tab-toolbar merged]
-         [:div {:style {:flex 1 :min-height 0 :display "flex" :flex-direction "column"
-                        :overflow "hidden"}}
-          [theme/style-codemirror-fullscreen]
-          [:div.my-codemirror {:style {:flex 1 :min-height 0 :width "100%"}}
-           [codemirror editor-id cm-opts]]]]))))
+(defn- repl-code-panel [opts]
+  (r/with-let [load-key (r/atom nil)]
+    (let [st (:state opts)
+          cfg (rflex/config-map (:config opts))
+          merged (merge cfg @st)
+          {:keys [editor-id nbns path res-path ext]} merged
+          fmt-kw (keyword (or ext :clj))
+          k [nbns fmt-kw path res-path]]
+      (when (and editor-id (not= @load-key k))
+        (reset! load-key k)
+        (-> (if (str/blank? (str res-path))
+              (clj {:timeout 1000}
+                   'reval.document.notebook/load-src nbns fmt-kw)
+              (clj {:timeout 1000}
+                   'reval.document.notebook/load-src-by-res-path res-path))
+            (p/then (fn [src]
+                      (js/setTimeout #(edtab/cm-set-code editor-id src) 0)))))
+      [:div {:style {:height "100%" :width "100%" :min-height 0
+                     :display "flex" :flex-direction "column"}}
+       [tab-toolbar merged]
+       [theme/style-codemirror-fullscreen]
+       [:div {:style {:flex 1 :min-height 0 :display "flex" :flex-direction "column"
+                      :overflow "hidden"}}
+        [:div.my-codemirror {:style {:flex 1 :min-height 0 :width "100%"}}
+         [codemirror-themed editor-id cm-opts]]]])))
 
 (defn- repl-notebook-panel [_]
   (fn [opts]

@@ -32,8 +32,14 @@
 
 (defn viewer-page [{:keys [_route-params query-params _handler] :as _route}]
   [:div {:style {:background "#86efac"
+                 :position "fixed"
                  :width "100vw"
-                 :height "100vh"}}
+                 :height "100vh"
+                 :left "0px"
+                 :top "0px"
+                 :margin "0px"
+                 :padding "0px"
+                 }}
    [viewer query-params]])
 
 

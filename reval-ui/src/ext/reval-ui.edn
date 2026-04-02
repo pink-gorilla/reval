@@ -22,7 +22,7 @@
                   reval.page.repl-comp
                   reval.page.repl
                   reval.notebook-ui.editor-tab
-                  layout.flexlayout.core
+                  layout.flexlayout.core2
                   ;reval.notebook-ui.editor
                   ; floating repl
                   reval.frepl

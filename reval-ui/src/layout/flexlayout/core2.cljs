@@ -1,4 +1,4 @@
-(ns layout.flexlayout.core
+(ns layout.flexlayout.core2
   "Vendored from org.pinkgorilla/flexlayout with :dock on add-node (:center default, :right/:left/:top/:bottom via Model.doAction).
   Supports optional :layout-state / :selection-atom for nested Layout (sublayout) without clobbering the root state-a."
   (:require

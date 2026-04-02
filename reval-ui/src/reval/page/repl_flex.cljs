@@ -7,11 +7,13 @@
    [shadowx.core :refer [get-resource-path]]
    [uix.core :refer [$]]
    [clj-service.http :refer [clj]]
+   ; flexlayout
+   [layout.flexlayout.core2 :as flc]
+   ["flexlayout-react" :refer [Actions]]
+   ; reval
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.dali.viewer.notebook :refer [add-segment empty-notebook]]
-   [reval.notebook-ui.editor-tab :as edtab]
-   [layout.flexlayout.core :as flc]
-   ["flexlayout-react" :refer [Actions]]))
+   [reval.notebook-ui.editor-tab :as edtab]))
 
 ;; Merged tab state for the selected repl file tab (keyboard / toolbar).
 (defonce repl-selection-a (r/atom nil))

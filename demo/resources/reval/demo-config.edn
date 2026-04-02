@@ -12,6 +12,8 @@
                        :demo {:clj "demo/notebook/" ; embedded notebooks in jars.
                               :cljs "demo/notebook/"}}}
 
+ :css/theme {:codemirror "midnight"}
+
  :keybindings [{:kb "alt-g k",
                 :handler [:palette/show],
                 :desc "Keybindings dialog"}
