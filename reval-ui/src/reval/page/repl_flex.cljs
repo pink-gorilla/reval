@@ -44,7 +44,10 @@
 (defn sync-repl-selection! []
   (let [sid @flc/selected-id-a
         da (flex-data-a)
-        entry (when da (get @da sid))]
+        entry (when da (get @da sid))
+        entry (if (and (map? entry) (= :repl-file (:kind entry)))
+                (:st entry)
+                entry)]
     (reset! repl-selection-a entry)
     (reset! explorer-highlight-res-path (str (or (:res-path entry) "")))))
 
@@ -90,10 +93,16 @@
   (let [rp (str res-path)
         da (flex-data-a)]
     (when (and da (not (str/blank? rp)))
-      (some (fn [[tab-id st]]
-              (when (and (map? st) (= rp (str (:res-path st))))
-                tab-id))
-            @da))))
+      (or (some (fn [[tab-id v]]
+                  (when (and (map? v)
+                             (= :repl-file (:kind v))
+                             (= rp (str (get-in v [:st :res-path]))))
+                    tab-id))
+                @da)
+          (some (fn [[tab-id v]]
+                  (when (and (map? v) (not (:kind v)) (= rp (str (:res-path v))))
+                    tab-id))
+                @da)))))
 
 (defn- select-existing-file-tab! [tab-id]
   (when-let [^js model (:model @flc/state-a)]
@@ -112,16 +121,31 @@
                 cfg {:nbns (:nbns nbinfo)
                      :path path-str
                      :res-path rp
-                     :ext (:ext nbinfo)}]
-            (flc/add-node
-             {:type "tab"
-              :name tab-name
-              :component "reval-repl-file"
-              :config cfg
-              :state (merge {:nb-a (r/atom (empty-notebook))
-                             :editor-id eid
-                             :fmt :clj}
-                            cfg)})))))))
+                     :ext (:ext nbinfo)}
+                st (merge {:nb-a (r/atom (empty-notebook))
+                           :editor-id eid
+                           :fmt :clj}
+                          cfg)
+                id-code (str "repl-code-" (nano-id 6))
+                id-nb (str "repl-nb-" (nano-id 6))
+                outer-id (str "repl-file-" (nano-id 6))
+                cfg-shell (assoc cfg
+                            :repl-inner-code-id id-code
+                            :repl-inner-nb-id id-nb
+                            :repl-tab-name tab-name)]
+            (when-let [da (:data-a @flc/state-a)]
+              (swap! da assoc id-code st id-nb st))
+            (flc/add-node {:type "tab"
+                           :name tab-name
+                           :component "reval-repl-file-layout"
+                           :config cfg-shell
+                           :state {:kind :repl-file
+                                   :code-id id-code
+                                   :nb-id id-nb
+                                   :st st}
+                           :id outer-id
+                           :enableClose true
+                           :dock :center})))))))
 
 (defn consume-pending-open-file! []
   (when-let [m @pending-open-file]

@@ -4,13 +4,16 @@
    [clojure.string :as str]
    [reagent.core :as r]
    [promesa.core :as p]
+   [nano-id.core :refer [nano-id]]
    [uix.core :refer [$ defui]]
+   ["react" :as react]
    [clj-service.http :refer [clj]]
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.dali.viewer.directory-explorer-viewer :refer [directory-explorer-viewer]]
    [reval.dali.viewer.notebook :refer [notebook empty-notebook add-segment]]
    [reval.notebook-ui.editor-tab :as edtab]
    [reval.page.repl-flex :as rflex]
+   [layout.flexlayout.core :as flc]
    [layout.flexlayout.comp :refer [component-ui]]
    [ui.codemirror.theme :as theme]
    [ui.codemirror.codemirror :refer [codemirror]]))
@@ -19,7 +22,62 @@
 
 (defui welcome-pane [_]
   ($ :div {:style {:padding "24px" :color "#6b7280" :font-size "14px"}}
-     "Open a notebook source from the tree on the left. Each file opens in a new tab with the editor on the left and notebook output on the right."))
+     "Open a notebook source from the tree on the left. Each file is one tab with code and output inside it; closing that tab removes both. Resize the splitter between editor and results as needed."))
+
+(defn- repl-file-inner-config [cfg]
+  (dissoc cfg :repl-inner-code-id :repl-inner-nb-id :repl-tab-name))
+
+(defui repl-file-layout-pane [opts]
+  (let [cfg (rflex/config-map (:config opts))
+        id-code (:repl-inner-code-id cfg)
+        id-nb (:repl-inner-nb-id cfg)
+        tab-n (str (:repl-tab-name cfg))
+        tcfg (repl-file-inner-config cfg)
+        layout-json (react/useMemo
+                     (fn []
+                       (let [rid (str "sr-" (nano-id 8))
+                             ts1 (str "st1-" (nano-id 6))
+                             ts2 (str "st2-" (nano-id 6))]
+                         (clj->js
+                          {:global {:tabEnableClose false
+                                    :tabSetEnableClose false}
+                           :layout
+                           {:type "row"
+                            :id rid
+                            :children
+                            [{:type "tabset"
+                              :id ts1
+                              :weight 50
+                              :selected 0
+                              :children
+                              [{:type "tab"
+                                :id id-code
+                                :name tab-n
+                                :component "reval-repl-code"
+                                :config tcfg
+                                :enableClose false}]}
+                             {:type "tabset"
+                              :id ts2
+                              :weight 50
+                              :selected 0
+                              :children
+                              [{:type "tab"
+                                :id id-nb
+                                :name (str tab-n " · out")
+                                :component "reval-repl-notebook"
+                                :config tcfg
+                                :enableClose false}]}]}})))
+                     #js [id-code id-nb tab-n (str (:res-path cfg)) (str (:nbns cfg))])
+        layout-state (react/useMemo
+                      (fn [] (atom {:data-a (:data-a @flc/state-a)}))
+                      #js [])]
+    ($ :div {:style {:height "100%" :width "100%" :min-height 0 :position "relative"}}
+       ($ flc/flex-layout {:layout-json layout-json
+                           :layout-state layout-state
+                           :selection-atom flc/selected-id-a
+                           :category "reval"
+                           :model-name "repl-file-sub"
+                           :data {}}))))
 
 (defmethod component-ui "reval-repl-welcome" [_opts]
   ($ welcome-pane))
@@ -101,13 +159,13 @@
                :on-click #(clear-local! m)}
       "clear output"]]))
 
-(defn- repl-file-panel [opts]
+(defn- repl-code-panel [_]
   (let [load-key (r/atom nil)]
     (fn [opts]
       (let [st (:state opts)
             cfg (rflex/config-map (:config opts))
             merged (merge cfg @st)
-            {:keys [nb-a editor-id nbns path res-path ext]} merged
+            {:keys [editor-id nbns path res-path ext]} merged
             fmt-kw (keyword (or ext :clj))
             k [nbns fmt-kw path res-path]]
         (when (and editor-id (not= @load-key k))
@@ -122,15 +180,30 @@
         [:div {:style {:height "100%" :width "100%" :min-height 0
                        :display "flex" :flex-direction "column"}}
          [tab-toolbar merged]
-         [:div {:style {:flex 1 :min-height 0 :display "flex" :overflow "hidden"}}
-          [:div {:style {:flex 1 :min-width 0 :min-height 0 :display "flex" :flex-direction "column"}}
-           [theme/style-codemirror-fullscreen]
-           [:div.my-codemirror {:style {:flex 1 :min-height 0 :width "100%"}}
-            [codemirror editor-id cm-opts]]]
-          [:div {:style {:flex 1 :min-width 0 :min-height 0 :overflow "auto"
-                         :background "#dbeafe"}}
-           [notebook @nb-a]]]]))))
+         [:div {:style {:flex 1 :min-height 0 :display "flex" :flex-direction "column"
+                        :overflow "hidden"}}
+          [theme/style-codemirror-fullscreen]
+          [:div.my-codemirror {:style {:flex 1 :min-height 0 :width "100%"}}
+           [codemirror editor-id cm-opts]]]]))))
 
-(defmethod component-ui "reval-repl-file" [opts]
+(defn- repl-notebook-panel [_]
+  (fn [opts]
+    (let [st (:state opts)
+          cfg (rflex/config-map (:config opts))
+          merged (merge cfg @st)
+          nb-a (:nb-a merged)]
+      [:div {:style {:height "100%" :width "100%" :min-height 0
+                     :overflow "auto"
+                     :background "#dbeafe"}}
+       [notebook @nb-a]])))
+
+(defmethod component-ui "reval-repl-code" [opts]
   ($ :div {:style {:height "100%" :width "100%" :min-height 0}}
-     (r/as-element [repl-file-panel opts])))
+     (r/as-element [repl-code-panel opts])))
+
+(defmethod component-ui "reval-repl-file-layout" [opts]
+  ($ repl-file-layout-pane opts))
+
+(defmethod component-ui "reval-repl-notebook" [opts]
+  ($ :div {:style {:height "100%" :width "100%" :min-height 0}}
+     (r/as-element [repl-notebook-panel opts])))
