@@ -1,5 +1,6 @@
 (ns reval.notebook-ui.editor
   (:require
+   [clojure.string :as str]
    [reagent.core :as r]
    [ui.codemirror.theme :as theme]
    [ui.codemirror.api :as api]
@@ -18,10 +19,12 @@
     (api/set-code c code)
     (api/focus c)))
 
-(defn save-code [path]
-  (let [code (cm-get-code)]
+(defn save-code [path res-path]
+  (let [code (cm-get-code)
+        p (when-not (str/blank? (str path)) path)
+        rp (when-not (str/blank? (str res-path)) res-path)]
     (clj {:timeout 1000}
-         'reval.save/save-code {:code code :path path})))
+         'reval.save/save-code {:code code :path p :res-path rp})))
 
 (def cm-opts {:lineWrapping false})
 

@@ -5,6 +5,7 @@
  
  :reval {:rdocument  {:fpath ".gorilla/public/rdocument"
                       :rpath "/r/rdocument"}
+         :namespace-root ["user" "demo"]
          :collections {:study {:clj "notebook/study/"}
                        ;:big-list {:clj "notebook/big_list/"}
                        :cljs {:cljs "notebook/cljs/"}

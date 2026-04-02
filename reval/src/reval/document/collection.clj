@@ -30,6 +30,14 @@
         vec)
    (with-meta {:fmt fmt})))
 
+(defn get-collections
+  "Map each collection name to `[fmt notebook-info-vec]` (for tests and tooling)."
+  [colls]
+  (into {}
+        (map (fn [[coll-name [fmt path]]]
+               [coll-name [fmt (vec (get-ns-list fmt path))]])
+             colls)))
+
 (defn build-collection [col-spec]
   (->> col-spec
        (map (fn [[fmt res-paths]]

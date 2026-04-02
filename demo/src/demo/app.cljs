@@ -11,5 +11,6 @@
 (def routes
   [["/" {:name 'reval.page.viewer/viewer-page}]
    ["/frepl" {:name 'demo.page.frepl/page}]
-   ["/repl" {:name 'reval.page.repl/repl-page}]])
+   ["/repl" {:name 'reval.page.repl/repl-page}]
+   ["/directory-explorer" {:name 'demo.page.directory-explorer/page}]])
 

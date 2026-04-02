@@ -7,7 +7,7 @@
 
 (deftest collection-overview-test
   (is (= (get-collections
-          {:demo [:clj "demo/notebook/"]})
+          {:demo [:clj "__no_such_resource_path__/"]})
          {:demo [:clj []]}))
 
   ;{:user [:clj [{:nbns "test.notebook.apple",

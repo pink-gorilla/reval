@@ -1,0 +1,25 @@
+{:namespace-roots ["user" "demo"]
+ :roots
+ [{:id "user"
+   :res-path "user"
+   :tree
+   {:name "user"
+    :name-full "user"
+    :dir? true
+    :children
+    [{:name "notebook"
+      :name-full "user/notebook"
+      :dir? true
+      :children
+      [{:name "hello.clj"
+        :name-full "user/notebook/hello.clj"
+        :dir? false
+        :ext "clj"
+        :nbns "user.notebook.hello"}]}]}}
+  {:id "demo"
+   :res-path "demo"
+   :tree
+   {:name "demo"
+    :name-full "demo"
+    :dir? true
+    :children []}}]}

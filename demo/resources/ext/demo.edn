@@ -3,11 +3,13 @@
  :cljs/depends-on #{:reval-ui :main}
  :cljs/namespace [demo.app
                   demo.page.frepl
+                  demo.page.directory-explorer
                   demo.greeter
                   ]
  :cljs/ns-bindings {'demo.app {'routes demo.app/routes
                                'wrap demo.app/wrap} 
                     'demo.page.frepl {'page  demo.page.frepl/page}
+                    'demo.page.directory-explorer {'page demo.page.directory-explorer/page}
                     'demo.greeter {'greet demo.greeter/greet}
                     }
 

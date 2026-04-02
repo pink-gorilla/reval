@@ -9,6 +9,8 @@
                   reval.dali.viewer.notebook-viewer
                   reval.dali.viewer.collection
                   reval.dali.viewer.collection-viewer
+                  reval.dali.viewer.directory-explorer
+                  reval.dali.viewer.directory-explorer-viewer
                   reval.dali.viewer.list
                   ; reval
                   reval.kernel.protocol
@@ -34,6 +36,9 @@
                     'reval.dali.viewer.collection {'notebook-collection reval.dali.viewer.collection/notebook-collection }
                     'reval.dali.viewer.collection-viewer {'load-transform-edn reval.dali.viewer.collection-viewer/load-transform-edn 
                                                          'collection-viewer reval.dali.viewer.collection-viewer/collection-viewer}
+                    'reval.dali.viewer.directory-explorer {'explorer-roots reval.dali.viewer.directory-explorer/explorer-roots}
+                    'reval.dali.viewer.directory-explorer-viewer {'load-explorer-edn reval.dali.viewer.directory-explorer-viewer/load-explorer-edn
+                                                                 'directory-explorer-viewer reval.dali.viewer.directory-explorer-viewer/directory-explorer-viewer}
                     'reval.dali.viewer.list {'list-view reval.dali.viewer.list/list-view }
 
                     ; reval

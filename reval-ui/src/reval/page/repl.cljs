@@ -1,5 +1,6 @@
 (ns reval.page.repl
   (:require
+   [clojure.string :as str]
    [reagent.core :as r]
    [re-frame.core :as rf]
    [reitit.frontend.easy :as rfe]
@@ -8,7 +9,7 @@
    [clj-service.http :refer [clj]]
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.kernel.clj-remote] ; side effects
-   [reval.dali.viewer.collection-viewer :refer [collection-viewer]]
+   [reval.dali.viewer.directory-explorer-viewer :refer [directory-explorer-viewer]]
    [reval.dali.viewer.notebook :refer [notebook add-segment empty-notebook]]
    [reval.notebook-ui.editor :as cme]))
 
@@ -61,7 +62,13 @@
 
 ;; HEADER
 
-(defn repl-header [nbns fmt path]
+(defn- filename-only [res-path]
+  (when-not (str/blank? res-path)
+    (let [s (str res-path)
+          i (.lastIndexOf s "/")]
+      (if (neg? i) s (subs s (inc i))))))
+
+(defn repl-header [nbns fmt path res-path]
   ;(reset! eval/cur-ns nbns)
   (reset! cur-fmt fmt)
   (reset! cur-path path)
@@ -72,7 +79,10 @@
                    :font-weight "700"
                    :margin-right "1rem"}}
     "repl"]
-   [:span "ns: " nbns "  format: " fmt]
+   [:span (if (str/blank? res-path)
+            (str "ns: " nbns)
+            (str "file: " (filename-only res-path)))
+    "  format: " fmt]
    [:button {:style {:background "#9ca3af"
                      :margin "4px"
                      :cursor "pointer"}
@@ -90,8 +100,16 @@
     "nb eval"]
    [:button {:style {:background "#9ca3af"
                      :margin "4px"
-                     :cursor "pointer"}
-             :on-click #(cme/save-code path)}
+                     :cursor "pointer"
+                     :opacity (if (and (str/blank? (str path))
+                                       (str/blank? (str res-path)))
+                                0.45
+                                1)}
+             :disabled (and (str/blank? (str path))
+                            (str/blank? (str res-path)))
+             :on-click #(when (or (not (str/blank? (str path)))
+                                  (not (str/blank? (str res-path))))
+                          (cme/save-code path res-path))}
     "save"]
    [:div {:style {:background "#93c5fd"
                   :display "inline-block"}}
@@ -99,11 +117,7 @@
                       :margin "4px"
                       :cursor "pointer"}
               :on-click clear}
-     "clear output"]
-    [:button {:style {:background "#f87171"
-                      :margin "4px"
-                      :cursor "pointer"}}
-     "send to pages"]]])
+     "clear output"]]])
 
 (defn repl-output []
   [:div {:style {:width "100%"
@@ -115,16 +129,20 @@
                   :width "100%"}}
     [notebook @nb-a]]])
 
-(defn editor [_ns _fmt _path]
-  (let [loaded (r/atom [nil nil nil])]
-    (fn [nbns fmt path]
-      (let [comparator [nbns fmt path]]
+(defn editor [_ns _fmt _path _res-path]
+  (let [loaded (r/atom [nil nil nil nil])]
+    (fn [nbns fmt path res-path]
+      (let [comparator [nbns fmt path res-path]]
         (when (not (= comparator @loaded))
           (println "loaded: " @loaded)
           (reset! loaded comparator)
-          (-> (clj {:timeout 1000}
-                   'reval.document.notebook/load-src
-                   nbns (keyword fmt))
+          (-> (if (str/blank? res-path)
+                (clj {:timeout 1000}
+                     'reval.document.notebook/load-src
+                     nbns (keyword fmt))
+                (clj {:timeout 1000}
+                     'reval.document.notebook/load-src-by-res-path
+                     res-path))
               (p/then (fn [result]
                         (println "code result: " result)
                         (reset! repl-code result)
@@ -134,28 +152,34 @@
         [cme/cm-editor]))))
 
 (defn goto-nb [nbinfo]
-  (rfe/navigate 'reval.page.repl/repl-page {:query-params nbinfo}))
+  (let [qp (cond-> {:nbns (:nbns nbinfo)
+                    :ext (:ext nbinfo)}
+             (:path nbinfo) (assoc :path (str (:path nbinfo)))
+             (:name-full nbinfo) (assoc :res-path (:name-full nbinfo)))]
+    (rfe/navigate 'reval.page.repl/repl-page {:query-params qp})))
 
-(defn repl [opts]
-  (fn [{:keys [nbns ext path]
+(defn repl [_opts]
+  (fn [{:keys [nbns ext path res-path]
         :or {ext "clj"
              nbns "user"
-             path ""}}]
+             path ""
+             res-path ""}}]
     [spaces.core/viewport
      [spaces.core/top-resizeable {:size "10%"
                                   :scrollable false
                                   :style {:background "#f3f4f6"}}
-      [repl-header nbns ext path]]
+      [repl-header nbns ext path res-path]]
      [spaces.core/fill {}
       [spaces.core/left-resizeable {:size "10%"
                                     :scrollable true
                                     :style {:background "#f3f4f6"
                                             :max-height "100%"
                                             :overflow-y "auto"}}
-       [collection-viewer
-        {:link goto-nb}]]
+       [directory-explorer-viewer
+        {:link goto-nb
+         :active-res-path res-path}]]
       [spaces.core/fill {}
-       [editor nbns ext path]] ; [:div.h-full.w-full.bg-blue-900.max-h-full.overflow-y-auto]
+       [editor nbns ext path res-path]] ; [:div.h-full.w-full.bg-blue-900.max-h-full.overflow-y-auto]
       [spaces.core/right-resizeable {:size "50%"
                                      :scrollable true
                                      :style {:background "#dbeafe"
