@@ -1,10 +1,10 @@
 (ns demo.page.directory-explorer
   (:require
-   [reitit.frontend.easy :as rfe]
-   [reval.dali.viewer.directory-explorer-viewer :refer [directory-explorer-viewer]]))
+   [reval.dali.viewer.directory-explorer-viewer :refer [directory-explorer-viewer]]
+   [reval.page.repl :as repl]))
 
 (defn- goto-repl [nbinfo]
-  (rfe/navigate 'reval.page.repl/repl-page {:query-params nbinfo}))
+  (repl/open-in-repl! nbinfo))
 
 (defn page [_match]
   [:div {:style {:height "100vh"
@@ -23,4 +23,4 @@
                (cond-> {:nbns (:nbns node)
                         :ext (:ext node)}
                  (:path node) (assoc :path (str (:path node)))
-                 (:name-full node) (assoc :res-path (:name-full node)))))}]]])
+                 (:name-full node) (assoc :name-full (:name-full node)))))}]]])

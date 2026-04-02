@@ -5,7 +5,7 @@
  :deps
  {org.pinkgorilla/ui-router {:mvn/version "0.3.46"}
   org.pinkgorilla/webly {:mvn/version "0.20.737"}
-  ;org.pinkgorilla/shadow-x {:mvn/version "0.3.27"}
+  org.pinkgorilla/shadow-x {:mvn/version "0.3.27"}
   ; ui modules for demo notebooks:
   org.pinkgorilla/dali-table {:mvn/version "0.6.105"}
   org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}

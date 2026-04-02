@@ -18,7 +18,11 @@
                   reval.type.cljs ; side-effects; load protocols for cljs and sci
                   ; pages
                   reval.page.viewer
+                  reval.page.repl-flex
+                  reval.page.repl-comp
                   reval.page.repl
+                  reval.notebook-ui.editor-tab
+                  layout.flexlayout.core
                   ;reval.notebook-ui.editor
                   ; floating repl
                   reval.frepl
