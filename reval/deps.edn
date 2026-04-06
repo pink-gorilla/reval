@@ -5,7 +5,8 @@
   rewrite-clj/rewrite-clj {:mvn/version "1.1.47"}
   org.pinkgorilla/modular {:mvn/version "0.3.77"}
   org.pinkgorilla/timbre {:mvn/version "0.0.8"}
-  org.pinkgorilla/dali {:mvn/version "0.6.41"}
+  org.pinkgorilla/dali {:mvn/version "0.7.44"}
+  
   }
  :aliases
  {:test {:extra-paths ["test" "test/resources"]

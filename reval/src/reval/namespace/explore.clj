@@ -1,9 +1,10 @@
-(ns reval.document.explore
+(ns reval.namespace.explore
   "Build a directory tree of notebook sources under classpath resource roots."
   (:require
    [clojure.string :as str]
    [modular.resource.explore :as rs]
-   [reval.document.path :as p]))
+   [reval.namespace.path :as p]
+   [reval.config :refer [reval]]))
 
 (defn notebook-file? [^String name]
   (boolean (re-find #"\.cljc?$" name)))
@@ -54,7 +55,7 @@
   [res-dir]
   (let [dir (normalize-root res-dir)
         entries (try (vec (rs/describe dir))
-                   (catch Exception _ []))
+                     (catch Exception _ []))
         label (if (str/includes? dir "/")
                 (subs dir (inc (.lastIndexOf dir "/")))
                 dir)
@@ -79,12 +80,18 @@
       :tree (build-tree root)})))
 
 (defn namespace-explorer-edn
-  "Pure data for the directory explorer UI and for writing `namespace-explorer.edn`."
+  "Pure data for the directory explorer UI."
   [namespace-roots]
   {:namespace-roots (vec (map normalize-root namespace-roots))
    :roots (root-forest namespace-roots)})
 
-(defn nb-collections
-  "Notebook directory tree for clients (replaces flat namespace list when using explorer UI)."
-  [env]
-  (namespace-explorer-edn (or (:namespace-root env) ["user" "demo"])))
+(defn repl-tree []
+  (let [roots (:namespace-root reval)]
+    (namespace-explorer-edn roots)))
+
+(comment
+
+  (repl-tree)
+
+ ; 
+  )

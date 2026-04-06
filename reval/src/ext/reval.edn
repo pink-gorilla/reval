@@ -1,13 +1,8 @@
 {:extension/name :reval
-
- :clj-service [; singleton
-               {:fun reval.save/save-code  :mode :clj}
-               {:fun reval.document.notebook/load-src :mode :clj}
-               {:fun reval.document.notebook/load-src-by-res-path :mode :clj}
-               ; ctx 
-               {:fun reval.document.explore/nb-collections :ctx :reval :mode :clj} ; :permission  #{:eval}
-               {:fun reval.document.notebook/load-notebook :ctx :reval :mode :clj}
-               {:fun reval.document.notebook/eval-notebook :ctx :reval :mode :clj}
-               {:fun reval.document.notebook/save-notebook :ctx :reval :mode :clj}
-               {:fun reval.dali.eval/dali-eval-blocking :ctx :reval :mode :clj}
+ :clj-service [{:fun reval.namespace.explore/repl-tree :mode :clj}
+               {:fun reval.namespace.store/save-code  :mode :clj}
+               {:fun reval.namespace.store/load-src :mode :clj}
+               {:fun reval.namespace.store/load-src-by-res-path :mode :clj}
+               {:fun reval.dali.eval/dali-eval-blocking  :mode :clj} ; :permission  #{:eval}
+               {:fun reval.notebook/eval-notebook  :mode :clj} ; :permission  #{:eval}
                ]}

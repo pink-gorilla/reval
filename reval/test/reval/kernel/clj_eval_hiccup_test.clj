@@ -2,7 +2,7 @@
   (:require
    [clojure.test :refer [deftest are]]
    [reval.kernel.clj-eval :refer [clj-eval]]
-   [reval.document.notebook :refer [eval-result->hiccup]]
+   [reval.notebook :refer [eval-result->hiccup]]
    [reval.test-init]))
 
 (defn eval-src->hiccup [src]

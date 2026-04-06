@@ -1,9 +1,12 @@
-(ns reval.document.collection
+(ns reval.collection
   (:require
-   [taoensso.timbre :as timbre :refer [info]]
    [modular.resource.explore :refer [describe-files]]
-   [reval.document.path :refer [split-ext is-format? ext-is-format? filename->ns]]
-   [reval.document.notebook :refer [eval-notebook create-notebook save-notebook]]))
+   [babashka.fs :as fs]
+   [reval.namespace.path :refer [split-ext is-format? ext-is-format? filename->ns]]
+   [reval.notebook :refer [eval-notebook create-notebook save-notebook]]
+   [reval.default]  ; side effects to include all default converters
+   [reval.config :refer [reval]]
+   ))
 
 (defn- convert-ns [res-path {:keys [name path] :as entry}]
   (let [[name-only ext] (split-ext name)
@@ -69,11 +72,11 @@
 
 ;; EVAL
 
-(defn create-empty-notebook [this nbns fmt]
-  (->> (create-notebook this nbns fmt)
-       (save-notebook this nbns)))
+(defn create-empty-notebook [nbns fmt]
+  (->> (create-notebook nbns fmt)
+       (save-notebook nbns)))
 
-(defn eval-collection [this col-spec]
+(defn eval-collection [col-spec]
   (let [coll-nb (build-collection col-spec)
         #_{:clj
            [{:nbns "notebook.study.exception",
@@ -86,16 +89,46 @@
         clj-nbns-seq (map :nbns (:clj coll-nb))
         cljs-nbns-seq (map :nbns (:cljs coll-nb))]
     (doall
-     (map #(eval-notebook this %) clj-nbns-seq))
+     (map #(eval-notebook %) clj-nbns-seq))
     (doall
-     (map #(create-empty-notebook this % :cljs) cljs-nbns-seq))
+     (map #(create-empty-notebook  % :cljs) cljs-nbns-seq))
     nil))
 
-(defn eval-collections [this colls]
+(defn eval-collections [colls]
  ; {:demo [:clj []]
  ;  :user [:clj ["test.notebook.apple"]]}
   (doall
-   (map (partial eval-collection this) (vals colls))))
+   (map eval-collection (vals colls))))
+
+
+
+(def nb-welcome
+  {:meta {:ns "welcome"}
+   :content
+   [{:code "(println \"Welcome to Notebook Viewer \")"
+     :result ^{:dali true}
+     {:viewer-fn 'dali.viewer.hiccup/hiccup
+      :data  [:h1.text-blue-800 "Welcome to Notebook Viewer!"]}
+     :out "Welcome to Notebook Viewer"}]})
+
+(defn- save-welcome []
+  (fs/create-dirs (get-in reval [:rdocument :fpath]))
+  (spit
+   (str (get-in reval [:rdocument :fpath]) "/welcome.edn")
+   nb-welcome))
+
+(defn build-notebook-index [collections]
+  (fs/create-dirs (get-in reval [:rdocument :fpath]))
+  (spit
+   (str (get-in reval [:rdocument :fpath]) "/notebooks.edn")
+   (collections-ns-summary collections)))
+
+(defn eval-build-collections [collections]
+  (eval-collections collections)
+  (build-notebook-index collections)
+  (save-welcome))
+
+
 
 (comment
 

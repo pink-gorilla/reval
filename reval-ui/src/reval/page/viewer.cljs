@@ -1,6 +1,5 @@
 (ns reval.page.viewer
   (:require
-   [re-frame.core :as rf]
    [reitit.frontend.easy :as rfe]
    [spaces.core]
    [reval.dali.viewer.collection-viewer :refer [collection-viewer]]

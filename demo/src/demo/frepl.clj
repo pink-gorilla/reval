@@ -2,7 +2,7 @@
   (:require
    [clojure.string :as string]
    [modular.system]
-   [reval.document.notebook]
+   [reval.notebook]
    [reval.kernel.protocol :refer [kernel-eval]]
    [promesa.core :as p]))
 
@@ -10,7 +10,7 @@
 (def s (modular.system/system :reval))
 
 (def code
-  (reval.document.notebook/load-src "notebook.study.movies" :clj))
+  (reval.namespace.store/load-src "notebook.study.movies" :clj))
 
 code
 

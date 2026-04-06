@@ -8,7 +8,7 @@
   org.pinkgorilla/shadow-x {:mvn/version "0.3.27"}
   org.pinkgorilla/css-theme {:mvn/version "0.1.13"}
   ; ui modules for demo notebooks:
-  org.pinkgorilla/dali-table {:mvn/version "0.6.105"}
+  org.pinkgorilla/dali-table {:mvn/version "0.7.106"}
   org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}
   
   ; run in services
@@ -17,30 +17,13 @@
 
  :aliases
  {; demo ui
-  :webly {:exec-fn webly.spa/webly-build
-          :exec-args {:config ["reval/demo-config.edn"]
-                      :profile "npm-install"}}
+  :npm-install {:exec-fn webly.spa/webly-build
+                :exec-args {:config ["reval/demo-config.edn"]
+                            :profile "npm-install"}}
 
   :watch {:exec-fn modular.system/start!
           :exec-args {:profile "watch"
                       :config  ["reval/demo-config.edn"]
                       :services "reval/demo-services.edn"}}
-
-  :npm-install {:exec-args {:profile "npm-install"}}
-  :compile {:exec-args {:profile "compile"}}
-  :release {:exec-args {:profile "release"}}
-  :release-adv {:exec-args {:profile "release-adv"}}
-  :static {:exec-args {:profile "static"}}
-  :ci {:exec-args {:profile "ci"}}
-
-  :run {:exec-fn modular.system/start!
-        :exec-args {:profile "jetty"
-                    :config  ["reval/demo-config.edn"]
-                    :services "reval/demo-services.edn"}}
-
-  ;; notebook eval
   
-  :nbeval {:exec-fn modular.system/start!
-           :exec-args {:run demo.task/eval-all
-                       :config  ["reval/demo-config.edn"]
-                       :services "reval/task-services.edn"}}}}
+  }}

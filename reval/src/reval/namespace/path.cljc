@@ -1,4 +1,4 @@
-(ns reval.document.path
+(ns reval.namespace.path
   (:require
    [clojure.string :as str]))
 

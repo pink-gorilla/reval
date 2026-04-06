@@ -1,9 +1,9 @@
-(ns reval.notebook-ui.editor-tab
+(ns reval.repl.codemirror-tab
   "CodeMirror helpers keyed by editor id (multi-tab repl)."
   (:require
    [clojure.string :as str]
    [clj-service.http :refer [clj]]
-   [reval.notebook-ui.rewrite :refer [block-for]]
+   [reval.repl.rewrite :refer [block-for]]
    [ui.codemirror.api :as api]
    [ui.codemirror.codemirror :refer [get-editor]]))
 
@@ -21,7 +21,7 @@
     (let [p (when-not (str/blank? (str path)) path)
           rp (when-not (str/blank? (str res-path)) res-path)]
       (clj {:timeout 1000}
-           'reval.save/save-code {:code code :path p :res-path rp}))))
+           'reval.namespace.store/save-code {:code code :path p :res-path rp}))))
 
 (defn current-expression [editor-id]
   (when-let [c (get-editor editor-id)]

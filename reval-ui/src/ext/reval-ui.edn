@@ -9,8 +9,6 @@
                   reval.dali.viewer.notebook-viewer
                   reval.dali.viewer.collection
                   reval.dali.viewer.collection-viewer
-                  reval.dali.viewer.directory-explorer
-                  reval.dali.viewer.directory-explorer-viewer
                   reval.dali.viewer.list
                   ; reval
                   reval.kernel.protocol
@@ -20,40 +18,32 @@
                   reval.page.viewer
                   reval.page.repl-flex
                   reval.page.repl-comp
-                  reval.page.repl
-                  reval.notebook-ui.editor-tab
+                  reval.page.repl 
                   layout.flexlayout.core2
-                  ;reval.notebook-ui.editor
                   ; floating repl
                   reval.frepl
                   ]
  :cljs/ns-bindings {; dali plot
                     'reval.dali.plot.type {'simplevalue->dali reval.dali.plot.type/simplevalue->dali
-                                          'list->dali reval.dali.plot.type/list->dali
-                                          'unknown-type reval.dali.plot.type/unknown-type
-                                          'type-convert-err reval.dali.plot.type/type-convert-err}
+                                           'list->dali reval.dali.plot.type/list->dali
+                                           'unknown-type reval.dali.plot.type/unknown-type
+                                           'type-convert-err reval.dali.plot.type/type-convert-err}
                     ; dali viewer
                     'reval.dali.viewer.notebook {'notebook reval.dali.viewer.notebook/notebook
-                                                'add-segment reval.dali.viewer.notebook/add-segment
-                                                'empty-notebook reval.dali.viewer.notebook/empty-notebook}
+                                                 'add-segment reval.dali.viewer.notebook/add-segment
+                                                 'empty-notebook reval.dali.viewer.notebook/empty-notebook}
                     'reval.dali.viewer.notebook-viewer {'notebook-viewer reval.dali.viewer.notebook-viewer/notebook-viewer}
                     'reval.dali.viewer.collection {'notebook-collection reval.dali.viewer.collection/notebook-collection }
                     'reval.dali.viewer.collection-viewer {'load-transform-edn reval.dali.viewer.collection-viewer/load-transform-edn 
-                                                         'collection-viewer reval.dali.viewer.collection-viewer/collection-viewer}
-                    'reval.dali.viewer.directory-explorer {'explorer-roots reval.dali.viewer.directory-explorer/explorer-roots}
-                    'reval.dali.viewer.directory-explorer-viewer {'load-explorer-edn reval.dali.viewer.directory-explorer-viewer/load-explorer-edn
-                                                                 'directory-explorer-viewer reval.dali.viewer.directory-explorer-viewer/directory-explorer-viewer}
+                                                          'collection-viewer reval.dali.viewer.collection-viewer/collection-viewer}
                     'reval.dali.viewer.list {'list-view reval.dali.viewer.list/list-view }
-
                     ; reval
                     'reval.kernel.protocol {'available-kernels reval.kernel.protocol/available-kernels
                                             'kernel-eval reval.kernel.protocol/kernel-eval}
                     'reval.type.converter {'type->dali reval.type.converter/type->dali}
-                    
                     ;reval.dali.eval {reval.dali.eval}
                     
-                    ; pages
-                    
+                    ; pages 
                     'reval.page.viewer {'viewer-page reval.page.viewer/viewer-page}
                     'reval.page.repl {'repl-page reval.page.repl/repl-page}
                     ;'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}

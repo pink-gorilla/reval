@@ -1,7 +1,6 @@
-(ns reval.document.src-parser
+(ns reval.notebook.src-parser
   (:require
    [clojure.string :as str]
-   [taoensso.timbre :refer [trace debug debugf info infof warn warnf error errorf]]
    [rewrite-clj.parser :as p]
    [rewrite-clj.node :as n]
    [modular.helper.id :refer [guuid]]))

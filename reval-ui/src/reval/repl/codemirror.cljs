@@ -1,4 +1,4 @@
-(ns reval.notebook-ui.editor
+(ns reval.repl.codemirror
   (:require
    [clojure.string :as str]
    [reagent.core :as r]
@@ -6,7 +6,7 @@
    [ui.codemirror.api :as api]
    [ui.codemirror.codemirror :refer [codemirror get-editor]]
    [clj-service.http :refer [clj]]
-   [reval.notebook-ui.rewrite :refer [block-for]]))
+   [reval.repl.rewrite :refer [block-for]]))
 
 (defonce editor-id (r/atom 27))
 
@@ -24,7 +24,7 @@
         p (when-not (str/blank? (str path)) path)
         rp (when-not (str/blank? (str res-path)) res-path)]
     (clj {:timeout 1000}
-         'reval.save/save-code {:code code :path p :res-path rp})))
+         'reval.namespace.store/save-code {:code code :path p :res-path rp})))
 
 (def cm-opts {:lineWrapping false})
 

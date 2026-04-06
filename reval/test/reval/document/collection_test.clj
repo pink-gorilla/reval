@@ -2,7 +2,7 @@
   (:require
    [clojure.test :refer [deftest is]]
    [modular.persist.protocol :refer [loadr]]
-   [reval.document.collection :refer [get-collections]]
+   [reval.collection :refer [get-collections]]
    [reval.test-init]))
 
 (deftest collection-overview-test

@@ -1,8 +1,8 @@
 (ns reval.document.notebook-eval-test
   (:require
    [clojure.test :refer [deftest is]]
-   [reval.document.manager :refer [fpath url-root get-link-ns get-path-ns]]
-   [reval.document.notebook :refer [eval-notebook load-notebook]]
+   [notebook.storer [fpath url-root get-link-ns get-path-ns]]
+   [reval.notebook :refer [eval-notebook load-notebook]]
    [reval.test-init]))
 
 (def this {:config {:rdocument  {:fpath "/tmp/rdocument"

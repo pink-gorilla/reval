@@ -5,9 +5,7 @@
   :timbre {:start (modular.log/timbre-config!
                    (:timbre/clj (clip/ref :config)))}
   :exts {:start (extension/discover (:extension (clip/ref :config)))}
-  
-
-  :reval {:start (reval.core/start-reval (:reval  (clip/ref :config)))}
+   
 
 ;; webserver
   :token {:start (token.core/start-token-service
@@ -18,9 +16,7 @@
                    :auth-expiry 604800})}
   :clj {:start (clj-service.core/start-clj-services
                 {:exts (clip/ref :exts)
-                 :env {:dali-store (deref dali.store.cache/dali-cache-store)
-                       :reval (clip/ref :reval)
-                       }})}
+                 :env {:dali-store (deref dali.store.cache/dali-cache-store)}})}
   :webly {:start (webly.spa/start-webly
                   {:exts (clip/ref :exts)
                    :ctx {:token (clip/ref :token)

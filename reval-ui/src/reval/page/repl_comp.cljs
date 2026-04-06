@@ -16,9 +16,9 @@
    [clj-service.http :refer [clj]]
    ; reval
    [reval.kernel.protocol :refer [kernel-eval]]
-   [reval.dali.viewer.directory-explorer-viewer :refer [directory-explorer-viewer]]
    [reval.dali.viewer.notebook :refer [notebook empty-notebook add-segment]]
-   [reval.notebook-ui.editor-tab :as edtab]
+   [reval.repl.directory-explorer :refer [directory-explorer-ui]]
+   [reval.repl.codemirror-tab :as edtab]
    [reval.page.repl-flex :as rflex]))
 
 (def cm-opts {:lineWrapping false})
@@ -87,7 +87,7 @@
 
 (defn- explorer-inner []
   (fn []
-    [directory-explorer-viewer
+    [directory-explorer-ui
      {:link rflex/open-file-from-explorer!
       :active-res-path @rflex/explorer-highlight-res-path}]))
 
@@ -114,7 +114,7 @@
   (let [{:keys [nb-a nbns]} m]
     (when-not (str/blank? (str nbns))
       (-> (clj {:timeout 120000}
-               'reval.document.notebook/eval-notebook nbns)
+               'reval.notebook/eval-notebook nbns)
           (p/then (fn [r]
                     (reset! nb-a (:data r))))))))
 
@@ -174,9 +174,9 @@
         (reset! load-key k)
         (-> (if (str/blank? (str res-path))
               (clj {:timeout 1000}
-                   'reval.document.notebook/load-src nbns fmt-kw)
+                   'reval.namespace.store/load-src nbns fmt-kw)
               (clj {:timeout 1000}
-                   'reval.document.notebook/load-src-by-res-path res-path))
+                   'reval.namespace.store/load-src-by-res-path res-path))
             (p/then (fn [src]
                       (js/setTimeout #(edtab/cm-set-code editor-id src) 0)))))
       [:div {:style {:height "100%" :width "100%" :min-height 0

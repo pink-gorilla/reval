@@ -1,40 +1,22 @@
-(ns reval.document.notebook
+(ns reval.notebook
   (:require
    [clojure.java.io :as io]
    [tick.core :as t]
    [taoensso.timbre :refer [debug info warnf]]
    [modular.helper.id :refer [guuid]]
+   ; dali
    [dali.spec :refer [create-dali-spec]]
    [reval.dali.eval :refer [dalify]]
-   [reval.document.manager :as rdm]
-   [reval.document.path :refer [ns->dir ns->filename]]
-   [reval.document.src-parser :refer [text->notebook]]
+   ; reval
+   [reval.namespace.path :refer [ns->dir ns->filename]]
+   [reval.namespace.store :as namespace-store]
+   [reval.notebook.src-parser :refer [text->notebook]]
+   [reval.notebook.store :as store]
    [reval.kernel.clj-eval :refer [clj-eval]]
-   [reval.save :as save]))
+   [reval.config :refer [reval]]
+   ))
 
 ;; create
-
-(defn load-src
-  ([nbns]
-   (load-src nbns :clj))
-  ([nbns fmt]
-   (info "load-src nbns: " nbns " fmt: " fmt)
-   (try
-     (let [rp (ns->filename nbns fmt)]
-       (or (save/slurp-clone-if-present rp)
-           (some-> rp io/resource slurp)
-           (str "(ns " nbns ")\n ; This namespace does not exist as a local file!\n")))
-     (catch Exception _
-       (str "(ns " nbns ")\n ; This namespace does not exist as a local file!\n")))))
-
-(defn load-src-by-res-path
-  "Load source for a resource path such as `notebook/study/movies.clj`.
-  Prefers `.reval/clones/<path>` when present, else classpath."
-  [res-path]
-  (info "load-src-by-res-path: " res-path)
-  (or (save/slurp-clone-if-present res-path)
-      (some-> res-path io/resource slurp)
-      (str "; Resource not found on classpath: " res-path "\n")))
 
 (defn src->src-list
   ([src]
@@ -52,13 +34,13 @@
                  (into []))})
 
 (defn create-notebook
-  ([this nbns]
-   (create-notebook this nbns :clj))
-  ([this nbns fmt]
+  ([nbns]
+   (create-notebook nbns :clj))
+  ([nbns fmt]
    (when nbns
-     (rdm/delete-directory-ns this nbns))
+     (store/delete-directory-ns reval nbns))
    (let [src (if nbns
-               (load-src nbns fmt)
+               (namespace-store/load-src nbns fmt)
                "")]
      (-> src
          (src->src-list fmt)
@@ -75,20 +57,20 @@
     :data nb}))
 
 (defn load-notebook
-  ([this nbns]
-   (load-notebook this nbns :clj))
-  ([this nbns fmt]
+  ([nbns]
+   (load-notebook nbns :clj))
+  ([nbns fmt]
    (let [nb (if nbns
-              (rdm/loadr this nbns "notebook" :edn)
+              (store/loadr reval nbns "notebook" :edn)
               nil)]
      (-> (if nb
            nb
-           (create-notebook this nbns fmt))
+           (create-notebook nbns fmt))
          (plot-notebook)))))
 
-(defn save-notebook [this nbns nb]
+(defn save-notebook [nbns nb]
   (info "saving notebook: " nbns)
-  (rdm/save this nb nbns "notebook" :edn))
+  (store/save reval nb nbns "notebook" :edn))
 
 ; eval
 
@@ -96,7 +78,7 @@
   "evaluates a clj namespace.
      returns seq of eval-result"
   [nbns]
-  (let [src (load-src nbns)
+  (let [src (namespace-store/load-src nbns)
         src-list (src->src-list src)]
     (map #(clj-eval {:ns nbns
                      :code %})
@@ -112,10 +94,10 @@
     (map nb-eval-segment segments)))
 
 (defn eval-notebook
-  ([this nbns]
-   (eval-notebook this nbns #(dalify this %))) ; default converter
-  ([this nbns eval-result-view-fn]
-   (let [nb (create-notebook this nbns)
+  ([nbns]
+   (eval-notebook nbns #(dalify reval %))) ; default converter
+  ([nbns eval-result-view-fn]
+   (let [nb (create-notebook nbns)
          eval-results (eval-nb-segments nb nbns)
          content (if eval-result-view-fn
                    (map eval-result-view-fn eval-results) ; use here a better thing.
@@ -125,23 +107,12 @@
                 (assoc-in [:meta :eval-time] (-> (t/instant) str))
                 (assoc-in [:meta :java] (-> (System/getProperties) (get "java.version")))
                 (assoc-in [:meta :clojure] (clojure-version)))]
-     (save-notebook this nbns nb)
+     (save-notebook nbns nb)
      (plot-notebook nb))))
 
 (comment
 
-  (ns->filename "demo.notebook-test.banana" :clj)
-
-  (load-src "notebook.study.image")
-  (load-src "notebook.study.image" :clj)
-  (load-src "notebook.study.image" :cljs)
-
-  (-> (load-src "demo.notebook-test.banana")
-      type)
-
-  (-> "demo.notebook-test.banana"
-      load-src
-      src->src-list)
+ 
 
   ;; ["(+ 1 1)"
   ;;  "(println 123)"

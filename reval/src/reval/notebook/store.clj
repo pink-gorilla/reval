@@ -1,10 +1,10 @@
-(ns reval.document.manager
+(ns reval.notebook.store
   (:require
    [taoensso.timbre :refer [debug info warnf error]]
    [babashka.fs :as fs]
    [clojure.java.io :as io]
    [modular.persist.protocol :as p]
-   [reval.document.path :refer [ns->dir]]))
+   [reval.namespace.path :refer [ns->dir]]))
 
 ; get-filename and get-link may NOT contain the fmt parameter
 ; the name contains the extension. The reason is, that we have

@@ -1,8 +1,12 @@
-(ns reval.dali.viewer.directory-explorer
+(ns reval.repl.directory-explorer
   "Directory tree for notebook sources (inspired by fnedit tree_view.cljs)."
   (:require
    [clojure.string :as str]
-   [reagent.core :as r]))
+   [reagent.core :as r]
+   [clj-service.http :refer [clj]]
+   [taoensso.timbre :refer [error]]
+   [promesa.core :as p]
+   ))
 
 (defn- padded [depth & body]
   [:div {:style {:padding-left (str (+ 6 (* 10 depth)) "px")
@@ -66,3 +70,19 @@
    (for [root (:roots data)]
      ^{:key (:res-path root)}
      [tree-node 0 link active-res-path (:tree root)])])
+
+
+(defonce data-a (r/atom nil))
+
+(->  (clj {:timeout 5000} 'reval.namespace.explore/repl-tree )
+     (p/then (fn [data]
+               (reset! data-a data)))
+     (p/catch (fn [err]
+                (error "could not load repl tree: " err)
+                (reset! data-a nil))))
+
+
+(defn directory-explorer-ui [{:keys [link active-res-path] :as opts}]
+  (if @data-a
+    [explorer-roots (assoc opts :data @data-a)]
+    [:p "loading..."]))

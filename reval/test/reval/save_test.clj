@@ -4,8 +4,8 @@
    [clojure.java.io :as io]
    [clojure.string :as str]
    [clojure.test :refer [deftest is testing]]
-   [reval.document.notebook :as notebook]
-   [reval.save :as save]
+   [reval.namespace.store :as save]
+   [reval.notebook :as notebook]
    [reval.test-init]))
 
 (deftest clone-file-path-test

@@ -2,10 +2,7 @@
   (:require
    [clojure.java.io :as io]
    [modular.persist.protocol :refer [loadr]]
-   [dali.plot.image :refer [image-inline image]]
-   [reval.core :refer [*env*]]))
-
-*env*
+   [dali.plot.image :refer [image-inline image]]))
 
 ;; load an image from disk
 ;; loadr is just a helper function
@@ -26,4 +23,4 @@ png
 
 (image-inline png {})
 
-(image *env* {} png)
+(image {} png)

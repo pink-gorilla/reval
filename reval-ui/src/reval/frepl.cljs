@@ -187,7 +187,7 @@
   [{:keys [kernel ns]
     :as opts}]
   (info "loading namespace source: " kernel ns)
-  (-> (clj {:timeout 1000} 'reval.document.notebook/load-src ns kernel)
+  (-> (clj {:timeout 1000} 'rreval.namespace.store/load-src ns kernel)
       (p/then (fn [code]
                 (info "source loaded: " code)
                 (show-floating-repl {:kernel kernel

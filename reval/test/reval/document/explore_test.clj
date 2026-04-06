@@ -1,7 +1,7 @@
 (ns reval.document.explore-test
   (:require
    [clojure.test :refer [deftest is]]
-   [reval.document.explore :as explore]
+   [reval.namespace.explore :as explore]
    [reval.test-init]))
 
 (defn- strip-paths [node]

@@ -1,18 +1,18 @@
-(ns reval.save
+(ns reval.namespace.store
   (:require
    [babashka.fs :as fs]
    [clojure.java.io :as io]
-   [clojure.string :as str]))
+   [clojure.string :as str]
+   [reval.namespace.path :refer [ns->dir ns->filename]]
+   [reval.config :refer [reval]]))
 
-(def ^:dynamic *clones-root*
-  "Directory where classpath-only resources are written, mirroring resource paths."
-  ".reval/clones")
+;; save
 
 (defn clone-file-path
   "Filesystem path under *clones-root* for a resource path (e.g. demo/notebook/foo.clj)."
   [res-path]
   (when-not (str/blank? (str res-path))
-    (str *clones-root* "/"
+    (str (:clones-root reval) "/"
          (-> res-path str str/trim (str/replace #"^/+|/+$" "")))))
 
 (defn slurp-clone-if-present
@@ -49,3 +49,39 @@
       {:path target :clone? clone?})
     (throw (ex-info "save-code needs non-blank :path or :res-path"
                     {:path path :res-path res-path}))))
+
+;; load
+
+(defn load-src-by-res-path
+  "Load source for a resource path such as `notebook/study/movies.clj`.
+  Prefers `.reval/clones/<path>` when present, else classpath."
+  [res-path] 
+  (or (slurp-clone-if-present res-path)
+      (some-> res-path io/resource slurp)
+      (str "(ns " "user" ")\n ; This namespace does not exist as a local file!\n")))
+
+(defn load-src
+  ([nbns]
+   (load-src nbns :clj))
+  ([nbns fmt]
+   (let [rp (ns->filename nbns fmt)]
+     (load-src-by-res-path rp))))
+
+
+
+(comment 
+   (ns->filename "demo.notebook-test.banana" :clj)
+  
+  (load-src "notebook.study.image")
+  (load-src "notebook.study.image" :clj)
+  (load-src "notebook.study.image" :cljs)
+  
+  (-> (load-src "demo.notebook-test.banana")
+      type)
+  
+  (-> "demo.notebook-test.banana"
+      load-src
+      src->src-list)
+  
+ ; 
+  )

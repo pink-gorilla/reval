@@ -1,4 +1,4 @@
-(ns reval.notebook-ui.rewrite
+(ns reval.repl.rewrite
   (:require [clojure.string :as str]
             ; [cljs.reader :as edn]
             [clojure.tools.reader :as reader]

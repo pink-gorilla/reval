@@ -1,6 +1,6 @@
 (ns demo.page.directory-explorer
   (:require
-   [reval.dali.viewer.directory-explorer-viewer :refer [directory-explorer-viewer]]
+   [reval.repl.directory-explorer :refer [directory-explorer-ui]]
    [reval.page.repl :as repl]))
 
 (defn- goto-repl [nbinfo]
@@ -17,7 +17,7 @@
     [:p {:style {:margin "6px 0 0 0" :font-size "0.875rem" :color "#4b5563"}}
      "Notebook sources under configured resource roots. Click a file to open it in the repl."]]
    [:div {:style {:flex 1 :min-height 0 :padding "8px"}}
-    [directory-explorer-viewer
+    [directory-explorer-ui
      {:link (fn [node]
               (goto-repl
                (cond-> {:nbns (:nbns node)

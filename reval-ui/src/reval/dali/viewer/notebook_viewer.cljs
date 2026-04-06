@@ -2,7 +2,7 @@
   (:require
    [shadowx.core :refer [get-resource-path]]
    [dali.viewer :refer [viewer2]]
-   [reval.document.path :refer [ns->dir]]
+   [reval.namespace.path :refer [ns->dir]]
    ))
 
 (defn url-notebook [nbns]
