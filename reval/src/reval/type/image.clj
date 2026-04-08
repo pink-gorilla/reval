@@ -8,5 +8,5 @@
 
 (extend-type BufferedImage
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (image-inline v {})))

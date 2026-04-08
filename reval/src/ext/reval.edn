@@ -1,4 +1,5 @@
 {:extension/name :reval
+ ; runtime
  :clj-service [{:fun reval.namespace.explore/repl-tree :mode :clj}
                {:fun reval.namespace.store/save-code  :mode :clj}
                {:fun reval.namespace.store/load-src :mode :clj}
@@ -6,3 +7,5 @@
                {:fun reval.dali.eval/dali-eval-blocking  :mode :clj} ; :permission  #{:eval}
                {:fun reval.notebook/eval-notebook  :mode :clj} ; :permission  #{:eval}
                ]}
+
+

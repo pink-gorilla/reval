@@ -1,6 +1,6 @@
 (ns reval.kernel.protocol
   (:require
-   [modular.helper.id :refer [guuid]]
+   [id.guuid :refer [guuid]]
    [promesa.core :as p]))
 
 #?(:clj (defmulti kernel-eval (fn [e] (:kernel e)))

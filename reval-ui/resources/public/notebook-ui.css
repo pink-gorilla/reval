@@ -1,0 +1,74 @@
+/* notebook viewer */
+.reval-notebook {
+    background: #eef2ff;
+    padding: 0px;
+    margin: 0px;
+    
+    max-width: 100%;
+    width: 100%;
+    overflow-x: auto;
+}
+
+/* notebook header */
+
+.reval-notebook-header-ns {
+   font-size: 1.25rem;
+   line-height: 1.75rem;
+   color: #1e40af;
+   padding-bottom: 8px;
+   margin: 0px;
+}
+
+.reval-notebook-header-eval-time {
+   padding-bottom: 8px;
+   margin: 0px;
+}
+
+.reval-notebook-header-hr {
+   width: 100%;
+   border-style: solid;
+}
+
+/* notebook segments */
+
+.reval-notebook-segments {
+   display: flex;
+   flex-direction: column;
+   width: 100%;
+   height: 100%;
+}
+
+.reval-notebook-segment {
+   width: 100%;
+   height: 100%;
+}
+
+.reval-notebook-segment-result {
+   margin-top: 4px;
+   margin-bottom: 4px;
+   width: 100%;
+   height: 100%;
+   max-width: 800px;
+   max-height: 400px;
+}
+
+
+.reval-notebook-segment-error {
+   margin-top: 4px;
+   margin-bottom: 4px;
+   width: 100%;
+   height: 100%;
+   max-width: 800px;
+   max-height: 400px;
+}
+
+.reval-notebook-segment-out {
+   background: #bfdbfe;
+   max-width: 100%;
+   overflow-x: auto;
+}
+.reval-notebook-segment-code {
+   width: 100%;
+   height: 100%;
+   
+}

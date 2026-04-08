@@ -15,7 +15,7 @@
     (let [env {}
           out (js->clj (:out er))
           er (assoc er :out out)]
-      (dalify env er))))
+      (dalify er))))
 
 (defn err-adjust [e]
   (when-let [sci-err (exception->error e)]

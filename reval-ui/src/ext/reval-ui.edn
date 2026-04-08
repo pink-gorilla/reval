@@ -2,63 +2,68 @@
  ; build 
  :cljs/module :reval-ui
  :cljs/depends-on #{:ui-codemirror :main}
- :cljs/namespace [; dali plot
+ :cljs/namespace [; type converter
                   reval.dali.plot.type
+                  reval.type.converter
+                  reval.type.cljs ; side-effects; load protocols for cljs and sci
+
+                  ; kernel
+                  reval.kernel.protocol
+                  ;reval.dali.eval
+
                   ; dali viewer
                   reval.dali.viewer.notebook
                   reval.dali.viewer.notebook-viewer
                   reval.dali.viewer.collection
                   reval.dali.viewer.collection-viewer
                   reval.dali.viewer.list
-                  ; reval
-                  reval.kernel.protocol
-                  reval.type.converter
-                  reval.type.cljs ; side-effects; load protocols for cljs and sci
+                 
                   ; pages
                   reval.page.viewer
-                  reval.page.repl-flex
-                  reval.page.repl-comp
-                  reval.page.repl 
-                  layout.flexlayout.core2
+                  reval.page.repl
+
                   ; floating repl
-                  reval.frepl
-                  ]
- :cljs/ns-bindings {; dali plot
+                  reval.frepl]
+ :cljs/ns-bindings {; type-converter
                     'reval.dali.plot.type {'simplevalue->dali reval.dali.plot.type/simplevalue->dali
                                            'list->dali reval.dali.plot.type/list->dali
                                            'unknown-type reval.dali.plot.type/unknown-type
                                            'type-convert-err reval.dali.plot.type/type-convert-err}
+                     'reval.type.converter {'type->dali reval.type.converter/type->dali}
+                    
+                    ; kernel
+                    'reval.kernel.protocol {'available-kernels reval.kernel.protocol/available-kernels
+                        'kernel-eval reval.kernel.protocol/kernel-eval}
+                    ;reval.dali.eval {reval.dali.eval}
+
+
                     ; dali viewer
                     'reval.dali.viewer.notebook {'notebook reval.dali.viewer.notebook/notebook
                                                  'add-segment reval.dali.viewer.notebook/add-segment
                                                  'empty-notebook reval.dali.viewer.notebook/empty-notebook}
                     'reval.dali.viewer.notebook-viewer {'notebook-viewer reval.dali.viewer.notebook-viewer/notebook-viewer}
-                    'reval.dali.viewer.collection {'notebook-collection reval.dali.viewer.collection/notebook-collection }
-                    'reval.dali.viewer.collection-viewer {'load-transform-edn reval.dali.viewer.collection-viewer/load-transform-edn 
+                    'reval.dali.viewer.collection {'notebook-collection reval.dali.viewer.collection/notebook-collection}
+                    'reval.dali.viewer.collection-viewer {'load-transform-edn reval.dali.viewer.collection-viewer/load-transform-edn
                                                           'collection-viewer reval.dali.viewer.collection-viewer/collection-viewer}
-                    'reval.dali.viewer.list {'list-view reval.dali.viewer.list/list-view }
-                    ; reval
-                    'reval.kernel.protocol {'available-kernels reval.kernel.protocol/available-kernels
-                                            'kernel-eval reval.kernel.protocol/kernel-eval}
-                    'reval.type.converter {'type->dali reval.type.converter/type->dali}
-                    ;reval.dali.eval {reval.dali.eval}
-                    
+                    'reval.dali.viewer.list {'list-view reval.dali.viewer.list/list-view}
+                                      
                     ; pages 
                     'reval.page.viewer {'viewer-page reval.page.viewer/viewer-page}
                     'reval.page.repl {'repl-page reval.page.repl/repl-page}
-                    ;'reval.notebook-ui.editor {'block-for reval.notebook-ui.editor/block-for}
+
+                    ;frepl
                     'reval.frepl {'show-floating-repl reval.frepl/show-floating-repl
                                   'show-floating-repl-namespace reval.frepl/show-floating-repl-namespace}
                     }
 
- ; run 
+; run 
  ;:api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list
  ;                           "files" reval.document-handler/wrapped-get-ns-files
  ;                           ["file/" :ns "/" :name] reval.document-handler/wrapped-ns-file-handler}}
- :cljs-routes  {"reval/" {"viewer" reval.page.viewer/viewer-page
-                          "repl" reval.page.repl/repl-page
-                          }}
+ 
 
+
+ 
  ; 
  }
 

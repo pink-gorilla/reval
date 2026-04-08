@@ -3,9 +3,8 @@
  :deps
  {nano-id/nano-id {:mvn/version "1.1.0"}
   org.pinkgorilla/ui-codemirror {:mvn/version "0.1.54"} 
-  org.pinkgorilla/ui-highlightjs {:mvn/version "0.1.20"}
-  ;org.pinkgorilla/ui-layout {:mvn/version "0.4.81"}
-  org.pinkgorilla/ui-layout {:mvn/version "0.5.83"}
+  org.pinkgorilla/ui-highlightjs {:mvn/version "0.1.22"}
+  org.pinkgorilla/ui-layout {:mvn/version "0.5.84"}
   #_org.pinkgorilla/flexlayout #_{:git/url "https://github.com/pink-gorilla/ui-layout.git"
                                   :git/sha "32d0087f7a72b5f8368c6025cf827e1a6a55535e"
                                   :deps/root "flexlayout"}
@@ -13,6 +12,6 @@
   com.pitch/uix.dom {:mvn/version "1.4.3"}
 
   ;org.pinkgorilla/pinkie {:mvn/version "0.5.232"} ; error boundary
-  
+  org.pinkgorilla/css-theme {:mvn/version "0.1.13"}
   org.pinkgorilla/clj-service-flowy {:mvn/version "0.2.50"}
   org.pinkgorilla/reval {:local/root "../reval" :deps/manifest :deps}}}

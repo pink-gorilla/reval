@@ -48,19 +48,18 @@
     :data data}))
 
 (defn list->dali
-  [env {:keys [class open close separator] :as opts} list]
+  [{:keys [class open close separator] :as opts} list]
   (box (assoc opts
-              :children (map #(to-dali % env) list))))
+              :children (map to-dali list))))
 
-(defn map->dali [env opts m]
+(defn map->dali [opts m]
   (box (assoc opts
               :children (interleave
-                         (map #(to-dali % env) (keys m))
-                         (map #(to-dali % env) (vals m))))))
+                         (map to-dali (keys m))
+                         (map to-dali (vals m))))))
 
 (comment
   (list->dali
-   nil
    {:class "clj-lazy-seq"
     :open "("
     :close ")"
@@ -68,7 +67,6 @@
    [1 "test" 5.3 nil :super])
 
   (map->dali
-   nil
    {:class "clj-map"
     :open "{"
     :close "}"

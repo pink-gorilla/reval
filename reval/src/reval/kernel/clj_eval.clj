@@ -1,11 +1,13 @@
 (ns reval.kernel.clj-eval
   (:require
-   [taoensso.timbre :as timbre :refer [info]]
+   [taoensso.timbre :as timbre :refer [debug info]]
    [clojure.string :as string]
    [clojure.core :refer [read-string load-string]]
    [promesa.core :as p]
-   [modular.helper.id :refer [guuid]]
-   [reval.kernel.protocol :refer [kernel-eval]]))
+   [id.guuid :refer [guuid]]
+   [reval.kernel.protocol :refer [kernel-eval]])
+  (:import
+   [clojure.lang Compiler$CompilerException]))
 
 (defmacro with-out-str-data-map
   [& body]
@@ -16,12 +18,25 @@
           :out    (str s#)} ; nrepl compatible!
          ))))
 
+(defn root-cause [^Throwable t]
+  (if-some [c (.getCause t)]
+    (recur c)
+    t))
+
+(defn compiler-exception [ex]
+  (let [msg (ex-message (root-cause ex))
+        ^Throwable e (ex-info msg {})]
+    (.setStackTrace e (into-array StackTraceElement []))
+    e))
+
 (defn clj-eval-raw [code]
   (try
-    (info "eval raw: " code)
+    (debug "eval raw: " code)
     (with-out-str-data-map (load-string code))
-    (catch Exception ex
-      {:ex ex})))
+    (catch Compiler$CompilerException ex  ;Exception ex
+      {:ex ;ex
+       (compiler-exception ex)
+       })))
 
 (defn clj-eval
   "evaluate code in namespace ns
@@ -63,6 +78,12 @@
   ; when capturing eval result, it is not a good idea.
   (p/resolved (clj-eval seg)))
 
+(try
+  ;(clj-eval-raw "(+ 3 4")
+  (clj-eval-raw "(+ a 4)")
+  (catch Exception ex
+    "ex"))
+
 (comment
   (read-string "(+ 1 2) (- 3 2)") ; reads next expression from string
   (load-string "(ns bongo)")
@@ -84,6 +105,7 @@
        ;.getCause
        ;.getVia
        )
+
   (clj-eval {:code "(println 3) (def x 777) (+ 3 4)" :ns "bongo"})
   (clj-eval {:code "x" :ns "bongo" :id 3})
 

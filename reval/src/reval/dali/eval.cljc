@@ -2,38 +2,40 @@
   (:require
    [promesa.core :as p]
    [taoensso.timbre :refer [info]]
-   [dali.plot.exception :as plot]
+   [dali.plot.exception :refer [exception]]
    [reval.type.converter :refer [type->dali]]
    [reval.kernel.protocol :refer [kernel-eval]]
    #?(:clj [reval.kernel.clj-eval]) ; side-effects
    ))
-
-(defn dalify [env {:keys [ex value] :as er}]
-  (if ex
-    (-> er
-        (dissoc :ex)
-        (assoc :err (plot/exception ex)))
+(defn dalify [{:keys [ex value] :as er}]
+  (cond
+    ; exception -> dali spec
+    ex (-> er
+           (dissoc :ex)
+           (assoc :err (exception ex)))
+       ; type -> dali spec
+    :else
     (-> er
         (dissoc :value)
-        (assoc :result (type->dali env value)))))
+        (assoc :result (type->dali value)))))
 
-(defn dali-eval [env segment]
+(defn dali-eval [segment]
   (info "viz-eval segment: " segment)
   (let [eval-p (kernel-eval segment)]
-    (p/then eval-p #(dalify env %))))
+    (p/then eval-p dalify)))
 
 #?(:clj
-   (defn dali-eval-blocking [env segment]
-     (p/await (dali-eval env segment))))
+   (defn dali-eval-blocking [segment]
+     (p/await (dali-eval segment))))
 
 (comment
-  (-> (dali-eval nil {:code "(/ 1 3)" :ns "user" :kernel :clj})
+  (-> (dali-eval  {:code "(/ 1 3)" :ns "user" :kernel :clj})
       (p/then (fn [r] (println "eval result: " r))))
 
-  (-> (dali-eval nil {:code "(+ 1 3)" :ns "user" :kernel :clj})
+  (-> (dali-eval  {:code "(+ 1 3)" :ns "user" :kernel :clj})
       (p/then (fn [r] (println "eval result: " r))))
 
-  (dali-eval-blocking nil {:code "(+ 1 3)" :ns "user" :kernel :clj})
+  (dali-eval-blocking  {:code "(+ 1 3)" :ns "user" :kernel :clj})
 
 ;
   )

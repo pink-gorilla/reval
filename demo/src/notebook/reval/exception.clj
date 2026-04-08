@@ -1,4 +1,4 @@
-(ns notebook.study.exception)
+(ns notebook.reval.exception)
 
 ;; throw an exception !
 

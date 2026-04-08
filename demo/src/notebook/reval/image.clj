@@ -1,20 +1,20 @@
-(ns notebook.study.image
+(ns notebook.reval.image
   (:require
    [clojure.java.io :as io]
-   [modular.persist.protocol :refer [loadr]]
-   [dali.plot.image :refer [image-inline image]]))
+   [dali.plot.image :refer [image-inline image]])
+  (:import
+   javax.imageio.ImageIO))
 
 ;; load an image from disk
-;; loadr is just a helper function
 
-(def iname "resources/public/sun.png")
+(def file-name "resources/public/sun.png")
 
-(-> iname
+(-> file-name
     io/file
     .exists)
 
 (def png
-  (loadr :png iname))
+  (ImageIO/read (io/file file-name)))
 
 png
 
@@ -24,3 +24,4 @@ png
 (image-inline png {})
 
 (image {} png)
+

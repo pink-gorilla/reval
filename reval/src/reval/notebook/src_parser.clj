@@ -3,7 +3,7 @@
    [clojure.string :as str]
    [rewrite-clj.parser :as p]
    [rewrite-clj.node :as n]
-   [modular.helper.id :refer [guuid]]))
+   [id.guuid :refer [guuid]]))
 
 (defn ->segment-code [kernel code]
   {:id (guuid)

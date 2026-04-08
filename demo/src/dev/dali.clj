@@ -10,17 +10,17 @@
 
 s
 
-(type->dali nil 1)
-(type->dali nil nil)
+(type->dali  1)
+(type->dali  nil)
 
-(type->dali nil "asdf")
+(type->dali  "asdf")
 
-(type->dali nil [3 4])
-(type->dali nil '(3 4))
+(type->dali  [3 4])
+(type->dali  '(3 4))
 
-(type->dali nil 'notebook.study.movies/more-movies)
+(type->dali  'notebook.study.movies/more-movies)
 
-(list->dali nil {:separator ""} [1 :yes "a"])
-(list->dali nil {} {:a 1 :b "BB"})
+(list->dali  {:separator ""} [1 :yes "a"])
+(list->dali  {} {:a 1 :b "BB"})
 
 (dali-spec? {:a 1 :b "BB"})

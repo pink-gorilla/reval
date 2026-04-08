@@ -1,0 +1,7 @@
+{:extension/name :reval-ui
+ 
+ :theme {:available  {:notebook-ui {true ["notebook-ui.css"]}}
+         :current {:notebook-ui true}}
+
+
+ }

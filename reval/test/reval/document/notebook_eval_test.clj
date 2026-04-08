@@ -1,7 +1,7 @@
 (ns reval.document.notebook-eval-test
   (:require
    [clojure.test :refer [deftest is]]
-   [notebook.storer [fpath url-root get-link-ns get-path-ns]]
+   [notebook.store [fpath url-root get-link-ns get-path-ns]]
    [reval.notebook :refer [eval-notebook load-notebook]]
    [reval.test-init]))
 

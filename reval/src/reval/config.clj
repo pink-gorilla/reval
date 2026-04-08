@@ -8,7 +8,7 @@
   {:rdocument {:fpath ".reval/public/rdocument"
                :rpath "/r/rdocument"
                :url-root "/api/rdocument/file/"}
-   :namespace-root ["user" "demo"]
+   :namespace-root ["notebook" "user" "demo"]
    :clones-root ".reval/clones"})
 
 (defn start-reval [config]

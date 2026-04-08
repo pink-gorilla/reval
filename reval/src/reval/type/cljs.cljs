@@ -23,24 +23,24 @@
 
 (extend-type default
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (unknown-type v)))
 
 ; nil values are a distinct thing of their own
 
 (extend-type nil
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (simplevalue->dali v "clj-nil")))
 
 (extend-type cljs.core/Keyword
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (simplevalue->dali v "clj-keyword")))
 
 (extend-type cljs.core/Symbol
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (simplevalue->dali v "clj-symbol")))
 
 ; would be cool to be able to use meta data to switch between
@@ -48,7 +48,7 @@
 ; however clojure does not support meta data for strings
 (extend-type string
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (simplevalue->dali v "clj-string")))
 
 #_(extend-type char
@@ -58,21 +58,20 @@
 
 (extend-type number
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (simplevalue->dali v "clj-long")))
 
 (extend-type boolean
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (simplevalue->dali v "clj-boolean")))
 
 ;; LIST
 
 (extend-type cljs.core/MapEntry
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (list->dali
-     env
      {:class "clj-vector"
       :open "["
       :close "]"
@@ -81,9 +80,8 @@
 
 (extend-type cljs.core/LazySeq
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (list->dali
-     env
      {:class "clj-lazy-seq"
       :open  "("
       :close ")"
@@ -92,9 +90,8 @@
 
 (extend-type cljs.core/IntegerRange
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (list->dali
-     env
      {:class "clj-int-range"
       :open  "("
       :close ")"
@@ -103,9 +100,8 @@
 
 (extend-type cljs.core/PersistentVector
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (list->dali
-     env
      {:class "clj-vector"
       :open "["
       :close  "]"
@@ -114,9 +110,8 @@
 
 (extend-type cljs.core/List
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (list->dali
-     env
      {:class "clj-list"
       :open "("
       :close  ")"
@@ -125,9 +120,8 @@
 
 (extend-type cljs.core/PersistentHashSet
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (list->dali
-     env
      {:class "clj-set"
       :open "#{"
       :close  "}"
@@ -142,11 +136,10 @@
 
 (extend-type cljs.core/PersistentArrayMap
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (if (dali-spec? v)
       v
       (map->dali
-       env
        {:class "clj-map"
         :open "{"
         :close  "}"

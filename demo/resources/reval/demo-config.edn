@@ -3,11 +3,11 @@
  :reitit {:wrap demo.app/wrap}
  :cljs-routes-reitit demo.app/routes
  
- :reval {:rdocument  {:fpath ".gorilla/public/rdocument"
+ #_:reval #_{:rdocument  {:fpath ".gorilla/public/rdocument"
                       :rpath "/r/rdocument"}
-         :namespace-root ["user" "demo"]}}
+         :namespace-root ["user" "demo"]}
 
- :css-theme {:codemirror "midnight"}
+ :theme {:codemirror "midnight"}
 
  :keybindings [{:kb "alt-g k",
                 :handler [:palette/show],

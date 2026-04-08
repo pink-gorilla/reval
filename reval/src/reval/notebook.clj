@@ -1,14 +1,12 @@
 (ns reval.notebook
   (:require
-   [clojure.java.io :as io]
    [tick.core :as t]
    [taoensso.timbre :refer [debug info warnf]]
-   [modular.helper.id :refer [guuid]]
+   [id.guuid :refer [guuid]]
    ; dali
    [dali.spec :refer [create-dali-spec]]
    [reval.dali.eval :refer [dalify]]
    ; reval
-   [reval.namespace.path :refer [ns->dir ns->filename]]
    [reval.namespace.store :as namespace-store]
    [reval.notebook.src-parser :refer [text->notebook]]
    [reval.notebook.store :as store]
@@ -38,7 +36,7 @@
    (create-notebook nbns :clj))
   ([nbns fmt]
    (when nbns
-     (store/delete-directory-ns reval nbns))
+     (store/delete-notebook reval nbns))
    (let [src (if nbns
                (namespace-store/load-src nbns fmt)
                "")]
@@ -61,7 +59,7 @@
    (load-notebook nbns :clj))
   ([nbns fmt]
    (let [nb (if nbns
-              (store/loadr reval nbns "notebook" :edn)
+              (store/load-notebook reval nbns)
               nil)]
      (-> (if nb
            nb
@@ -70,7 +68,7 @@
 
 (defn save-notebook [nbns nb]
   (info "saving notebook: " nbns)
-  (store/save reval nb nbns "notebook" :edn))
+  (store/save-notebook reval nb nbns))
 
 ; eval
 
@@ -95,7 +93,7 @@
 
 (defn eval-notebook
   ([nbns]
-   (eval-notebook nbns #(dalify reval %))) ; default converter
+   (eval-notebook nbns dalify )) ; default converter
   ([nbns eval-result-view-fn]
    (let [nb (create-notebook nbns)
          eval-results (eval-nb-segments nb nbns)
@@ -106,8 +104,8 @@
                 (assoc :content (into [] content))
                 (assoc-in [:meta :eval-time] (-> (t/instant) str))
                 (assoc-in [:meta :java] (-> (System/getProperties) (get "java.version")))
-                (assoc-in [:meta :clojure] (clojure-version)))]
-     (save-notebook nbns nb)
+                (assoc-in [:meta :clojure] (clojure-version)))
+         nb (save-notebook nbns nb)] ; save-notebook resolves urls for embedded content
      (plot-notebook nb))))
 
 (comment
