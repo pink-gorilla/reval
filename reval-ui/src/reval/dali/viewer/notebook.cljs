@@ -28,8 +28,9 @@
   (let [{:keys [ns eval-time]} meta]
     [:div.reval-notebook
      [:div.reval-notebook-header
-      [:h1.reval-notebookheader-ns ns]
-      [:p.reval-notebook-header-eval-time "evaluated: " eval-time]
+      [:div.reval-notebook-header-row
+       [:h1.reval-notebook-header-ns ns]
+       [:p.reval-notebook-header-eval-time "evaluated: " eval-time]]
       [:hr.reval-notebook-header-hr]]
      
      (into [:div.reval-notebook-segments]
