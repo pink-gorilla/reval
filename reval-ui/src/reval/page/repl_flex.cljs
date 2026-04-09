@@ -13,7 +13,9 @@
    ; reval
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.dali.viewer.notebook :refer [add-segment empty-notebook]]
-   [reval.repl.codemirror-tab :as edtab]))
+   [reval.repl.codemirror-tab :as edtab]
+  
+   ))
 
 ;; Merged tab state for the selected repl file tab (keyboard / toolbar).
 (defonce repl-selection-a (r/atom nil))
@@ -78,8 +80,7 @@
 (defn eval-notebook-in-selection! []
   (when-let [{:keys [nb-a nbns]} @repl-selection-a]
     (when-not (str/blank? (str nbns))
-      (let [rp (clj {:timeout 120000}
-                    'reval.notebook/eval-notebook nbns)]
+      (let [rp (clj {:timeout 120000} 'reval.notebook/eval-notebook nbns)]
         (p/then rp (fn [r]
                      (reset! nb-a (:data r))))))))
 

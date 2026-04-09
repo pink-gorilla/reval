@@ -2,8 +2,7 @@
   (:require
    [shadowx.core :refer [get-resource-path]]
    [dali.viewer :refer [viewer2]]
-   [reval.namespace.path :refer [ns->dir]]
-   ))
+   [reval.namespace.path :refer [ns->dir]]))
 
 (defn url-notebook [nbns]
   ; target/webly/public/rdocument/notebook/study/movies/notebook.edn

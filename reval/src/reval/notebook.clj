@@ -5,7 +5,7 @@
    [id.guuid :refer [guuid]]
    ; dali
    [dali.spec :refer [create-dali-spec]]
-   [reval.dali.eval :refer [dalify]]
+   [reval.kernel.dali :refer [dalify]]
    ; reval
    [reval.namespace.store :as namespace-store]
    [reval.notebook.src-parser :refer [text->notebook]]

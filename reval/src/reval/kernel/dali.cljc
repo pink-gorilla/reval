@@ -1,4 +1,4 @@
-(ns reval.dali.eval
+(ns reval.kernel.dali
   (:require
    [promesa.core :as p]
    [taoensso.timbre :refer [info]]

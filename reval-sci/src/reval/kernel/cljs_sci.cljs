@@ -7,13 +7,12 @@
    [goldly.sci.error :refer [exception->error]]
    [reval.type.sci]; side-effects
    [reval.kernel.protocol :refer [kernel-eval]]
-   [reval.dali.eval :refer [dalify]]
+   [reval.kernel.dali :refer [dalify]]
    [dali.plot.hiccup :as plot]))
 
 (defn viz-adjust [er]
   (when [er] ; {:id :code :value :err :out :ns}
-    (let [env {}
-          out (js->clj (:out er))
+    (let [out (js->clj (:out er))
           er (assoc er :out out)]
       (dalify er))))
 

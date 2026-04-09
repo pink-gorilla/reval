@@ -4,7 +4,7 @@
                {:fun reval.namespace.store/save-code  :mode :clj}
                {:fun reval.namespace.store/load-src :mode :clj}
                {:fun reval.namespace.store/load-src-by-res-path :mode :clj}
-               {:fun reval.dali.eval/dali-eval-blocking  :mode :clj} ; :permission  #{:eval}
+               {:fun reval.kernel.dali/dali-eval-blocking  :mode :clj} ; :permission  #{:eval}
                {:fun reval.notebook/eval-notebook  :mode :clj} ; :permission  #{:eval}
                ]}
 

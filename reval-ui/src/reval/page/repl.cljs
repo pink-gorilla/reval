@@ -1,9 +1,15 @@
 (ns reval.page.repl
   (:require
-   reval.page.repl-comp ;; side effects: register flexlayout tab components
    [re-frame.core :as rf]
    [reitit.frontend.easy :as rfe]
-   [reval.page.repl-flex :as flex]))
+   [reval.page.repl-flex :as flex]
+    ;; side effects 
+   [reval.page.comp.welcome]
+   [reval.page.comp.explorer]
+   [reval.page.comp.notebook]
+   [reval.page.comp.code]
+   [reval.page.comp.file-layout]
+   ))
 
 (defn open-in-repl! [nbinfo]
   (reset! flex/pending-open-file nbinfo)

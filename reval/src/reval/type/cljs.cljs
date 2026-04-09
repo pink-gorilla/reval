@@ -1,8 +1,8 @@
 (ns reval.type.cljs
   "converts clojurescript values to hiccup representation"
   (:require
-   [dali.spec :refer [dali-spec?]]
-   [reval.dali.plot.type :refer [simplevalue->dali list->dali map->dali unknown-type]]
+   [dali.spec :refer [dali-spec? create-dali-spec]]
+   [reval.type.util :refer [simplevalue->dali list->dali map->dali]]
    [reval.type.protocol :refer [dali-convertable]]))
 
 ;;; ** to-hiccupers for basic Clojure forms **
@@ -20,6 +20,15 @@
     hiccup-convertable
     (to-hiccup [self]
       (simplevalue->hiccup self "clj-unknown")))
+
+(defn unknown-type [v]
+  (let [type-as-str (-> v type str)]
+    (create-dali-spec
+     {:viewer-fn 'dali.viewer.hiccup/hiccup
+      :data  [:div.border-solid.p-2.dali-unknown-type
+              [:p.text-red-300 "unknown type: " type-as-str]
+              [:span (pr-str v)]]})))
+
 
 (extend-type default
   dali-convertable
@@ -53,7 +62,7 @@
 
 #_(extend-type char
     dali-convertable
-    (to-dali [v env]
+    (to-dali [v]
       (simplevalue->dali v "clj-char")))
 
 (extend-type number

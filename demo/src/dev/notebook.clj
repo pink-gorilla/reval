@@ -6,18 +6,21 @@
 
 ;; notebook
 
-(load-notebook  "user.bongo.xyr")
+(create-notebook "notebook.cljs.cljs" :cljs)
+(create-notebook "notebook.study.image")
+
+(load-notebook "user.bongo.xyr")
 
 (eval-notebook "notebook.study.movies")
 (load-notebook "notebook.study.movies")
 
-(eval-notebook  "notebook.test27.exception")
+(eval-notebook "notebook.test27.exception")
 
-(eval-notebook  "notebook.study.image")
+(eval-notebook "notebook.study.image")
 
-(create-notebook "notebook.cljs.cljs" :cljs)
+(eval-notebook "notebook.dali.rtable.chart.highstock-ds-barcolor")
 
-(create-notebook  "notebook.study.image")
+
 
 ; collection
 

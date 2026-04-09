@@ -1,7 +1,7 @@
-(ns reval.dali.plot.type
+(ns reval.type.util
   (:require
    [dali.spec :refer [create-dali-spec]]
-   [reval.type.protocol :refer [to-dali]]))
+   [reval.type.converter :refer [type->dali]]))
 
 (def styles
   {"clj-raw"    {:color "red"}
@@ -50,13 +50,13 @@
 (defn list->dali
   [{:keys [class open close separator] :as opts} list]
   (box (assoc opts
-              :children (map to-dali list))))
+              :children (map type->dali list))))
 
 (defn map->dali [opts m]
   (box (assoc opts
               :children (interleave
-                         (map to-dali (keys m))
-                         (map to-dali (vals m))))))
+                         (map type->dali (keys m))
+                         (map type->dali (vals m))))))
 
 (comment
   (list->dali
@@ -79,23 +79,3 @@
 
 ;  
   )
-
-;; UNKNOWN
-
-(defn unknown-type [v]
-  (let [type-as-str (-> v type str)]
-    (create-dali-spec
-     {:viewer-fn 'dali.viewer.hiccup/hiccup
-      :data  [:div.border-solid.p-2.dali-unknown-type
-              [:p.text-red-300 "unknown type: " type-as-str]
-              [:span (pr-str v)]]})))
-
-;; ERROR
-
-(defn type-convert-err [v]
-  (let [type-as-str (-> v type str)]
-    (create-dali-spec
-     {:viewer-fn 'dali.viewer.hiccup/hiccup
-      :data  [:div.border-solid.p-2.dali-type-convert-err
-              [:p.text-red-300 type-as-str]
-              [:span (pr-str v)]]})))

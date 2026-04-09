@@ -1,8 +1,7 @@
 (ns reval.type.clj
   "converts clojure values to hiccup representation"
   (:require
-   [dali.spec :refer [dali-spec?]]
-   [reval.dali.plot.type :refer [simplevalue->dali list->dali map->dali]]
+   [reval.type.util :refer [simplevalue->dali list->dali map->dali]]
    [reval.type.protocol :refer [dali-convertable]]))
 
 ;; Renderers for basic Clojure forms **
@@ -52,7 +51,7 @@
 
 (extend-type clojure.lang.Atom
   dali-convertable
-  (to-dali [v _env]
+  (to-dali [v]
     (simplevalue->dali v "clj-atom")))
 
 (extend-type clojure.lang.Agent
@@ -140,7 +139,6 @@
   dali-convertable
   (to-dali [v]
     (list->dali
-
      {:class "clj-lazy-seq"
       :open "("
       :close ")"
@@ -151,7 +149,6 @@
   dali-convertable
   (to-dali [v]
     (list->dali
-
      {:class "clj-list"
       :open "("
       :close ")"
@@ -163,7 +160,6 @@
   dali-convertable
   (to-dali [v]
     (list->dali
-
      {:class "clj-list"
       :open "("
       :close ")"
@@ -174,7 +170,6 @@
   dali-convertable
   (to-dali [v]
     (list->dali
-
      {:class "clj-list"
       :open "("
       :close ")"
@@ -185,7 +180,6 @@
   dali-convertable
   (to-dali [v]
     (list->dali
-
      {:class "clj-list"
       :open "("
       :close ")"
@@ -196,7 +190,6 @@
   dali-convertable
   (to-dali [v]
     (list->dali
-
      {:class  "clj-set"
       :open "#{"
       :close "}"

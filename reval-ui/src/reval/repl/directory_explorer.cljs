@@ -5,8 +5,7 @@
    [reagent.core :as r]
    [clj-service.http :refer [clj]]
    [taoensso.timbre :refer [error]]
-   [promesa.core :as p]
-   ))
+   [promesa.core :as p]))
 
 (defn- padded [depth & body]
   [:div {:style {:padding-left (str (+ 6 (* 10 depth)) "px")
@@ -50,7 +49,7 @@
                       [tree-node (inc depth) link-fn active-res-path ch])
                     children)))])
     (let [active? (and (not (str/blank? active-res-path))
-                        (= name-full active-res-path))]
+                       (= name-full active-res-path))]
       [:div {:style {:padding-left (str (+ 6 (* 10 depth)) "px")
                      :padding-top "3px"
                      :padding-bottom "3px"
@@ -71,16 +70,14 @@
      ^{:key (:res-path root)}
      [tree-node 0 link active-res-path (:tree root)])])
 
-
 (defonce data-a (r/atom nil))
 
-(->  (clj {:timeout 5000} 'reval.namespace.explore/repl-tree )
+(->  (clj {:timeout 5000} 'reval.namespace.explore/repl-tree)
      (p/then (fn [data]
                (reset! data-a data)))
      (p/catch (fn [err]
                 (error "could not load repl tree: " err)
                 (reset! data-a nil))))
-
 
 (defn directory-explorer-ui [{:keys [link active-res-path] :as opts}]
   (if @data-a

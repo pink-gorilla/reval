@@ -3,7 +3,7 @@
   (:require
    [sci.lang]
    [reval.type.protocol :refer [dali-convertable]]
-   [reval.dali.plot.type :refer [simplevalue->dali list->dali map->dali unknown-type]]))
+   [reval.type.util :refer [simplevalue->dali list->dali map->dali unknown-type]]))
 
 ; this cljs file that gets executed in cljs (NOT BY SCI)
 
@@ -29,7 +29,7 @@
 
 (extend-type sci.lang/Var
   dali-convertable
-  (to-dali [v env]
+  (to-dali [v]
     (simplevalue->dali v "clj-symbol")))
 
 

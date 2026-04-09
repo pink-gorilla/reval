@@ -20,8 +20,7 @@
   (when-let [code (cm-get-code editor-id)]
     (let [p (when-not (str/blank? (str path)) path)
           rp (when-not (str/blank? (str res-path)) res-path)]
-      (clj {:timeout 1000}
-           'reval.namespace.store/save-code {:code code :path p :res-path rp}))))
+      (clj {:timeout 1000} 'reval.namespace.store/save-code {:code code :path p :res-path rp}))))
 
 (defn current-expression [editor-id]
   (when-let [c (get-editor editor-id)]

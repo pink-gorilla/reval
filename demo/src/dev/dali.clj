@@ -3,7 +3,7 @@
    [modular.system]
    [dali.spec :refer [dali-spec?]]
    [reval.type.converter :refer [type->dali]]
-   [reval.dali.plot.type :refer [list->dali]]))
+   [reval.type.util :refer [list->dali]]))
 
 ;; first lets get the running reval  instance
 (def s (modular.system/system :reval))

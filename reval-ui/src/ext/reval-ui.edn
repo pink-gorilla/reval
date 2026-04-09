@@ -3,13 +3,13 @@
  :cljs/module :reval-ui
  :cljs/depends-on #{:ui-codemirror :main}
  :cljs/namespace [; type converter
-                  reval.dali.plot.type
+                  reval.type.util
                   reval.type.converter
                   reval.type.cljs ; side-effects; load protocols for cljs and sci
 
                   ; kernel
                   reval.kernel.protocol
-                  ;reval.dali.eval
+                  ;reval.kernel.dali
 
                   ; dali viewer
                   reval.dali.viewer.notebook
@@ -25,17 +25,17 @@
                   ; floating repl
                   reval.frepl]
  :cljs/ns-bindings {; type-converter
-                    'reval.dali.plot.type {'simplevalue->dali reval.dali.plot.type/simplevalue->dali
-                                           'list->dali reval.dali.plot.type/list->dali
-                                           'unknown-type reval.dali.plot.type/unknown-type
-                                           'type-convert-err reval.dali.plot.type/type-convert-err}
-                     'reval.type.converter {'type->dali reval.type.converter/type->dali}
+                    'reval.type.util {'simplevalue->dali reval.type.util/simplevalue->dali
+                                      'list->dali reval.type.util/list->dali
+                                      'unknown-type reval.type.util/unknown-type
+                                      'type-convert-err reval.type.util/type-convert-err}
+                    'reval.type.converter {'type->dali reval.type.converter/type->dali}
                     
                     ; kernel
                     'reval.kernel.protocol {'available-kernels reval.kernel.protocol/available-kernels
-                        'kernel-eval reval.kernel.protocol/kernel-eval}
-                    ;reval.dali.eval {reval.dali.eval}
-
+                                            'kernel-eval reval.kernel.protocol/kernel-eval}
+                    ;reval.kernel.dali {reval.kernel.dali}
+                    
 
                     ; dali viewer
                     'reval.dali.viewer.notebook {'notebook reval.dali.viewer.notebook/notebook
@@ -46,7 +46,7 @@
                     'reval.dali.viewer.collection-viewer {'load-transform-edn reval.dali.viewer.collection-viewer/load-transform-edn
                                                           'collection-viewer reval.dali.viewer.collection-viewer/collection-viewer}
                     'reval.dali.viewer.list {'list-view reval.dali.viewer.list/list-view}
-                                      
+                    
                     ; pages 
                     'reval.page.viewer {'viewer-page reval.page.viewer/viewer-page}
                     'reval.page.repl {'repl-page reval.page.repl/repl-page}
