@@ -59,13 +59,14 @@
 
 .reval-notebook-segment {
    width: 100%;
+   max-width: 100%;
 }
 
 .reval-notebook-segment-result {
    margin-top: 4px;
    margin-bottom: 4px;
    width: 100%;
-   max-width: 800px;
+   max-width: 100%;
 }
 
 
@@ -73,7 +74,7 @@
    margin-top: 4px;
    margin-bottom: 4px;
    width: 100%;
-   max-width: 800px;
+   max-width: 100%;
 }
 
 .reval-notebook-segment-out {
@@ -83,4 +84,5 @@
 }
 .reval-notebook-segment-code {
    width: 100%;
+   max-width: 100%;
 }

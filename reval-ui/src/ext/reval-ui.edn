@@ -3,9 +3,9 @@
  :cljs/module :reval-ui
  :cljs/depends-on #{:ui-codemirror :main}
  :cljs/namespace [; type converter
-                  reval.type.util
-                  reval.type.converter
-                  reval.type.cljs ; side-effects; load protocols for cljs and sci
+                  dali.type.util
+                  dali.type.converter
+                  dali.type.cljs ; side-effects; load protocols for cljs and sci
 
                   ; kernel
                   reval.kernel.protocol
@@ -25,11 +25,11 @@
                   ; floating repl
                   reval.frepl]
  :cljs/ns-bindings {; type-converter
-                    'reval.type.util {'simplevalue->dali reval.type.util/simplevalue->dali
-                                      'list->dali reval.type.util/list->dali
-                                      'unknown-type reval.type.util/unknown-type
-                                      'type-convert-err reval.type.util/type-convert-err}
-                    'reval.type.converter {'type->dali reval.type.converter/type->dali}
+                    'dali.type.util {'simplevalue->dali dali.type.util/simplevalue->dali
+                                      'list->dali dali.type.util/list->dali
+                                      'unknown-type dali.type.util/unknown-type
+                                      'type-convert-err dali.type.util/type-convert-err}
+                    'dali.type.converter {'type->dali dali.type.converter/type->dali}
                     
                     ; kernel
                     'reval.kernel.protocol {'available-kernels reval.kernel.protocol/available-kernels

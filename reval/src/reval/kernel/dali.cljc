@@ -3,7 +3,7 @@
    [promesa.core :as p]
    [taoensso.timbre :refer [info]]
    [dali.plot.exception :refer [exception]]
-   [reval.type.converter :refer [type->dali]]
+   [dali.type.converter :refer [type->dali]]
    [reval.kernel.protocol :refer [kernel-eval]]
    #?(:clj [reval.kernel.clj-eval]) ; side-effects
    ))

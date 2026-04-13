@@ -1,8 +1,8 @@
-(ns reval.type.unknown-test
+(ns dali.type.unknown-test
   (:require
    [clojure.test :refer [deftest is]]
-   [reval.type.protocol :refer [to-hiccup]]
-   [reval.type.converter :refer [unknown-type-view]]
+   [dali.type.protocol :refer [to-hiccup]]
+   [dali.type.converter :refer [unknown-type-view]]
    [reval.test-init]))
 
 (defrecord unknown-type-record [a])

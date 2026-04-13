@@ -1,7 +1,7 @@
-(ns reval.type.clj-type-test
+(ns dali.type.clj-type-test
   (:require
    [clojure.test :refer [deftest is]]
-   [reval.type.protocol :refer [to-hiccup]]
+   [dali.type.protocol :refer [to-hiccup]]
    [reval.test-init]))
 
 ; Type Tests	array? fn? number? object? string?

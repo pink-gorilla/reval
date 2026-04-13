@@ -1,9 +1,9 @@
-(ns reval.type.sci
+(ns dali.type.sci
   "converts sci values to hiccup representation"
   (:require
    [sci.lang]
-   [reval.type.protocol :refer [dali-convertable]]
-   [reval.type.util :refer [simplevalue->dali list->dali map->dali unknown-type]]))
+   [dali.type.protocol :refer [dali-convertable]]
+   [dali.type.util :refer [simplevalue->dali list->dali map->dali unknown-type]]))
 
 ; this cljs file that gets executed in cljs (NOT BY SCI)
 

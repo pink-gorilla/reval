@@ -8,8 +8,8 @@
   #_org.pinkgorilla/flexlayout #_{:git/url "https://github.com/pink-gorilla/ui-layout.git"
                                   :git/sha "32d0087f7a72b5f8368c6025cf827e1a6a55535e"
                                   :deps/root "flexlayout"}
-  com.pitch/uix.core {:mvn/version "1.4.3"}
-  com.pitch/uix.dom {:mvn/version "1.4.3"}
+  com.pitch/uix.core {:mvn/version "1.4.9"}
+  com.pitch/uix.dom {:mvn/version "1.4.9"}
 
   ;org.pinkgorilla/pinkie {:mvn/version "0.5.232"} ; error boundary
   org.pinkgorilla/css-theme {:mvn/version "0.1.13"}

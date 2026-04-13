@@ -49,7 +49,7 @@
 
 (defn delete-notebook [this nbns]
   (let [ns-path (get-path-ns this nbns)]
-    (info "deleting notebook " nbns "path: " ns-path)
+    (debug "deleting notebook " nbns "path: " ns-path)
     (delete-recursively ns-path)))
 
 (defn- add-extension [name format]
@@ -60,7 +60,7 @@
   (let [ns-path (ns->dir nbns)
         dali-store (:dali-store this) 
         sub-path (str "/" ns-path "/")
-        _ (info "sub-path: " sub-path)
+        _ (debug "sub-path: " sub-path)
         _ (set-sub-path dali-store  sub-path)
         store-segment (fn [segment]
                         (if-let [result  (:result segment)]
@@ -74,7 +74,7 @@
 
 
 (defn save-notebook [this data nbns]
-  (info "saving.. this: " this)
+  (debug "saving.. this: " this)
   (let [path (get-path-ns this nbns)
         _  (fs/create-dirs path)
         filename (-> (get-filename-ns this nbns "notebook")

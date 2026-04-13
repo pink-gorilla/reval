@@ -5,7 +5,7 @@
    [taoensso.timbre :refer [debug info warnf error]]
    [goldly.sci :refer [compile-code-async]]
    [goldly.sci.error :refer [exception->error]]
-   [reval.type.sci]; side-effects
+   [dali.type.sci]; side-effects
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.kernel.dali :refer [dalify]]
    [dali.plot.hiccup :as plot]))

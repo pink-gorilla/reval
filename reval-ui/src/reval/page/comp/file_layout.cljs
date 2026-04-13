@@ -8,9 +8,6 @@
    [layout.flexlayout.comp :refer [component-ui]]
    [reval.page.repl-flex :as rflex]))
 
-
-
-
 (defn- repl-file-inner-config [cfg]
   (dissoc cfg :repl-inner-code-id :repl-inner-nb-id :repl-tab-name))
 
@@ -28,32 +25,29 @@
                          (clj->js
                           {:global {:tabEnableClose false
                                     :tabSetEnableClose false}
-                           :layout
-                           {:type "row"
-                            :id rid
-                            :children
-                            [{:type "tabset"
-                              :id ts1
-                              :weight 50
-                              :selected 0
-                              :children
-                              [{:type "tab"
-                                :id id-code
-                                :name tab-n
-                                :component "reval-repl-code"
-                                :config tcfg
-                                :enableClose false}]}
-                             {:type "tabset"
-                              :id ts2
-                              :weight 50
-                              :selected 0
-                              :children
-                              [{:type "tab"
-                                :id id-nb
-                                :name (str tab-n " · out")
-                                :component "reval-repl-notebook"
-                                :config tcfg
-                                :enableClose false}]}]}})))
+                           :layout {:type "row"
+                                    :id rid
+                                    :children [{:type "tabset"
+                                                :id ts1
+                                                :weight 50
+                                                :selected 0
+                                                :children [{:type "tab"
+                                                            :id id-code
+                                                            :name tab-n
+                                                            :component "reval-repl-code"
+                                                            :config tcfg
+                                                            :enableClose false}]}
+                                               {:type "tabset"
+                                                :id ts2
+                                                :weight 50
+                                                :selected 0
+                                                :children [{:type "tab"
+                                                            :id id-nb
+                                                            :name (str tab-n " · out")
+                                                            :component "reval-repl-notebook"
+                                                            :config tcfg
+                                                            :enableClose false}]}]}})))
+
                      #js [id-code id-nb tab-n (str (:res-path cfg)) (str (:nbns cfg))])
         layout-state (react/useMemo
                       (fn [] (atom {:data-a (:data-a @flc/state-a)}))
@@ -65,13 +59,6 @@
                            :category "reval"
                            :model-name "repl-file-sub"
                            :data {}}))))
-
-
-
-
-
-
-
 
 (defmethod component-ui "reval-repl-file-layout" [opts]
   ($ repl-file-layout-pane opts))

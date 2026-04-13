@@ -5,9 +5,13 @@
   :timbre {:start (modular.log/timbre-config!
                    (:timbre/clj (clip/ref :config)))}
   :exts {:start (extension/discover (:extension (clip/ref :config)))}
-   
-
-;; webserver
+  
+  ;; extend transit handler and configure dali converters
+  :tick-transit-handler {:start (transit.type.tick/add-tick-handlers!)}
+  :techml-transit-handler {:start (cquant.transit.techml/add-techml-dataset-handlers!)}
+  :techml-dali-converter {:start (rtable.default.dali-converter/add-techml-dali-converter)} 
+  
+  ;; webserver
   :token {:start (token.core/start-token-service
                   {:users {}
                    :secret "AbHzj834ri9"
@@ -16,7 +20,7 @@
                    :auth-expiry 604800})}
   :clj {:start (clj-service.core/start-clj-services
                 {:exts (clip/ref :exts)
-                 :env {:dali-store (deref dali.store.cache/dali-cache-store)}})}
+                 :env {}})}
   :webly {:start (webly.spa/start-webly
                   {:exts (clip/ref :exts)
                    :ctx {:token (clip/ref :token)
