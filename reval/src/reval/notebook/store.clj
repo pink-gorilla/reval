@@ -14,7 +14,6 @@
 (add-tick-fipp-printers!)
 (add-tick-edn-handlers!)
 
-
 ; get-filename and get-link may NOT contain the fmt parameter
 ; the name contains the extension. The reason is, that we have
 ; a format detector based on full name. This is important, as
@@ -58,7 +57,7 @@
 
 (defn store-embedded-content [this nb nbns]
   (let [ns-path (ns->dir nbns)
-        dali-store (:dali-store this) 
+        dali-store (:dali-store this)
         sub-path (str "/" ns-path "/")
         _ (debug "sub-path: " sub-path)
         _ (set-sub-path dali-store  sub-path)
@@ -69,9 +68,7 @@
     (update nb :content (fn [segments]
                           (->> segments
                                (map store-segment)
-                               (into [])
-                               )))))
-
+                               (into []))))))
 
 (defn save-notebook [this data nbns]
   (debug "saving.. this: " this)
@@ -83,8 +80,6 @@
     (set-sub-path (:dali-store this) "/")
     (spit-fipp filename data)
     data))
-
-
 
 (defn load-notebook [this nbns]
   (let [filename (-> (get-filename-ns this nbns "notebook")
@@ -115,13 +110,12 @@
 (comment
 
   (require '[reval.config :refer [reval]])
-  
-  
+
   (fpath reval)
   ; ".reval/public/rdocument"
   (get-path-ns reval "demo.study")
   ;".reval/public/rdocument/demo/study"
-  
+
   (def this {:config {:rdocument  {:fpath "/tmp/rdocument"
                                    :rpath "/api/rdocument/file"}
                       :collections {:user [:clj "user/notebook/"]
@@ -132,9 +126,7 @@
 
   (get-link-ns this "demo.notebook.image" "bongo.txt")
 
-  (save-notebook this {:a 1 :b "bongotrott" :c [1 2 3]}  "demo.3" )
-  
-  
+  (save-notebook this {:a 1 :b "bongotrott" :c [1 2 3]}  "demo.3")
 
   (get-ns-list this)
 
@@ -142,11 +134,11 @@
 
   ;(require '[tablecloth.api :as tc])
   ;(save (tc/dataset {:a [1.4 2.5]}) "demo.3" "bongotrott" :nippy)
-  
+
   ; nippy only works on java11
   ;(save  (tc/dataset {:a [1 2] :b  [1 2] :c [2 3]}) "demo.3" "bongotrott" :arrow)
   ;(save (tc/dataset {:a [1.4 2.5]}) "demo.3" "bongotrott5" :arrow)
-  
+
   ;(let [ns-nb "demo.3"
   ;      n "ds-daniel"]
   ;  (-> (tc/dataset {:a [1 2 3]
@@ -157,10 +149,9 @@
   ;      (save ns-nb n :csv)
   ;      ;(save ns-nb n :arrow)
   ;      ))
-  
+
   (-> (load-notebook this "demo.3")
       :c)
-  
 
   (delete-recursively "demo/rdocument/demo/notebook/hello")
 

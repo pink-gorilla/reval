@@ -1,15 +1,10 @@
 (ns reval.page.comp.explorer
   (:require
-    [reagent.core :as r]
-    [uix.core :refer [$ defui]]
-    [layout.flexlayout.comp :refer [component-ui]]
-    [reval.repl.directory-explorer :refer [directory-explorer-ui]]
-    [reval.page.repl-flex :as rflex]
-   ))
-
-
-
-
+   [reagent.core :as r]
+   [uix.core :refer [$ defui]]
+   [layout.flexlayout.comp :refer [component-ui]]
+   [reval.repl.directory-explorer :refer [directory-explorer-ui]]
+   [reval.page.repl-flex :as rflex]))
 
 (defn- explorer-inner []
   (fn []

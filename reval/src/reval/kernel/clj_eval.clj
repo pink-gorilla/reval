@@ -35,8 +35,7 @@
     (with-out-str-data-map (load-string code))
     (catch Compiler$CompilerException ex  ;Exception ex
       {:ex ;ex
-       (compiler-exception ex)
-       })))
+       (compiler-exception ex)})))
 
 (defn clj-eval
   "evaluate code in namespace ns

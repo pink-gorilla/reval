@@ -11,8 +11,7 @@
    [reval.notebook.src-parser :refer [text->notebook]]
    [reval.notebook.store :as store]
    [reval.kernel.clj-eval :refer [clj-eval]]
-   [reval.config :refer [reval]]
-   ))
+   [reval.config :refer [reval]]))
 
 ;; create
 
@@ -93,7 +92,7 @@
 
 (defn eval-notebook
   ([nbns]
-   (eval-notebook nbns dalify )) ; default converter
+   (eval-notebook nbns dalify)) ; default converter
   ([nbns eval-result-view-fn]
    (let [nb (create-notebook nbns)
          eval-results (eval-nb-segments nb nbns)
@@ -110,9 +109,7 @@
 
 (comment
 
- 
-
-  ;; ["(+ 1 1)"
+;; ["(+ 1 1)"
   ;;  "(println 123)"
   ;;  "[1 2 3]"
   ;;  "{:a 3}"]

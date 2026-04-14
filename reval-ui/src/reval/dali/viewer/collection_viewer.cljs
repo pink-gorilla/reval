@@ -3,8 +3,7 @@
    [promesa.core :as p]
    [dali.transform.load :refer [load-edn]]
    [dali.viewer :refer [viewer2]]
-   [shadowx.core :refer [get-resource-path]]
-   ))
+   [shadowx.core :refer [get-resource-path]]))
 
 (defn url-collections []
   ; target/webly/public/rdocument/notebooks.edn

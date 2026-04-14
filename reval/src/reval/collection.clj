@@ -5,8 +5,7 @@
    [reval.namespace.path :refer [split-ext is-format? ext-is-format? filename->ns]]
    [reval.notebook :refer [eval-notebook create-notebook save-notebook]]
    [reval.default]  ; side effects to include all default converters
-   [reval.config :refer [reval]]
-   ))
+   [reval.config :refer [reval]]))
 
 (defn- convert-ns [res-path {:keys [name path] :as entry}]
   (let [[name-only ext] (split-ext name)
@@ -100,8 +99,6 @@
   (doall
    (map eval-collection (vals colls))))
 
-
-
 (def nb-welcome
   {:meta {:ns "welcome"}
    :content
@@ -127,8 +124,6 @@
   (eval-collections collections)
   (build-notebook-index collections)
   (save-welcome))
-
-
 
 (comment
 

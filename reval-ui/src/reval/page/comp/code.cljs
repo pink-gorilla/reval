@@ -3,7 +3,7 @@
    [clojure.string :as str]
    [reagent.core :as r]
    [promesa.core :as p]
-   [uix.core :refer [$ defui]] 
+   [uix.core :refer [$ defui]]
    [ui.codemirror.theme :as theme]
    [ui.codemirror.codemirror :refer [codemirror-themed]]
    [layout.flexlayout.comp :refer [component-ui]]
@@ -11,9 +11,7 @@
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.dali.viewer.notebook :refer [notebook empty-notebook add-segment]]
    [reval.repl.codemirror-tab :as edtab]
-   [reval.page.repl-flex :as rflex]
-   ))
-
+   [reval.page.repl-flex :as rflex]))
 
 (defn- eval-all-local! [m]
   (let [{:keys [editor-id fmt nb-a ext]} m
@@ -45,8 +43,6 @@
 (defn- clear-local! [m]
   (when-let [nb-a (:nb-a m)]
     (reset! nb-a (empty-notebook))))
-
-
 
 (defn- tab-toolbar [m]
   (let [{:keys [fmt nbns path res-path ext]} m
@@ -84,7 +80,6 @@
                :on-click #(clear-local! m)}
       "clear output"]]))
 
-
 (def cm-opts {:lineWrapping false})
 
 (defn- repl-code-panel [opts]
@@ -112,7 +107,6 @@
                       :overflow "hidden"}}
         [:div.my-codemirror {:style {:flex 1 :min-height 0 :width "100%"}}
          [codemirror-themed editor-id cm-opts]]]])))
-
 
 (defmethod component-ui "reval-repl-code" [opts]
   ($ :div {:style {:height "100%" :width "100%" :min-height 0}}

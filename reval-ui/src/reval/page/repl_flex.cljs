@@ -13,9 +13,7 @@
    ; reval
    [reval.kernel.protocol :refer [kernel-eval]]
    [reval.dali.viewer.notebook :refer [add-segment empty-notebook]]
-   [reval.repl.codemirror-tab :as edtab]
-  
-   ))
+   [reval.repl.codemirror-tab :as edtab]))
 
 ;; Merged tab state for the selected repl file tab (keyboard / toolbar).
 (defonce repl-selection-a (r/atom nil))
@@ -133,9 +131,9 @@
                 id-nb (str "repl-nb-" (nano-id 6))
                 outer-id (str "repl-file-" (nano-id 6))
                 cfg-shell (assoc cfg
-                            :repl-inner-code-id id-code
-                            :repl-inner-nb-id id-nb
-                            :repl-tab-name tab-name)]
+                                 :repl-inner-code-id id-code
+                                 :repl-inner-nb-id id-nb
+                                 :repl-tab-name tab-name)]
             (when-let [da (:data-a @flc/state-a)]
               (swap! da assoc id-code st id-nb st))
             (flc/add-node {:type "tab"

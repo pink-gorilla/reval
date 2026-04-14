@@ -8,8 +8,7 @@
    [reval.page.comp.explorer]
    [reval.page.comp.notebook]
    [reval.page.comp.code]
-   [reval.page.comp.file-layout]
-   ))
+   [reval.page.comp.file-layout]))
 
 (defn open-in-repl! [nbinfo]
   (reset! flex/pending-open-file nbinfo)

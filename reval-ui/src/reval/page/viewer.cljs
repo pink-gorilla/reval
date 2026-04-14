@@ -37,8 +37,7 @@
                  :left "0px"
                  :top "0px"
                  :margin "0px"
-                 :padding "0px"
-                 }}
+                 :padding "0px"}}
    [viewer query-params]])
 
 

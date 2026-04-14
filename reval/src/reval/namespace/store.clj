@@ -55,7 +55,7 @@
 (defn load-src-by-res-path
   "Load source for a resource path such as `notebook/study/movies.clj`.
   Prefers `.reval/clones/<path>` when present, else classpath."
-  [res-path] 
+  [res-path]
   (or (slurp-clone-if-present res-path)
       (some-> res-path io/resource slurp)
       (str "(ns " "user" ")\n ; This namespace does not exist as a local file!\n")))
@@ -67,21 +67,19 @@
    (let [rp (ns->filename nbns fmt)]
      (load-src-by-res-path rp))))
 
+(comment
+  (ns->filename "demo.notebook-test.banana" :clj)
 
-
-(comment 
-   (ns->filename "demo.notebook-test.banana" :clj)
-  
   (load-src "notebook.study.image")
   (load-src "notebook.study.image" :clj)
   (load-src "notebook.study.image" :cljs)
-  
+
   (-> (load-src "demo.notebook-test.banana")
       type)
-  
+
   (-> "demo.notebook-test.banana"
       load-src
       src->src-list)
-  
+
  ; 
   )
