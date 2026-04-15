@@ -7,7 +7,7 @@
   org.pinkgorilla/timbre {:mvn/version "0.0.8"}
   org.pinkgorilla/id {:mvn/version "0.2.6"}
   org.pinkgorilla/edn-x {:mvn/version "0.1.4"}
-  org.pinkgorilla/dali {:mvn/version "0.8.55"}}
+  org.pinkgorilla/dali {:mvn/version "0.8.57"}}
  :aliases
  {:test {:extra-paths ["test" "test/resources"]
          :extra-deps {io.github.cognitect-labs/test-runner

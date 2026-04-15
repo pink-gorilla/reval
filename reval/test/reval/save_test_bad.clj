@@ -1,4 +1,4 @@
-(ns reval.save-test
+(ns reval.save-test-bad
   (:require
    [babashka.fs :as fs]
    [clojure.java.io :as io]
@@ -6,7 +6,8 @@
    [clojure.test :refer [deftest is testing]]
    [reval.namespace.store :as save]
    [reval.notebook :as notebook]
-   [reval.test-init]))
+   [reval.test-init]
+   [reval.config]))
 
 (deftest clone-file-path-test
   (testing "mirrors resource segments under clones root"
@@ -36,7 +37,7 @@
 (deftest slurp-clone-if-present-test
   (testing "nil when clone missing"
     (binding [save/*clones-root* (str (io/file (System/getProperty "java.io.tmpdir")
-                                              (str "empty-clone-" (random-uuid))))]
+                                               (str "empty-clone-" (random-uuid))))]
       (is (nil? (save/slurp-clone-if-present "z/missing.clj"))))))
 
 (deftest load-src-clone-overrides-classpath-test

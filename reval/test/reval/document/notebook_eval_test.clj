@@ -1,15 +1,18 @@
 (ns reval.document.notebook-eval-test
   (:require
    [clojure.test :refer [deftest is]]
-   [notebook.store [fpath url-root get-link-ns get-path-ns]]
+   [reval.notebook.store :refer [fpath url-root get-link-ns get-path-ns]]
    [reval.notebook :refer [eval-notebook load-notebook]]
-   [reval.test-init]))
+   [reval.test-init]
+   [reval.config :refer [configure-reval]]))
 
-(def this {:config {:rdocument  {:fpath "/tmp/rdocument"
-                                 :rpath "/api/rdocument/file"}
-                    :collections {:user [:clj "user/notebook/"]
-                                  :demo [:clj "demo/notebook/"]
-                                  :demo-cljs [:cljs "demo/notebook/"]}}})
+(configure-reval {:rdocument  {:fpath "/tmp/rdocument"
+                               :rpath "/api/rdocument/file"
+                               :url-root "/api/rdocument/file/"}
+                  :namespace-root ["notebook" "user" "demo"]
+                  :clones-root ".reval/clones"})
+
+(def this reval.config/reval)
 
 (deftest config-test
   (let [rpath-val (fpath this)
@@ -20,26 +23,35 @@
     (is (= path-ns "/tmp/rdocument/demo/apple"))))
 
 (deftest notebook-eval-test
-  (eval-notebook this "test.notebook.apple")
-  (let [nb  (load-notebook this "test.notebook.apple")
-        ;;(loadr :edn "/tmp/rdocument/test/notebook/apple/notebook.edn")
+  (eval-notebook  "test.notebook.apple")
+  (let [nb  (load-notebook  "test.notebook.apple")
+        nb (:data nb)
         segments (:content nb)]
     (is (= (get-in nb [:meta :ns]) "test.notebook.apple"))
     (is (= (count segments) 6))
-    (is (= (-> (get segments 0) :data)
+    (is (= (-> (get segments 0) :result :value :data)
            ; (ns ) evaluates to nil.
-           [:div.p-2.clj-nil [:p "nil"]]))
-    (is (= (-> (get segments 1) :data)
+           [:span {:class "clj-nil"} "nil"]
+           ))
+    (is (= (-> (get segments 1) :result :value :data)
            ; (+ 1 1) evaluates to 2
-           [:span {:style {:color "blue"}} "2"]))
+           [:span {:class "clj-long"} "2"]))
     (is (= (-> (get segments 3) :out)
            ; "(println \"hello\")" gives :out hello
            "hello\n"))))
 
 (comment
-  (eval-notebook this "test.notebook.apple")
-  (load-notebook this "test.notebook.apple")
-  ;(loadr :edn "demo/rdocument/demo/notebook_test/apple/notebook.edn")
+  (eval-notebook  "test.notebook.apple")
+  (-> (load-notebook  "test.notebook.apple")
+      :data
+      :content
+      ;(get 0)
+      (get 1)
+      :result
+      :value
+      :data
+      )
+  
 
 ;  
   )

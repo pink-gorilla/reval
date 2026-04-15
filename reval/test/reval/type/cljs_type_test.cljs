@@ -1,4 +1,4 @@
-(ns picasso.render-cljs-types-test
+(ns reval.type.cljs-type-test
   (:require
    [cljs.test :refer-macros [async deftest is testing]]
    [picasso.protocols :refer [render]]
