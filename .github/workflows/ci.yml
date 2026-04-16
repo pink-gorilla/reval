@@ -30,7 +30,6 @@ jobs:
     - name: clj-fmt
       run: |
         clojure -M:cljfmt
-        clojure -M:cljfmt
       shell: bash
     - name: test-clj
       run: |

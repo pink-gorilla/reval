@@ -1,8 +1,7 @@
 (ns build
   (:require
    [clojure.tools.build.api :as b]
-   [org.corfield.build :as bb] ; https://github.com/seancorfield/build-clj
-   ))
+   [org.corfield.build :as bb])) ; https://github.com/seancorfield/build-clj
 
 (def lib 'org.pinkgorilla/reval)
 (def version (format "0.20.%s" (b/git-count-revs nil)))
@@ -22,3 +21,4 @@
       (assoc :lib lib
              :version version)
       (bb/deploy)))
+
