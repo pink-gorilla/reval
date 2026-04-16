@@ -1,7 +1,0 @@
-{:extension/name :reval-ui
- :cljs/module :main
- :theme {:available  {:notebook-ui {true ["notebook-ui.css"]}}
-         :current {:notebook-ui true}}
-
-
- }

@@ -56,6 +56,9 @@
                                   'show-floating-repl-namespace reval.frepl/show-floating-repl-namespace}
                     }
 
+  :theme {:available  {:notebook-ui {true ["notebook-ui.css"]}}
+         :current {:notebook-ui true}}
+
 ; run 
  ;:api-routes {"rdocument/" {"ns" reval.document-handler/wrapped-get-ns-list
  ;                           "files" reval.document-handler/wrapped-get-ns-files
