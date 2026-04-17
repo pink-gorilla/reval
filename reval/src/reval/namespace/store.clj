@@ -77,9 +77,6 @@
   (-> (load-src "demo.notebook-test.banana")
       type)
 
-  (-> "demo.notebook-test.banana"
-      load-src
-      src->src-list)
 
  ; 
   )

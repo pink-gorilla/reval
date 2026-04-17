@@ -3,14 +3,18 @@
          ".reval"
          ]
  :deps
- {org.pinkgorilla/ui-router {:mvn/version "0.3.46"}
-  org.pinkgorilla/webly {:mvn/version "0.20.738"}
+ {; pinkgorilla
+  org.pinkgorilla/ui-router {:mvn/version "0.3.46"}
+  org.pinkgorilla/webly {:mvn/version "0.20.739"}
   org.pinkgorilla/shadow-x {:mvn/version "0.3.27"}
-  org.pinkgorilla/dali-table {:mvn/version "0.8.124"}
+  org.pinkgorilla/dali-table {:mvn/version "0.8.126"}
   org.pinkgorilla/clj-service {:mvn/version "0.7.11"} ; newer version. 
+  org.pinkgorilla/dali {:mvn/version "0.8.59"}
+  org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}
+  ; nrepl
   nrepl/nrepl {:mvn/version "1.2.0"}
   cider/cider-nrepl {:mvn/version "0.49.1"}
-  org.pinkgorilla/reval {:local/root ".." :deps/manifest :deps}}
+  }
  
  :aliases
  {; demo ui

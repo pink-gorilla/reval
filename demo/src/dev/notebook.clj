@@ -3,24 +3,21 @@
    [reval.notebook :refer [eval-notebook load-notebook create-notebook]]
    [reval.collection :refer [eval-collection eval-build-collections]]))
 
-
 ;; notebook
+(create-notebook "notebook.reval-test.image")
+(load-notebook "notebook.reval-test.image")
 
-(create-notebook "notebook.cljs.cljs" :cljs)
-(create-notebook "notebook.study.image")
+(eval-notebook "notebook.reval-test.movies")
+(load-notebook "notebook.reval-test.movies")
 
-(load-notebook "user.bongo.xyr")
+(eval-notebook "notebook.reval-test.exception")
 
-(eval-notebook "notebook.study.movies")
-(load-notebook "notebook.study.movies")
-
-(eval-notebook "notebook.test27.exception")
-
-(eval-notebook "notebook.study.image")
+(eval-notebook "notebook.reval-test.image")
 
 (eval-notebook "notebook.dali.rtable.chart.highstock-ds-barcolor")
 
-
+(eval-notebook "quanta.notebook.asset-db.eodhd-asset-db")
+(load-notebook "quanta.notebook.asset-db.eodhd-asset-db")
 
 ; collection
 

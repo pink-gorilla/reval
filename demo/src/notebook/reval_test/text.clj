@@ -1,4 +1,4 @@
-(ns notebook.reval.text
+(ns notebook.reval-test.text
   (:require
    [dali.plot.hiccup :refer [hiccup]]
    [dali.plot.text :refer [text]]

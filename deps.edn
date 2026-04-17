@@ -1,4 +1,4 @@
-{:deps {org.clojure/clojure    {:mvn/version "1.12.4"}
+{:deps {org.clojure/clojure {:mvn/version "1.12.4"}
         reval/reval {:local/root "./reval" :deps/manifest :deps}
         reval/reval-ui {:local/root "./reval-ui" :deps/manifest :deps}
         ;reval/reval-sci {:local/root "./reval-sci" :deps/manifest :deps}
@@ -38,7 +38,7 @@
   
   ; https://github.com/clj-kondo/clj-kondo/blob/master/doc/jvm.md
   :lint
-  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2026.01.19"}}
+  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2026.04.15"}}
    :main-opts ["-m" "clj-kondo.main"
                "--lint"
                "reval/src"

@@ -94,6 +94,7 @@
   ([nbns]
    (eval-notebook nbns dalify)) ; default converter
   ([nbns eval-result-view-fn]
+   (info "eval notebook " nbns)
    (let [nb (create-notebook nbns)
          eval-results (eval-nb-segments nb nbns)
          content (if eval-result-view-fn

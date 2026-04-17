@@ -1,4 +1,4 @@
-(ns notebook.reval.image
+(ns notebook.reval-test.image
   (:require
    [clojure.java.io :as io]
    [dali.plot.image :refer [image-inline image]])

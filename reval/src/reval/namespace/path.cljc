@@ -39,6 +39,13 @@
    (str/replace dir #"/" ".")
    (str/replace name #"_" "-")))
 
+(defn full-name->ns [full-name]
+  (-> full-name
+      (str/replace #"/" ".")
+      (str/replace #"_" "-")
+      (split-ext)
+      first))
+
 (comment
 
   (split-ext "demo/notebook.clj")

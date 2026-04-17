@@ -12,15 +12,6 @@
 (defn- normalize-root [root]
   (-> root str (str/replace #"/+$" "")))
 
-(defn name-full->nbns [name-full]
-  (when name-full
-    (let [idx (.lastIndexOf name-full "/")
-          fname (if (neg? idx) name-full (subs name-full (inc idx)))
-          parent (if (neg? idx) "" (subs name-full 0 (inc idx)))
-          [stem _ext] (p/split-ext fname)]
-      (when stem
-        (p/filename->ns parent stem)))))
-
 (defn- file-node [{:keys [name name-full path]}]
   (let [[_ ext] (p/split-ext name)]
     {:name name
@@ -28,7 +19,7 @@
      :dir? false
      :path path
      :ext ext
-     :nbns (name-full->nbns name-full)}))
+     :nbns (p/full-name->ns name-full)}))
 
 (defn- distinct-entries [entries]
   (->> entries
@@ -91,7 +82,9 @@
 
 (comment
 
+  (p/full-name->ns "quanta/notebook/import_task/eodhd_splits.clj")
+
   (repl-tree)
 
- ; 
+; 
   )

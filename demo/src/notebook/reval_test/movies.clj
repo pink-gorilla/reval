@@ -1,4 +1,4 @@
-(ns notebook.reval.movies
+(ns notebook.reval-test.movies
   (:require
    [clojure.pprint :refer [print-table]]))
 
