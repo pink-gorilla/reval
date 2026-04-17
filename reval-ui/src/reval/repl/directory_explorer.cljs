@@ -7,6 +7,9 @@
    [taoensso.timbre :refer [error]]
    [promesa.core :as p]))
 
+; idea came from 
+;https://github.com/nilpunning/fnedit/blob/master/src-cljs/ui/tree_view.cljs
+
 (defn- padded [depth & body]
   [:div {:style {:padding-left (str (+ 6 (* 10 depth)) "px")
                  :padding-top "3px"
