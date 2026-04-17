@@ -77,6 +77,5 @@
   (-> (load-src "demo.notebook-test.banana")
       type)
 
-
- ; 
+; 
   )
