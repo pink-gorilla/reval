@@ -77,7 +77,6 @@
   ; when capturing eval result, it is not a good idea.
   (p/resolved (clj-eval seg)))
 
-
 (comment
   (read-string "(+ 1 2) (- 3 2)") ; reads next expression from string
   (load-string "(ns bongo)")
@@ -96,7 +95,6 @@
     (clj-eval-raw "(+ a 4)")
     (catch Exception ex
       "ex"))
-
 
   (->> (clj-eval-raw "(+ 3 4")
        :err
