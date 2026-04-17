@@ -2,6 +2,7 @@
   (:require
    [clojure.test :refer [deftest is]]
    [reval.namespace.explore :as explore]
+   [reval.namespace.path :refer [full-name->ns]]
    [reval.test-init]))
 
 (defn- strip-paths [node]
@@ -12,8 +13,9 @@
     (dissoc node :path)))
 
 (deftest name-full->nbns-test
-  (is (= "notebook.study.movies" (explore/name-full->nbns "notebook/study/movies.clj")))
-  (is (= "foo.bar-baz" (explore/name-full->nbns "foo/bar_baz.cljc"))))
+  (is (= "notebook.study.movies" (full-name->ns "notebook/study/movies.clj")))
+  (is (= "notebook.study-full.movies-super" (full-name->ns "notebook/study_full/movies_super.clj")))
+  (is (= "foo.bar-baz" (full-name->ns "foo/bar_baz.cljc"))))
 
 (deftest notebook-file?-test
   (is (explore/notebook-file? "a.clj"))
